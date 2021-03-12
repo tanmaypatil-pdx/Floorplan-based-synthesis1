@@ -1,0 +1,10 @@
+Starting shell in Topographical mode...
+setting auto_restore_mw_cel_lib_setup true
+Initializing gui preferences from file  /u/pratik2/.synopsys_dv_prefs.tcl
+dc_shell> fs
+setting top_design to: 
+fifo1_sram
+dc_shell-topo> exit
+
+Thank you...
+

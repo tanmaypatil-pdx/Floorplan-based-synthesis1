@@ -1,0 +1,285 @@
+setting auto_restore_mw_cel_lib_setup true
+Initializing gui preferences from file  /u/pratik2/.synopsys_dv_prefs.tcl
+dc_shell> set top_design fanout
+fanout
+dc_shell> source -echo -verbose ../scripts/dc.tcl
+source -echo -verbose ../../$top_design.design_config.tcl
+set lib_dir /pkgs/synopsys/2020/32_28nm/SAED32_EDK
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK
+# Decoder ring for the libraries
+# You will need to follow another example or look in the library directories to understand.
+# lib_types is used for the dc/dct linking variables and ICC2 NDM lcoations.
+# /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm
+# /          $lib_dir                   /lib/ $lib_type /db_nldm
+# link_library, Target_library use the sub_lib_types and corner variables. 
+# For sub_lib_types and corner:
+# Example:
+#     saed32hvt_ss0p75v125c.db
+#     |sub_lib  corner    .db
+# The current flow tries to find all sub_lib and all corners in all the search paths.  Any match will be put in the library list.
+# Wild cards can be used, but be careful.  Multiple matches can occur in ways you don't want.
+# For the target library, the same method is used as the link library except only HVT and RVT lib_types are used.
+# ICC2 NDM choosing also uses the sub_lib_types so that only the required libraries and extras are not loaded.
+# adder
+set top_design fanout
+fanout
+set add_ios 1
+1
+set pad_design 1
+1
+set design_size { 580 580  } 
+ 580 580  
+set design_io_border 310
+310
+set dc_floorplanning 1
+1
+set rtl_list [list ../rtl/$top_design.v ]
+../rtl/fanout.v
+set slow_corner "ss0p75v125c ss0p95v125c_2p25v ss0p95v125c"
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set fast_corner "ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c"
+ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c
+set synth_corners $slow_corner
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set slow_metal Cmax_125
+Cmax_125
+set fast_metal Cmax_125
+Cmax_125
+set lib_types "stdcell_hvt stdcell_rvt stdcell_lvt io_std sram"
+stdcell_hvt stdcell_rvt stdcell_lvt io_std sram
+# Get just the main standard cells, srams and IOs
+set sub_lib_type "saed32?vt_ saed32sram_ saed32io_wb_"
+saed32?vt_ saed32sram_ saed32io_wb_
+#set topdir /u/$env(USER)/PSU_RTL2GDS
+set topdir [ lindex [ regexp -inline "(.*)\(syn\|pt\|apr\)" [pwd] ] 1 ]
+/u/pratik2/Floorplan-based-synthesis/
+/u/pratik2/Floorplan-based-synthesis/
+# List all current designs
+set this_design [ list_designs ]
+Warning: No designs to list. (UID-275)
+0
+# If there are existing designs reset/remove them
+if { $this_design != 0 } {
+  # To reset the earlier designs
+  reset_design
+  remove_design -designs
+}
+if { ! [ info exists top_design ] } {
+   set top_design adder
+}
+source ../scripts/dc-get-timlibs.tcl
+# Analyzing the files for the design
+analyze $rtl_list -autoread -define SYNTHESIS
+== ANALYZE autoread all files ==
+
+Starting ANALYZE autoread mode...
+Information: Adding '/u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v'.  (AUTOREAD-100)
+Information: Scanning file { fanout.v }. (AUTOREAD-303)
+Compiling source file /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol se11 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol se12 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol se13 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol se14 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol se15 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol se16 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol se17 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol se18 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol se19 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol se110 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol ce11 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol ce12 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol ce13 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol ce14 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol ce15 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol ce16 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol ce17 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol ce18 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol ce19 not included in portlist (VER-149)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v:5: Symbol ce110 not included in portlist (VER-149)
+Error:  Too many errors; can't continue. (VER-40)
+*** Presto compilation terminated with 21 errors. ***
+Warning: Analyze command for file fanout.v did not succeed. (AUTOREAD-402)
+*** Autoread command terminated with errors. ***
+0
+# Elaborate the design
+elaborate ${top_design} 
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/gtech.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/standard.sldb'
+  Loading link library 'saed32hvt_ss0p75v125c'
+  Loading link library 'saed32hvt_ss0p95v125c'
+  Loading link library 'saed32rvt_ss0p75v125c'
+  Loading link library 'saed32rvt_ss0p95v125c'
+  Loading link library 'saed32lvt_ss0p75v125c'
+  Loading link library 'saed32lvt_ss0p95v125c'
+  Loading link library 'saed32io_wb_ss0p95v125c_2p25v'
+  Loading link library 'saed32sram_ss0p95v125c'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Warning:  File /u/pratik2/Floorplan-based-synthesis/syn/work/analyzed/fanout-verilog.pvl not found, or does not contain a usable description of fanout. (ELAB-320)
+Presto compilation completed successfully.
+0
+if { [ info exists add_ios ] && $add_ios } {
+   source -echo -verbose ../scripts/add_ios.tcl
+   # Source the design dependent code that will put IOs on different sides
+   #source ../../$top_design.add_ios.tcl
+}
+#####################################################
+proc insert_io { port side} {
+  set this_io io_${side}_${port}
+  if {  $side == "t"   } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "b"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if {  $side == "r"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "l"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  set pins [ get_pins -of_obj [ get_net $port ] ]
+  foreach_in i $pins { disconnect_net [get_net $port ] $i }
+  set port_net [get_nets -quiet $port ]
+
+  # If only a port is created, the related net is not created and connected to the port.  Do that here.
+  if { [sizeof_collection $port_net ] == 0 } { 
+      create_net $port 
+      connect_net $port [get_ports $port ]
+  }
+
+  connect_net [get_net $port ]  $this_io/PADIO
+  create_net ${this_io}_net
+  foreach_in i $pins { connect_net ${this_io}_net $i }
+  #DIN is input to IO_PAD
+  #DOUT is output of IO_PAD
+  #EN is the IO_PAD enable to output
+  if { [get_attribute [get_ports $port ] direction ] == "in" } {
+     #connect_net [get_nets  *Logic0* ] ${this_io}/EN 
+     connect_net [get_nets  *Logic1* ] ${this_io}/R_EN 
+     connect_net ${this_io}_net ${this_io}/DOUT
+  } else {
+     connect_net [get_nets  *Logic1* ] $this_io/EN 
+     #connect_net [get_nets  *Logic0* ] $this_io/R_EN 
+     connect_net ${this_io}_net $this_io/DIN
+  }
+}
+####################################################
+change_names -rules verilog -hierarchy
+Error: Current design is not defined. (UID-4)
+0
+# Load the timing and design constraints
+source -echo -verbose ../../constraints/${top_design}.sdc
+#if { [info exists synopsys_program_name ] && ($synopsys_program_name == "icc2_shell") } {
+#    puts " Creating ICC2 MCMM "
+#    create_mode func
+#    create_corner slow
+#    create_scenario -mode func -corner slow -name func_slow
+#    current_scenario func_slow
+#    set_operating_conditions ss0p75v125c
+#    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmax.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmax
+#    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmin.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmin
+#    set_parasitic_parameters -early_spec Cmax -early_temperature 125
+#    set_parasitic_parameters -late_spec Cmax -late_temperature 125
+#set_parasitic_parameters -early_spec 1p9m_Cmax -early_temperature 125 -corner default
+#set_parasitic_parameters -late_spec 1p9m_Cmax -late_temperature 125 -corner default
+#set_scenario_status  default -active false
+#    set_scenario_status func_slow -active true -hold true -setup true
+#}
+#set clock_period 1.00
+#create_clock -name "clock" -period 1 -waveform {0.0 0.50} clock
+# 0.07 ns is fairly typical for pll jitter plus other jitter.
+#set_clock_uncertainty -setup 0.07 clock
+#set_clock_uncertainty -hold 0.01 clock
+#set_clock_transition 0.1 clock
+#set_clock_latency 0.1 clock
+#set_input_delay 0.1 [all_inputs] -clock clock
+#set_output_delay 0.05 [all_outputs] -clock clock
+set_input_delay 1.5 [all_inputs]
+Error: Current design is not defined. (UID-4)
+Error: Value for list 'port_pin_list' must have 1 elements. (CMD-036)
+0
+set_drive 0.1 [all_inputs ]
+Error: Current design is not defined. (UID-4)
+Error: Value for list 'port_list' must have 1 elements. (CMD-036)
+0
+set_load 3.0 [all_outputs]
+Error: Current design is not defined. (UID-4)
+Error: Value for list 'objects' must have 1 elements. (CMD-036)
+0
+#group_path -name INTERNAL -from [all_clocks] -to [all_clocks ]
+group_path -name INPUTS -from [ get_ports -filter "direction==in&&full_name!~*clk*" ]
+Error: Value for list '-from' must have 1 elements. (CMD-036)
+0
+group_path -name OUTPUTS -to [ get_ports -filter "direction==out" ]
+Error: Value for list '-to' must have 1 elements. (CMD-036)
+0
+0
+# any additional non-design specific constraints
+set_max_transition 0.5 [current_design ]
+Error: Current design is not defined. (UID-4)
+Error: Value for list 'object_list' must have 1 elements. (CMD-036)
+0
+# Duplicate any non-unique modules so details can be different inside for synthesis
+set_dont_use [get_lib_cells */DELLN* ]
+1
+uniquify
+Error: Current design is not defined. (UID-4)
+0
+#compile with ultra features and with scan FFs
+#compile_ultra  -scan  -no_autoungroup
+compile
+Error: Current design is not defined. (UID-4)
+0
+change_names -rules verilog -hierarchy
+Error: Current design is not defined. (UID-4)
+0
+# output reports
+set stage dc
+dc
+report_qor > ../reports/${top_design}.$stage.qor.rpt
+report_constraint -all_viol > ../reports/${top_design}.$stage.constraint.rpt
+report_timing -delay max -input -tran -cross -sig 4 -derate -net -cap  -max_path 10000 -slack_less 0 > ../reports/${top_design}.$stage.timing.max.rpt
+check_timing  > ../reports/${top_design}.$stage.check_timing.rpt
+check_design > ../reports/${top_design}.$stage.check_design.rpt
+check_mv_design  > ../reports/${top_design}.$stage.mvrc.rpt
+# output netlist
+write -hier -format verilog -output ../outputs/${top_design}.$stage.vg
+Error: No files or designs were specified. (UID-22)
+0
+write -hier -format ddc -output ../outputs/${top_design}.$stage.ddc
+Error: No files or designs were specified. (UID-22)
+0
+save_upf ../outputs/${top_design}.$stage.upf
+Error: Current design is not defined. (UID-4)
+0
+0
+dc_shell> exit
+
+Thank you...
+

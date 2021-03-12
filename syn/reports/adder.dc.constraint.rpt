@@ -1,0 +1,21 @@
+ 
+****************************************
+Report : constraint
+        -all_violators
+Design : adder
+Version: P-2019.03-SP1-1
+Date   : Thu Mar 11 13:21:21 2021
+****************************************
+
+
+   min_delay/hold ('clock' group)
+
+                             Required        Actual
+   Endpoint                 Path Delay     Path Delay        Slack
+   -----------------------------------------------------------------
+   dff_cout/q_reg/next_state
+                                0.11           0.10 r        -0.01  (VIOLATED)
+   dff_sum/q_reg/next_state     0.11           0.10 r        -0.01  (VIOLATED)
+
+
+1

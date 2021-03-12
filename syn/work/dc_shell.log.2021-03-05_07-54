@@ -1,0 +1,617 @@
+setting auto_restore_mw_cel_lib_setup true
+Initializing gui preferences from file  /u/pratik2/.synopsys_dv_prefs.tcl
+dc_shell> set top_design fanout
+fanout
+dc_shell> source ../scripts/dc.tcl
+set lib_dir /pkgs/synopsys/2020/32_28nm/SAED32_EDK
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK
+# Decoder ring for the libraries
+# You will need to follow another example or look in the library directories to understand.
+# lib_types is used for the dc/dct linking variables and ICC2 NDM lcoations.
+# /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm
+# /          $lib_dir                   /lib/ $lib_type /db_nldm
+# link_library, Target_library use the sub_lib_types and corner variables. 
+# For sub_lib_types and corner:
+# Example:
+#     saed32hvt_ss0p75v125c.db
+#     |sub_lib  corner    .db
+# The current flow tries to find all sub_lib and all corners in all the search paths.  Any match will be put in the library list.
+# Wild cards can be used, but be careful.  Multiple matches can occur in ways you don't want.
+# For the target library, the same method is used as the link library except only HVT and RVT lib_types are used.
+# ICC2 NDM choosing also uses the sub_lib_types so that only the required libraries and extras are not loaded.
+# adder
+set top_design fanout
+fanout
+set add_ios 1
+1
+set pad_design 1
+1
+set design_size { 580 580  } 
+ 580 580  
+set design_io_border 310
+310
+set dc_floorplanning 1
+1
+set rtl_list [list ../rtl/$top_design.v ]
+../rtl/fanout.v
+set slow_corner "ss0p75v125c ss0p95v125c_2p25v ss0p95v125c"
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set fast_corner "ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c"
+ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c
+set synth_corners $slow_corner
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set slow_metal Cmax_125
+Cmax_125
+set fast_metal Cmax_125
+Cmax_125
+set lib_types "stdcell_hvt stdcell_rvt stdcell_lvt io_std sram"
+stdcell_hvt stdcell_rvt stdcell_lvt io_std sram
+# Get just the main standard cells, srams and IOs
+set sub_lib_type "saed32?vt_ saed32sram_ saed32io_wb_"
+saed32?vt_ saed32sram_ saed32io_wb_
+#set topdir /u/$env(USER)/PSU_RTL2GDS
+set topdir [ lindex [ regexp -inline "(.*)\(syn\|pt\|apr\)" [pwd] ] 1 ]
+/u/pratik2/Floorplan-based-synthesis/
+Warning: No designs to list. (UID-275)
+== ANALYZE autoread all files ==
+
+Starting ANALYZE autoread mode...
+Information: Adding '/u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v'.  (AUTOREAD-100)
+Information: Scanning file { fanout.v }. (AUTOREAD-303)
+Compiling source file /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v
+Presto compilation completed successfully.
+Autoread command completed successfully.
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/gtech.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/standard.sldb'
+  Loading link library 'saed32hvt_ss0p75v125c'
+  Loading link library 'saed32hvt_ss0p95v125c'
+  Loading link library 'saed32rvt_ss0p75v125c'
+  Loading link library 'saed32rvt_ss0p95v125c'
+  Loading link library 'saed32lvt_ss0p75v125c'
+  Loading link library 'saed32lvt_ss0p95v125c'
+  Loading link library 'saed32io_wb_ss0p95v125c_2p25v'
+  Loading link library 'saed32sram_ss0p95v125c'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Presto compilation completed successfully. (fanout)
+Elaborated 1 design.
+Current design is now 'fanout'.
+Information: Building the design 'HA'. (HDL-193)
+Presto compilation completed successfully. (HA)
+#####################################################
+proc insert_io { port side} {
+  set this_io io_${side}_${port}
+  if {  $side == "t"   } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "b"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if {  $side == "r"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "l"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  set pins [ get_pins -of_obj [ get_net $port ] ]
+  foreach_in i $pins { disconnect_net [get_net $port ] $i }
+  set port_net [get_nets -quiet $port ]
+
+  # If only a port is created, the related net is not created and connected to the port.  Do that here.
+  if { [sizeof_collection $port_net ] == 0 } { 
+      create_net $port 
+      connect_net $port [get_ports $port ]
+  }
+
+  connect_net [get_net $port ]  $this_io/PADIO
+  create_net ${this_io}_net
+  foreach_in i $pins { connect_net ${this_io}_net $i }
+  #DIN is input to IO_PAD
+  #DOUT is output of IO_PAD
+  #EN is the IO_PAD enable to output
+  if { [get_attribute [get_ports $port ] direction ] == "in" } {
+     #connect_net [get_nets  *Logic0* ] ${this_io}/EN 
+     connect_net [get_nets  *Logic1* ] ${this_io}/R_EN 
+     connect_net ${this_io}_net ${this_io}/DOUT
+  } else {
+     connect_net [get_nets  *Logic1* ] $this_io/EN 
+     #connect_net [get_nets  *Logic0* ] $this_io/R_EN 
+     connect_net ${this_io}_net $this_io/DIN
+  }
+}
+####################################################
+Warning: The specified replacement character (_) is conflicting with the specified allowed or restricted character.   (UCN-4)
+#if { [info exists synopsys_program_name ] && ($synopsys_program_name == "icc2_shell") } {
+#    puts " Creating ICC2 MCMM "
+#    create_mode func
+#    create_corner slow
+#    create_scenario -mode func -corner slow -name func_slow
+#    current_scenario func_slow
+#    set_operating_conditions ss0p75v125c
+#    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmax.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmax
+#    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmin.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmin
+#    set_parasitic_parameters -early_spec Cmax -early_temperature 125
+#    set_parasitic_parameters -late_spec Cmax -late_temperature 125
+#set_parasitic_parameters -early_spec 1p9m_Cmax -early_temperature 125 -corner default
+#set_parasitic_parameters -late_spec 1p9m_Cmax -late_temperature 125 -corner default
+#set_scenario_status  default -active false
+#    set_scenario_status func_slow -active true -hold true -setup true
+#}
+#set clock_period 1.00
+#create_clock -name "clock" -period 1 -waveform {0.0 0.50} clock
+# 0.07 ns is fairly typical for pll jitter plus other jitter.
+#set_clock_uncertainty -setup 0.07 clock
+#set_clock_uncertainty -hold 0.01 clock
+#set_clock_transition 0.1 clock
+#set_clock_latency 0.1 clock
+#set_input_delay 0.1 [all_inputs] -clock clock
+#set_output_delay 0.05 [all_outputs] -clock clock
+set_drive 0.00001 [all_inputs ]
+1
+set_load 0.5 [all_outputs]
+1
+#group_path -name INTERNAL -from [all_clocks] -to [all_clocks ]
+group_path -name INPUTS -from [ get_ports -filter "direction==in&&full_name!~*clk*" ]
+1
+group_path -name OUTPUTS -to [ get_ports -filter "direction==out" ]
+1
+Current design is 'fanout'.
+Information: Uniquified 20 instances of design 'HA'. (OPT-1056)
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+Information: Choosing a test methodology will restrict the optimization of sequential cells. (UIO-12)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | P-2019.03-DWBB_201903.1 |     *     |
+| Licensed DW Building Blocks        | P-2019.03-DWBB_201903.1 |     *     |
+============================================================================
+
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+
+Information: There are 20 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+  Simplifying Design 'fanout'
+
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Loaded alib file './alib-52/saed32hvt_ss0p75v125c.db.alib'
+Loaded alib file './alib-52/saed32hvt_ss0p95v125c.db.alib'
+Loaded alib file './alib-52/saed32lvt_ss0p75v125c.db.alib' (placeholder)
+Loaded alib file './alib-52/saed32lvt_ss0p95v125c.db.alib' (placeholder)
+Warning: Operating condition ss0p75v125c set on design fanout has different process,
+voltage and temperatures parameters than the parameters at which target library 
+saed32hvt_ss0p95v125c is characterized. Delays may be inaccurate as a result. (OPT-998)
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'fanout'
+  Processing 'HA_0'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: Automatic shift-register identification is enabled for scan. Not all registers will be scan-replaced. (OPT-467)
+Information: Complementing port 's' in design 'HA_19'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_18'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_17'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_16'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_15'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_14'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_13'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_12'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_11'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_10'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_9'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_8'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_7'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_6'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_5'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_4'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_3'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_2'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_1'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_0'.
+         The new name of the port is 's_BAR'. (OPT-319)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+  Mapping Optimization (Phase 1)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Constant Register Removal
+  -----------------------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Global Optimizations
+  ------------------------------
+  Numerical Synthesis (Phase 1)
+  Numerical Synthesis (Phase 2)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Isolate Ports
+  -----------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Delay Optimization
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:14       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:14       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:14       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:14       9.1      0.00       0.0       2.4                           24041.1816
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning WLM Backend Optimization
+  --------------------------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Delay Optimization HSVT Pass
+  --------------------------------------
+    0:00:18       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:18       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:18       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:18       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+
+
+  Beginning Design Rule Fixing  (max_transition)
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:20       9.1      0.00       0.0       2.4                           24041.1816
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+  Global Optimization (Phase 31)
+    0:00:20      14.2      0.00       0.0       0.0                           125616.5234
+    0:00:20      14.2      0.00       0.0       0.0                           125616.5234
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+
+  Beginning Leakage Power Optimization  (max_leakage_power 0)
+  ------------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:20      14.2      0.00       0.0       0.0                           125616.5234
+  Global Optimization (Phase 32)
+  Global Optimization (Phase 33)
+  Global Optimization (Phase 34)
+  Global Optimization (Phase 35)
+  Global Optimization (Phase 36)
+  Global Optimization (Phase 37)
+  Global Optimization (Phase 38)
+  Global Optimization (Phase 39)
+  Global Optimization (Phase 40)
+  Global Optimization (Phase 41)
+  Global Optimization (Phase 42)
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Delay Optimization HSVT Pass
+  --------------------------------------
+    0:00:22      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:22      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:22      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:22      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:24      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:24      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:24      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:24      12.2      0.00       0.0       0.0                           42400.0234
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: In the design fanout, net 'se9' is connecting multiple ports. (UCN-1)
+Warning: In the design fanout, net 'sf9' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_19, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_0, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_1, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_2, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_3, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_4, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_5, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_6, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_7, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_8, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_9, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_10, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_11, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_12, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_13, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_14, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_15, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_16, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_17, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_18, net 'x' is connecting multiple ports. (UCN-1)
+Writing verilog file '/u/pratik2/Floorplan-based-synthesis/syn/outputs/fanout.dc.vg'.
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+Writing ddc file '../outputs/fanout.dc.ddc'.
+1
+dc_shell> gui_start
+Current design is 'fanout'.
+4.1
+Current design is 'fanout'.
+dc_shell> 
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/generic.sdb'
+dc_shell> report_buffer_tree
+Error: Either -from or -net must be specified. (UID-256)
+0
+dc_shell> report_buffer_tree -from e10/*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Fri Mar  5 07:57:23 2021
+****************************************
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U9/Y (INVX2_HVT)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+       Port (level 1): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): e10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell> clean_buffer_tree -from e10/*
+  Removing buffer tree(s) in Design 'fanout'
+
+1
+dc_shell> report_buffer_tree -from e10/*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Fri Mar  5 07:57:52 2021
+****************************************
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U9/Y (INVX2_HVT)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+       Port (level 1): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): e10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell> clean_buffer_tree -from e10/*
+  Removing buffer tree(s) in Design 'fanout'
+
+1
+dc_shell> clean_buffer_tree -from e10/*
+  Removing buffer tree(s) in Design 'fanout'
+
+1
+dc_shell> 

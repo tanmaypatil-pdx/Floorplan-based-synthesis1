@@ -1,0 +1,21 @@
+#@ # 
+#@ # Running icc2_shell Version Q-2019.12-SP4 for linux64 -- May 26, 2020
+#@ # Date:   Sun Feb 28 13:23:11 2021
+#@ # Run by: pratik2@mo.ece.pdx.edu
+#@ 
+
+source /u/pratik2/ECE581-2021/Final_Project/apr/work/.synopsys_icc2.setup
+set top_design adder
+source -echo -verbose ../scripts/create_dct_floorplan2.tcl
+man write_def
+write_def -compress gzip -units 1000 -objects COMPONENTS PINS BLOCKAGES adder.floorplan.macros.def
+write_def -compress gzip -units 1000 -objects COMPONENTS -objects PINS -objects BLOCKAGES -def_file_name adder.floorplan.macros.def
+write_def -compress gzip -units 1000 -objects COMPONENTS,PINS,BLOCKAGES -def_file_name adder.floorplan.macros.def
+write_def -compress gzip -units 1000 -objects COMPONENTS,PINS,BLOCKAGES adder.floorplan.macros.def
+write_def -compress gzip -units 1000 -objects PINS adder.floorplan.macros.def
+write_def -compress gzip -units 1000 adder.floorplan.macros.def
+write_def -compress gzip -units 1000 -objects pins adder.floorplan.macros.def
+write_def -compress gzip -units 1000 -objects PINS adder.floorplan.macros.def
+write_def -version 5.7 -rows_tracks_gcells -macro -pins \ -blockages -specialnets -vias -regions_groups -verbose \ -output adder.floorplan.macros.def
+write_def -version 5.8 -rows_tracks_gcells -macro -pins \ -blockages -specialnets -vias -regions_groups -verbose \ -output adder.floorplan.macros.def
+exit

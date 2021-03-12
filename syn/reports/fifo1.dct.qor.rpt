@@ -1,0 +1,102 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'fifo1' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : qor
+Design : fifo1
+Version: P-2019.03-SP1-1
+Date   : Thu Mar 11 21:26:50 2021
+****************************************
+
+
+  Timing Path Group 'rclk'
+  -----------------------------------
+  Levels of Logic:              10.00
+  Critical Path Length:          2.70
+  Critical Path Slack:           0.12
+  Critical Path Clk Period:      3.00
+  Total Negative Slack:          0.00
+  No. of Violating Paths:        0.00
+  Worst Hold Violation:          0.00
+  Total Hold Violation:          0.00
+  No. of Hold Violations:        0.00
+  -----------------------------------
+
+  Timing Path Group 'wclk'
+  -----------------------------------
+  Levels of Logic:               7.00
+  Critical Path Length:          5.31
+  Critical Path Slack:           0.01
+  Critical Path Clk Period:      6.00
+  Total Negative Slack:          0.00
+  No. of Violating Paths:        0.00
+  Worst Hold Violation:          0.00
+  Total Hold Violation:          0.00
+  No. of Hold Violations:        0.00
+  -----------------------------------
+
+
+  Cell Count
+  -----------------------------------
+  Hierarchical Cell Count:          5
+  Hierarchical Port Count:        128
+  Leaf Cell Count:               2960
+  Buf/Inv Cell Count:            1196
+  Buf Cell Count:                 466
+  Inv Cell Count:                 730
+  CT Buf/Inv Cell Count:            0
+  Combinational Cell Count:      2384
+  Sequential Cell Count:          576
+  Macro Count:                      0
+  -----------------------------------
+
+
+  Area
+  -----------------------------------
+  Combinational Area:   185888.770694
+  Noncombinational Area:
+                        125286.195285
+  Buf/Inv Area:           2425.804501
+  Total Buffer Area:          1306.55
+  Total Inverter Area:        1119.25
+  Macro/Black Box Area:      0.000000
+  Net Area:                  0.000000
+  Net XLength        :       86420.83
+  Net YLength        :       75540.02
+  -----------------------------------
+  Cell Area:            311174.965979
+  Design Area:          311174.965979
+  Net Length        :       161960.84
+
+
+  Design Rules
+  -----------------------------------
+  Total Number of Nets:          3019
+  Nets With Violations:            87
+  Max Trans Violations:            82
+  Max Cap Violations:               6
+  -----------------------------------
+
+
+  Hostname: mo.ece.pdx.edu
+
+  Compile CPU Statistics
+  -----------------------------------------
+  Resource Sharing:                    0.67
+  Logic Optimization:                  7.01
+  Mapping Optimization:               61.12
+  -----------------------------------------
+  Overall Compile Time:              108.22
+  Overall Compile Wall Clock Time:   114.39
+
+  --------------------------------------------------------------------
+
+  Design  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+
+
+  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+
+  --------------------------------------------------------------------
+
+
+1

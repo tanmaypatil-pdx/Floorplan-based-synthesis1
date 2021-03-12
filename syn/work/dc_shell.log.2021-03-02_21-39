@@ -1,0 +1,16 @@
+Starting shell in Topographical mode...
+setting auto_restore_mw_cel_lib_setup true
+Initializing gui preferences from file  /u/pratik2/.synopsys_dv_prefs.tcl
+dc_shell> set top_design adder
+adder
+dc_shell-topo> remove_design
+Error: Current design is not defined. (UID-4)
+0
+dc_shell-topo> remove_design adder
+Error: Can't find object 'adder'. (UID-109)
+Error: Value for list '<design_or_library_list>' must have 1 elements. (CMD-036)
+0
+dc_shell-topo> exit
+
+Thank you...
+

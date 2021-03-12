@@ -1,0 +1,1678 @@
+Starting shell in Topographical mode...
+setting auto_restore_mw_cel_lib_setup true
+Initializing gui preferences from 
+Thank you...
+k2/.synopsys_dv_prefs.tcl
+dc_shell> report_timing
+Error: Current design is not defined. (UID-4)
+0
+dc_shell-topo> set top_design adder
+adder
+dc_shell-topo> source -echo -verbose ../scripts/dct.tcl
+source -echo -verbose ../../$top_design.design_config.tcl
+set lib_dir /pkgs/synopsys/2020/32_28nm/SAED32_EDK
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK
+# Decoder ring for the libraries
+# You will need to follow another example or look in the library directories to understand.
+# lib_types is used for the dc/dct linking variables and ICC2 NDM lcoations.
+# /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm
+# /          $lib_dir                   /lib/ $lib_type /db_nldm
+# link_library, Target_library use the sub_lib_types and corner variables. 
+# For sub_lib_types and corner:
+# Example:
+#     saed32hvt_ss0p75v125c.db
+#     |sub_lib  corner    .db
+# The current flow tries to find all sub_lib and all corners in all the search paths.  Any match will be put in the library list.
+# Wild cards can be used, but be careful.  Multiple matches can occur in ways you don't want.
+# For the target library, the same method is used as the link library except only HVT and RVT lib_types are used.
+# ICC2 NDM choosing also uses the sub_lib_types so that only the required libraries and extras are not loaded.
+# adder
+set top_design adder
+adder
+set add_ios 1
+1
+set pad_design 1
+1
+set design_size { 580 580  } 
+ 580 580  
+set design_io_border 310
+310
+set dc_floorplanning 1
+1
+set rtl_list [list ../rtl/$top_design.v ]
+../rtl/adder.v
+set slow_corner "ss0p75v125c ss0p95v125c_2p25v ss0p95v125c"
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set fast_corner "ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c"
+ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c
+set synth_corners $slow_corner
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set slow_metal Cmax_125
+Cmax_125
+set fast_metal Cmax_125
+Cmax_125
+set lib_types "stdcell_hvt stdcell_rvt stdcell_lvt io_std sram"
+stdcell_hvt stdcell_rvt stdcell_lvt io_std sram
+# Get just the main standard cells, srams and IOs
+set sub_lib_type "saed32?vt_ saed32sram_ saed32io_wb_"
+saed32?vt_ saed32sram_ saed32io_wb_
+#set topdir /u/$env(USER)/PSU_RTL2GDS
+set topdir [ lindex [ regexp -inline "(.*)\(syn\|pt\|apr\)" [pwd] ] 1 ]
+/u/pratik2/Floorplan-based-synthesis/
+/u/pratik2/Floorplan-based-synthesis/
+# List all current designs
+set this_design [ list_designs ]
+Warning: No designs to list. (UID-275)
+0
+# If there are existing designs reset/remove them
+if { $this_design != 0 } {
+  # To reset the earlier designs
+  reset_design
+  remove_design -designs
+}
+source ../scripts/dc-get-timlibs.tcl
+source ../scripts/dct-getcreate-mwlib.tcl
+Start to load technology file /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/milkyway/saed32nm_1p9m_mw.tf.
+Warning: Layer 'M1' has a pitch 0.152 that does not match the recommended wire-to-via pitch 0.13 or 0.105. (TFCHK-049)
+Warning: Layer 'M2' has a pitch 0.152 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M3' has a pitch 0.304 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M4' has a pitch 0.304 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M5' has a pitch 0.608 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M6' has a pitch 0.608 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M7' has a pitch 1.216 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M8' has a pitch 1.216 that does not match the recommended wire-to-via pitch 0.179 or 0.164. (TFCHK-049)
+Warning: Layer 'M9' has a pitch 2.432 that does not match the recommended wire-to-via pitch 1.74. (TFCHK-049)
+Warning: Layer 'MRDL' has a pitch 4.864 that does not match the recommended wire-to-via pitch 4.5. (TFCHK-049)
+Warning: Layer 'MRDL' has a pitch 4.864 that does not match the doubled pitch 2.432 or tripled pitch 3.648. (TFCHK-050)
+Warning: CapModel sections are missing. Capacitance models should be loaded with a TLU+ file later. (TFCHK-084)
+Technology file /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/milkyway/saed32nm_1p9m_mw.tf has been loaded successfully.
+{adder.mw}
+# Analyzing the files for the design
+analyze $rtl_list -autoread -define SYNTHESIS
+== ANALYZE autoread all files ==
+
+Starting ANALYZE autoread mode...
+Warning: Defining design library 'WORK' at directory '/u/pratik2/Floorplan-based-synthesis/syn/work/WORK_autoread'. (AUTOREAD-107)
+Information: Adding '/u/pratik2/Floorplan-based-synthesis/syn/rtl/adder.v'.  (AUTOREAD-100)
+Information: Scanning file { adder.v }. (AUTOREAD-303)
+Compiling source file /u/pratik2/Floorplan-based-synthesis/syn/rtl/adder.v
+Presto compilation completed successfully.
+Autoread command completed successfully.
+1
+# Elaborate the design
+elaborate ${top_design}
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/gtech.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/standard.sldb'
+  Loading link library 'saed32hvt_ss0p75v125c'
+  Loading link library 'saed32hvt_ss0p95v125c'
+  Loading link library 'saed32rvt_ss0p75v125c'
+  Loading link library 'saed32rvt_ss0p95v125c'
+  Loading link library 'saed32lvt_ss0p75v125c'
+  Loading link library 'saed32lvt_ss0p95v125c'
+  Loading link library 'saed32io_wb_ss0p95v125c_2p25v'
+  Loading link library 'saed32sram_ss0p95v125c'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Presto compilation completed successfully. (adder)
+Elaborated 1 design.
+Current design is now 'adder'.
+Information: Building the design 'dff'. (HDL-193)
+
+Inferred memory devices in process
+        in routine dff line 73 in file
+                '/u/pratik2/Floorplan-based-synthesis/syn/rtl/adder.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|        q_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (dff)
+1
+if { [ info exists add_ios ] && $add_ios } {
+   source -echo -verbose ../scripts/add_ios.tcl
+   # Source the design dependent code that will put IOs on different sides
+   source ../../$top_design.add_ios.tcl
+}
+#####################################################
+proc insert_io { port side} {
+  set this_io io_${side}_${port}
+  if {  $side == "t"   } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "b"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if {  $side == "r"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "l"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  set pins [ get_pins -of_obj [ get_net $port ] ]
+  foreach_in i $pins { disconnect_net [get_net $port ] $i }
+  set port_net [get_nets -quiet $port ]
+
+  # If only a port is created, the related net is not created and connected to the port.  Do that here.
+  if { [sizeof_collection $port_net ] == 0 } { 
+      create_net $port 
+      connect_net $port [get_ports $port ]
+  }
+
+  connect_net [get_net $port ]  $this_io/PADIO
+  create_net ${this_io}_net
+  foreach_in i $pins { connect_net ${this_io}_net $i }
+  #DIN is input to IO_PAD
+  #DOUT is output of IO_PAD
+  #EN is the IO_PAD enable to output
+  if { [get_attribute [get_ports $port ] direction ] == "in" } {
+     #connect_net [get_nets  *Logic0* ] ${this_io}/EN 
+     connect_net [get_nets  *Logic1* ] ${this_io}/R_EN 
+     connect_net ${this_io}_net ${this_io}/DOUT
+  } else {
+     connect_net [get_nets  *Logic1* ] $this_io/EN 
+     #connect_net [get_nets  *Logic0* ] $this_io/R_EN 
+     connect_net ${this_io}_net $this_io/DIN
+  }
+}
+####################################################
+change_names -rules verilog -hierarchy
+Warning: The specified replacement character (_) is conflicting with the specified allowed or restricted character.   (UCN-4)
+1
+# Comment the line below if no DEF is available.  Generic floorplan will be created.
+# extract_physical_constraints ../../apr/outputs/${top_design}.floorplan.def.gz
+set_attribute [all_macro_cells] is_fixed true
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/milkyway/saed32nm_hvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/milkyway/saed32nm_rvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/milkyway/saed32nm_lvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/milkyway/saed32_io_wb. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/milkyway/SRAM32NM. (PSYN-878)
+
+  Linking design 'adder'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  adder                       /u/pratik2/Floorplan-based-synthesis/syn/work/adder.db
+  saed32hvt_ss0p75v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db
+  saed32hvt_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db
+  saed32rvt_ss0p75v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db
+  saed32rvt_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db
+  saed32lvt_ss0p75v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db
+  saed32lvt_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db
+  saed32io_wb_ss0p95v125c_2p25v (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db
+  saed32sram_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db
+  dw_foundation.sldb (library) /pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb
+  dff                         /u/pratik2/Floorplan-based-synthesis/syn/work/dff.db
+
+Information: No preferred routing direction is found for design layer M1. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M2. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M3. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M4. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M5. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M6. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M7. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M8. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M9. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer MRDL. Automatically deriving direction V. (DCT-035)
+source -echo -verbose ../../constraints/${top_design}.sdc
+if { [info exists synopsys_program_name ] && ($synopsys_program_name == "icc2_shell") } {
+    puts " Creating ICC2 MCMM "
+    create_mode func
+    create_corner slow
+    create_scenario -mode func -corner slow -name func_slow
+    current_scenario func_slow
+    set_operating_conditions ss0p75v125c
+    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmax.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmax
+    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmin.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmin
+    set_parasitic_parameters -early_spec Cmax -early_temperature 125
+    set_parasitic_parameters -late_spec Cmax -late_temperature 125
+    #set_parasitic_parameters -early_spec 1p9m_Cmax -early_temperature 125 -corner default
+    #set_parasitic_parameters -late_spec 1p9m_Cmax -late_temperature 125 -corner default
+
+    #set_scenario_status  default -active false
+    set_scenario_status func_slow -active true -hold true -setup true
+}
+set clock_period 1.00
+1.00
+create_clock -name "clock" -period 1 -waveform {0.0 0.50} clock
+1
+# 0.07 ns is fairly typical for pll jitter plus other jitter.
+set_clock_uncertainty -setup 0.07 clock
+1
+set_clock_uncertainty -hold 0.01 clock
+1
+set_clock_transition 0.1 clock
+1
+set_clock_latency 0.1 clock
+1
+set_input_delay 0.1 [all_inputs] -clock clock
+1
+set_output_delay 0.05 [all_outputs] -clock clock
+1
+set_drive 0.00001 [all_inputs ]
+1
+set_load 0.5 [all_outputs]
+1
+#group_path -name INTERNAL -from [all_clocks] -to [all_clocks ]
+group_path -name INPUTS -from [ get_ports -filter "direction==in&&full_name!~*clk*" ]
+1
+group_path -name OUTPUTS -to [ get_ports -filter "direction==out" ]
+1
+1
+# Constrain the overall data path of the design.
+# 50% or so of the clock period is good.
+set_max_transition 0.5 [current_design ]
+Current design is 'adder'.
+1
+set_ignored_layers -min_routing_layer M2 -max_routing_layer M7
+Information: setting M1 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M8 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M9 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting MRDL as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M2 as min routing layer.  (PSYN-179)
+Information: setting M7 as max routing layer.  (PSYN-179)
+1
+set_dont_use [get_lib_cells */DELLN* ]
+1
+uniquify
+Information: Uniquified 5 instances of design 'dff'. (OPT-1056)
+1
+compile_ultra  -scan -no_autoungroup
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+
+TLU+ File = /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/star_rcxt//saed32nm_1p9m_Cmax.tluplus
+TLU+ File = /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/star_rcxt//saed32nm_1p9m_Cmin.tluplus
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+Warning: Total of 882 technology library cells with the same names are found. Run '-check_only' with 'compile_ultra' to see more details. (OPT-1434)
+Information: Choosing a test methodology will restrict the optimization of sequential cells. (UIO-12)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | P-2019.03-DWBB_201903.1 |     *     |
+| Licensed DW Building Blocks        | P-2019.03-DWBB_201903.1 |     *     |
+============================================================================
+
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+  Simplifying Design 'adder'
+
+Information: Layer M1 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M8 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M9 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MRDL is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer M1 : 0.16 0.14 (RCEX-011)
+Information: Library Derived Res for layer M1 : 2e-06 2e-06 (RCEX-011)
+Information: Library Derived Cap for layer M2 : 0.17 0.15 (RCEX-011)
+Information: Library Derived Res for layer M2 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M3 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M3 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M4 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M4 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M5 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M5 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M6 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M6 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M7 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M7 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M8 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M8 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M9 : 0.11 0.088 (RCEX-011)
+Information: Library Derived Res for layer M9 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer MRDL : 0.11 0.11 (RCEX-011)
+Information: Library Derived Res for layer MRDL : 1.8e-07 1.8e-07 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.098 0.084 (RCEX-011)
+Information: Library Derived Horizontal Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.12 0.11 (RCEX-011)
+Information: Library Derived Vertical Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 5.8e-07 5.8e-07 (RCEX-011)
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Loaded alib file './alib-52/saed32hvt_ss0p75v125c.db.alib'
+Loaded alib file './alib-52/saed32hvt_ss0p95v125c.db.alib'
+Loaded alib file './alib-52/saed32lvt_ss0p75v125c.db.alib' (placeholder)
+Loaded alib file './alib-52/saed32lvt_ss0p95v125c.db.alib' (placeholder)
+Warning: Operating condition ss0p75v125c set on design adder has different process,
+voltage and temperatures parameters than the parameters at which target library 
+saed32hvt_ss0p95v125c is characterized. Delays may be inaccurate as a result. (OPT-998)
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'adder'
+  Processing 'dff_0'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: Automatic shift-register identification is enabled for scan. Not all registers will be scan-replaced. (OPT-467)
+Information: Complementing port 'q' in design 'dff_4'.
+         The new name of the port is 'q_BAR'. (OPT-319)
+Information: Complementing port 'q' in design 'dff_2'.
+         The new name of the port is 'q_BAR'. (OPT-319)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+  Mapping Optimization (Phase 1)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+
+  Beginning Global Optimizations
+  ------------------------------
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+
+  Beginning Delay Optimization
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+  Loading design 'adder'
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: Layer M1 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M8 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M9 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MRDL is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer M1 : 0.16 0.14 (RCEX-011)
+Information: Library Derived Res for layer M1 : 2e-06 2e-06 (RCEX-011)
+Information: Library Derived Cap for layer M2 : 0.17 0.15 (RCEX-011)
+Information: Library Derived Res for layer M2 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M3 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M3 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M4 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M4 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M5 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M5 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M6 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M6 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M7 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M7 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M8 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M8 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M9 : 0.11 0.088 (RCEX-011)
+Information: Library Derived Res for layer M9 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer MRDL : 0.11 0.11 (RCEX-011)
+Information: Library Derived Res for layer MRDL : 1.8e-07 1.8e-07 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.098 0.084 (RCEX-011)
+Information: Library Derived Horizontal Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.12 0.11 (RCEX-011)
+Information: Library Derived Vertical Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 5.8e-07 5.8e-07 (RCEX-011)
+
+...50%...100% done.
+
+
+ Collecting Buffer Trees ... Found 0
+
+ Processing Buffer Trees ... 
+
+    [0] 100% Done ...
+
+
+Information: Automatic high-fanout synthesis deletes 0 cells. (HFS-802)
+Information: Automatic high-fanout synthesis adds 0 new cells. (PSYN-864)
+
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:26      67.3      0.00       0.0       0.0                           4037875.0000
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+    0:00:26      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:26      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:26      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:26      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:26      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:26      66.1      0.00       0.0       0.0                           3502576.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 46.67%, saed32cell_lvt 53.33%
+
+  Beginning Delay Optimization HSVT Pass
+  --------------------------------------
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 46.67%, saed32cell_lvt 53.33%
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 46.67%, saed32cell_lvt 53.33%
+
+
+  Beginning High Effort Optimization Phase
+  ----------------------------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 46.67%, saed32cell_lvt 53.33%
+
+
+  Beginning Timing Optimization
+  -----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:31      66.1      0.00       0.0       0.0                           3502576.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 46.67%, saed32cell_lvt 53.33%
+
+
+  High Effort Optimization Phase Complete
+  ---------------------------------------
+
+Skipping remaining steps due to timing met. Go to finish
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 46.67%, saed32cell_lvt 53.33%
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+1
+change_names -rules verilog -hierarchy
+1
+set stage dct
+dct
+report_qor > ../reports/${top_design}.$stage.qor.rpt
+report_constraint -all_viol > ../reports/${top_design}.$stage.constraint.rpt
+report_timing -delay max -input -tran -cross -sig 4 -derate -net -cap  -max_path 10000 -slack_less 0 > ../reports/${top_design}.$stage.timing.max.rpt
+check_timing  > ../reports/${top_design}.$stage.check_timing.rpt
+check_design > ../reports/${top_design}.$stage.check_design.rpt
+check_mv_design  > ../reports/${top_design}.$stage.mvrc.rpt
+write -hier -format verilog -output ../outputs/${top_design}.$stage.vg
+Writing verilog file '/u/pratik2/Floorplan-based-synthesis/syn/outputs/adder.dct.vg'.
+1
+write -hier -format ddc -output ../outputs/${top_design}.$stage.ddc
+Writing ddc file '../outputs/adder.dct.ddc'.
+1
+write_def -blockages -macro -pins -output ../outputs/${top_design}.$stage.def
+Information: Writing PINS section (DDEFW-014)
+Information: Completed PINS section  (DDEFW-016)
+1
+save_upf ../outputs/${top_design}.$stage.upf
+1
+write_def -scanchain -output ../outputs/${top_design}.$stage.scan.def
+Warning: Design Compiler topographical mode does not support option '-scanchain' in the command 'write_def', and the option is ignored. (DCT-081)
+Information: Writing COMPONENTS section (DDEFW-014)
+Information: Completed COMPONENTS section  (DDEFW-016)
+Information: Writing PINS section (DDEFW-014)
+Information: Completed PINS section  (DDEFW-016)
+Information: Writing NETS section (DDEFW-014)
+Information: Completed NETS section  (DDEFW-016)
+1
+1
+dc_shell-topo> report_timing
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : adder
+Version: P-2019.03-SP1-1
+Date   : Tue Mar  2 12:18:14 2021
+****************************************
+
+ * Some/all delay information is back-annotated.
+
+Operating Conditions: ss0p75v125c   Library: saed32hvt_ss0p75v125c
+Wire Load Model Mode: Inactive.
+
+  Startpoint: a (input port clocked by clock)
+  Endpoint: dff_a/q_reg
+            (rising edge-triggered flip-flop clocked by clock)
+  Path Group: INPUTS
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clock (rise edge)                  0.00       0.00
+  clock network delay (ideal)              0.10       0.10
+  input external delay                     0.10       0.20 f
+  a (in)                                   0.00       0.20 f
+  dff_a/d (dff_4)                          0.00       0.20 f
+  dff_a/q_reg/D (SDFFARX1_HVT)             0.00 *     0.20 f
+  data arrival time                                   0.20
+
+  clock clock (rise edge)                  1.00       1.00
+  clock network delay (ideal)              0.10       1.10
+  clock uncertainty                       -0.07       1.03
+  dff_a/q_reg/CLK (SDFFARX1_HVT)           0.00       1.03 r
+  library setup time                      -0.42       0.61
+  data required time                                  0.61
+  -----------------------------------------------------------
+  data required time                                  0.61
+  data arrival time                                  -0.20
+  -----------------------------------------------------------
+  slack (MET)                                         0.41
+
+
+  Startpoint: dff_sum/q_reg
+              (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: sum (output port clocked by clock)
+  Path Group: OUTPUTS
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clock (rise edge)                  0.00       0.00
+  clock network delay (ideal)              0.10       0.10
+  dff_sum/q_reg/CLK (SDFFARX1_LVT)         0.00       0.10 r
+  dff_sum/q_reg/Q (SDFFARX1_LVT)           0.27       0.37 r
+  dff_sum/q (dff_0)                        0.00       0.37 r
+  sum (out)                                0.00 *     0.37 r
+  data arrival time                                   0.37
+
+  clock clock (rise edge)                  1.00       1.00
+  clock network delay (ideal)              0.10       1.10
+  clock uncertainty                       -0.07       1.03
+  output external delay                   -0.05       0.98
+  data required time                                  0.98
+  -----------------------------------------------------------
+  data required time                                  0.98
+  data arrival time                                  -0.37
+  -----------------------------------------------------------
+  slack (MET)                                         0.61
+
+
+  Startpoint: dff_cin/q_reg
+              (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: dff_sum/q_reg
+            (rising edge-triggered flip-flop clocked by clock)
+  Path Group: clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clock (rise edge)                  0.00       0.00
+  clock network delay (ideal)              0.10       0.10
+  dff_cin/q_reg/CLK (SDFFARX1_HVT)         0.00       0.10 r
+  dff_cin/q_reg/QN (SDFFARX1_HVT)          0.50       0.60 r
+  dff_cin/q_BAR (dff_2)                    0.00       0.60 r
+  U2/Y (XOR3X2_LVT)                        0.22 *     0.82 f
+  dff_sum/d (dff_0)                        0.00       0.82 f
+  dff_sum/q_reg/D (SDFFARX1_LVT)           0.00 *     0.82 f
+  data arrival time                                   0.82
+
+  clock clock (rise edge)                  1.00       1.00
+  clock network delay (ideal)              0.10       1.10
+  clock uncertainty                       -0.07       1.03
+  dff_sum/q_reg/CLK (SDFFARX1_LVT)         0.00       1.03 r
+  library setup time                      -0.19       0.84
+  data required time                                  0.84
+  -----------------------------------------------------------
+  data required time                                  0.84
+  data arrival time                                  -0.82
+  -----------------------------------------------------------
+  slack (MET)                                         0.01
+
+
+1
+dc_shell-topo> gui_start
+Current design is 'adder'.
+4.1
+Current design is 'adder'.
+dc_shell-topo> 
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/generic.sdb'
+dc_shell-topo> create_placement_blockage -name def_obstruction_23 -bbox { 970.460 7.500 3247.660 129.940 }
+1
+dc_shell-topo> man create_placement_blockage
+2.  Synopsys Commands                                        Command Reference
+                           create_placement_blockage
+
+NAME
+       create_placement_blockage
+              Creates a new placement blockage.
+
+SYNTAX
+       status create_placement_blockage
+               -bbox {llx1 lly1 urx1 ury1}
+               [-type hard | soft | partial]
+               [-blocked_percentage percentage]
+               [-no_register]
+               [-buffer_only]
+               [-category attribute_name]
+               [-no_rp_group]
+               [-no_pin]
+               [-blocked_layers layers]
+               [-no_hard_macro]
+               [-name blockage_name]
+
+   Data Types
+       llx1               float
+       lly1               float
+       urx1               float
+       ury1               float
+       percentage         integer
+       layers             string
+       blockage_name      string
+
+ARGUMENTS
+       -bbox {llx1 lly1 urx1 ury1}
+              Specifies the coordinates of the bounding box of the blockage.
+
+       -type hard | soft | partial
+              Specifies the type of blockage to be created.
+
+              Valid values are:
+
+              o hard
+                With  a  hard blockage, the placer does not place any standard
+                cells or hard macros in the specified  region.   This  is  the
+                default value.
+
+              o soft
+                With  a  soft  blockage,  the coarse placer does not place any
+                standard cells or hard macros in the  specified  region.  How-
+                ever,  cells  might  be  placed  there  during optimization or
+                legalization.
+
+              o partial
+                With a partial blockage, the amount  of  area  used  to  place
+                cells  is  limited  to  the  specified percent of the blockage
+                area.
+
+                Note that when you create a partial blockage,  you  must  also
+                specify   the   blocked   percentage   value   by   using  the
+                -blocked_percentage option.
+
+              This option is mutually exclusive with  the  -no_hard_macro  and
+              -no_pin options.
+
+       -blocked_percentage percentage
+              Specifies  the  percentage  blockage for a partial blockage.  To
+              allow cell density of  100  percent  in  the  specified  partial
+              blockage area, specify the -blocked_percentage 0 option.
+
+              This option can only be used with the partial blockage type.
+
+       -no_register
+              Creates  a  register  blockage, which prevents the coarse placer
+              from placing any register cells within  the  specified  blockage
+              area.
+
+              The  -no_register  option  must  be  used with the -type partial
+              option. The coarse placer  honors  the  attribute  set  by  this
+              option.
+
+              This  option  is  mutually  exclusive with the -type hard, -type
+              soft,  -no_hard_macro,  -no_rp_group,  -buffer_only,  -category,
+              and -no_pin options.
+
+       -buffer_only
+              Creates a buffer-only blockage, which prevents the coarse placer
+              from placing any non-buffer cells within the specified  blockage
+              area.
+
+              The  -buffer_only  option  must  be  used with the -type partial
+              option. The coarse placer  honors  the  attribute  set  by  this
+              option.    In   addition,   the   placer_enable_redefined_block-
+              age_behavior variable must have a value of true,  which  is  the
+              default value.
+
+              This  option  is  mutually  exclusive with the -type hard, -type
+              soft,  -no_hard_macro,  -no_rp_group,  -no_register,  -category,
+              and -no_pin options.
+
+       -category attribute_name
+              Creates  a  category  blockage, which prevents the coarse placer
+              from placing a user-specified category of cells within the spec-
+              ified blockage area.
+
+              You  specify  the category for a cell by creating a Boolean user
+              attribute named attribute_name on instances or  references.   If
+              the  attribute  is  true  for  an instance or its reference, the
+              instance  is  prohibited  within  the  blockage  area.  If   the
+              attribute is present on both the instance and the reference, the
+              tool uses the instance value.
+
+              The -category option must be used with the -type partial option.
+              The  coarse  placer honors the attribute set by this option.  In
+              addition, the placer_enable_redefined_blockage_behavior variable
+              must have a value of true, which is the default value.
+
+              This  option  is  mutually  exclusive with the -type hard, -type
+              soft, -no_hard_macro, -no_rp_group, -no_register,  -buffer_only,
+              and -no_pin options.
+
+       -no_rp_group
+              Creates  a relative placement group blockage, which prevents the
+              placement of relative  placement  groups  within  the  specified
+              area.  This  option  affects  only cells that belong to relative
+              placement groups.
+
+              The -no_rp_group option must be  used  with  the  -type  partial
+              option.
+
+              This  option  is  mutually  exclusive with the -type hard, -type
+              soft, -no_hard_macro, -no_register, -buffer_only, -category, and
+              -no_pin options.
+
+       -no_pin
+              Specifies the pin blockage area where the global router does not
+              route and the pin placer does not assign pins during pin assign-
+              ment.
+
+              Note  that  when you create a pin blockage, you can also specify
+              the blocked layers by using the -blocked_layers option.  If  you
+              do  not specify this option, the default is to block all layers.
+
+              This option is mutually exclusive with the -no_hard_macro,
+               -no_rp_group -no_register, -buffer_only, -category,  and  -type
+              options.
+
+              The  -no_pin  option can be read, written and reported in Design
+              Compiler Topographical mode, but it does  not  impact  placement
+              and  floorplan estimation in Design Compiler Topographical mode.
+
+       -blocked_layers layers
+              Specifies the layers for which routing to pins is blocked.
+
+              This option can only be used with the -no_pin option.
+
+              The -blocked_layers option can be read, written and reported  in
+              Design  Compiler  Topographical  mode,  but  it  does not impact
+              placement and floorplan estimation in Design Compiler Topograph-
+              ical mode.
+
+       -no_hard_macro
+              Specifies the hard macro blockage area where the placer does not
+              place hard macros.
+
+              This option is mutually exclusive with the -no_pin, -no_rp_group
+              -no_register, -buffer_only, -category, and -type options.
+
+              The  -no_hard_macro  option can be read, written and reported in
+              Design Compiler Topographical  mode,  but  it  does  not  impact
+              placement and floorplan estimation in Design Compiler Topograph-
+              ical mode.
+
+       -name blockage_name
+              Specifies the optional name of the blockage. If  you  specify  a
+              name  for  the  blockage,  you  can get the blockage by the name
+              later in the flow.
+
+DESCRIPTION
+       This command creates a new placement blockage that is used  to  control
+       the placement of cells in a specified rectangular area.
+
+       Snapping  to  the  bounding box is done automatically using global snap
+       settings.
+
+       See the description of the -type option and the relevant  placer  docu-
+       mentation for more information.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The following example creates a soft placement blockage.
+
+         prompt> create_placement_blockage -bbox {0 0 100 100} -type soft
+
+       The  following  example  creates  a  category  blockage  that prohibits
+       instance U1 and any instances that reference my_lib/sdffx1  within  the
+       specified region, but allows instance U2.
+
+         prompt> define_user_attribute -type boolean -class cell my_attr
+         prompt> define_user_attribute -type boolean -class lib_cell my_attr
+         prompt> set_attribute U1 my_attr true
+         prompt> set_attribute U2 my_attr false
+         prompt> set_attribute my_lib/sdffx1 my_attr true
+         prompt> create_placement_blockage -type partial -category my_attr
+            -blocked_percentage 30 -bbox {0 0 100 100} -name my_category_blockage
+
+SEE ALSO
+       create_net_shape(2)
+       create_route_guide(2)
+       create_terminal(2)
+       create_user_shape(2)
+       create_via(2)
+       placer_enable_redefined_blockage_behavior(3)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> create_placement_blockage -name def_obstruction_1 -bbox { 100.460 5.500 1000.660 120.940 }
+1
+dc_shell-topo> create_placement_blockage -name def_obstruction_1 -bbox { 0.0 1.0 2.6 5.940 }
+Error: Duplicate keepout name : 'def_obstruction_1'. 'fail to create the placement keepout'. (PSYN-172)
+0
+dc_shell-topo> create_placement_blockage -name def_obstruction_2 -bbox { 0.0 1.0 2.6 5.940 }
+1
+dc_shell-topo> remove_placement_blockage -name def_obstruction_1
+1
+dc_shell-topo> remove_placement_blockage -name def_obstruction_23
+1
+dc_shell-topo> read_file -format ddc {/u/pratik2/Floorplan-based-synthesis/apr/outputs/adder.floorplan.macros.def}
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/milkyway/saed32nm_hvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/milkyway/saed32nm_rvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/milkyway/saed32nm_lvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/milkyway/saed32_io_wb. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/milkyway/SRAM32NM. (PSYN-878)
+Error: Unable to open file '/u/pratik2/Floorplan-based-synthesis/apr/outputs/adder.floorplan.macros.def' for reading. (DDC-2)
+Loaded 0 designs.
+dc_shell-topo> read_file -format ddc {/u/pratik2/Floorplan-based-synthesis/syn/outputs/adder.dct.ddc}
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/milkyway/saed32nm_hvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/milkyway/saed32nm_rvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/milkyway/saed32nm_lvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/milkyway/saed32_io_wb. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/milkyway/SRAM32NM. (PSYN-878)
+Reading ddc file '/u/pratik2/Floorplan-based-synthesis/syn/outputs/adder.dct.ddc'.
+Loaded 6 designs.
+Current design is 'adder'.
+dc_shell-topo> 
+Current design is 'adder'.
+dc_shell-topo> extract_physical_constraints ../../apr/outputs/adder.floorplan.macros.def
+Information: Reading input def file '/u/pratik2/Floorplan-based-synthesis/apr/outputs/adder.floorplan.macros.def'. (DEFR-56)
+Warning: NAMECASESENSITIVITY always assumed to be ON. (DDEFR-005)
+Information: Parsing PINS section (DDEFR-038)
+Information: Completed PINS section (DDEFR-040)
+1
+dc_shell-topo> extract_physical_constraints -no_incremental ../../apr/outputs/adder.floorplan.macros.def
+Information: Reading input def file '/u/pratik2/Floorplan-based-synthesis/apr/outputs/adder.floorplan.macros.def'. (DEFR-56)
+Warning: NAMECASESENSITIVITY always assumed to be ON. (DDEFR-005)
+Information: Parsing PINS section (DDEFR-038)
+Information: Completed PINS section (DDEFR-040)
+1
+Current design is 'adder'.
+dc_shell-topo> extract_physical_constraints ../../apr/outputs/adder.floorplan.macros.def
+Information: Reading input def file '/u/pratik2/Floorplan-based-synthesis/apr/outputs/adder.floorplan.macros.def'. (DEFR-56)
+Warning: NAMECASESENSITIVITY always assumed to be ON. (DDEFR-005)
+Information: Parsing PINS section (DDEFR-038)
+Information: Completed PINS section (DDEFR-040)
+1
+dc_shell-topo> extract_physical_constraints ../../apr/outputs/adder.floorplan.macros.def
+Information: Reading input def file '/u/pratik2/Floorplan-based-synthesis/apr/outputs/adder.floorplan.macros.def'. (DEFR-56)
+Warning: NAMECASESENSITIVITY always assumed to be ON. (DDEFR-005)
+Information: Parsing PINS section (DDEFR-038)
+Information: Completed PINS section (DDEFR-040)
+1
+dc_shell-topo> extract_physical_constraints ../../apr/outputs/adder.floorplan.macros.def
+Information: Reading input def file '/u/pratik2/Floorplan-based-synthesis/apr/outputs/adder.floorplan.macros.def'. (DEFR-56)
+Warning: NAMECASESENSITIVITY always assumed to be ON. (DDEFR-005)
+Information: Parsing PINS section (DDEFR-038)
+Information: Completed PINS section (DDEFR-040)
+1
+dc_shell-topo> gui_start
+Current design is 'adder'.
+Current design is 'adder'.
+dc_shell-topo> source -echo -verbose ../scripts/dct.tcl
+source -echo -verbose ../../$top_design.design_config.tcl
+set lib_dir /pkgs/synopsys/2020/32_28nm/SAED32_EDK
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK
+# Decoder ring for the libraries
+# You will need to follow another example or look in the library directories to understand.
+# lib_types is used for the dc/dct linking variables and ICC2 NDM lcoations.
+# /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm
+# /          $lib_dir                   /lib/ $lib_type /db_nldm
+# link_library, Target_library use the sub_lib_types and corner variables. 
+# For sub_lib_types and corner:
+# Example:
+#     saed32hvt_ss0p75v125c.db
+#     |sub_lib  corner    .db
+# The current flow tries to find all sub_lib and all corners in all the search paths.  Any match will be put in the library list.
+# Wild cards can be used, but be careful.  Multiple matches can occur in ways you don't want.
+# For the target library, the same method is used as the link library except only HVT and RVT lib_types are used.
+# ICC2 NDM choosing also uses the sub_lib_types so that only the required libraries and extras are not loaded.
+# adder
+set top_design adder
+adder
+set add_ios 1
+1
+set pad_design 1
+1
+set design_size { 580 580  } 
+ 580 580  
+set design_io_border 310
+310
+set dc_floorplanning 1
+1
+set rtl_list [list ../rtl/$top_design.v ]
+../rtl/adder.v
+set slow_corner "ss0p75v125c ss0p95v125c_2p25v ss0p95v125c"
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set fast_corner "ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c"
+ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c
+set synth_corners $slow_corner
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set slow_metal Cmax_125
+Cmax_125
+set fast_metal Cmax_125
+Cmax_125
+set lib_types "stdcell_hvt stdcell_rvt stdcell_lvt io_std sram"
+stdcell_hvt stdcell_rvt stdcell_lvt io_std sram
+# Get just the main standard cells, srams and IOs
+set sub_lib_type "saed32?vt_ saed32sram_ saed32io_wb_"
+saed32?vt_ saed32sram_ saed32io_wb_
+#set topdir /u/$env(USER)/PSU_RTL2GDS
+set topdir [ lindex [ regexp -inline "(.*)\(syn\|pt\|apr\)" [pwd] ] 1 ]
+/u/pratik2/Floorplan-based-synthesis/
+/u/pratik2/Floorplan-based-synthesis/
+# List all current designs
+set this_design [ list_designs ]
+adder           dff_0           dff_2           dff_3
+adder (*)       dff_1           dff_2           dff_4
+dff_0           dff_1           dff_3           dff_4
+1
+# If there are existing designs reset/remove them
+if { $this_design != 0 } {
+  # To reset the earlier designs
+  reset_design
+  remove_design -designs
+}
+Removing design 'adder'
+Removing design 'dff_0'
+Removing design 'dff_1'
+Removing design 'dff_2'
+Removing design 'dff_3'
+Removing design 'dff_4'
+Removing physical design 'adder'
+Removing design 'adder'
+Removing design 'dff_4'
+Removing design 'dff_0'
+Removing design 'dff_1'
+Removing design 'dff_2'
+Removing design 'dff_3'
+1
+source ../scripts/dc-get-timlibs.tcl
+source ../scripts/dct-getcreate-mwlib.tcl
+Error: rm: cannot remove 'adder.mw': Directory not empty
+        Use error_info for more info. (CMD-013)
+Error: Library 'adder.mw' already exists. (MWUI-004)
+0
+# Analyzing the files for the design
+analyze $rtl_list -autoread -define SYNTHESIS
+== ANALYZE autoread all files ==
+
+Starting ANALYZE autoread mode...
+Autoread command completed successfully.
+1
+# Elaborate the design
+elaborate ${top_design}
+Running PRESTO HDLC
+Presto compilation completed successfully. (adder)
+Elaborated 1 design.
+Current design is now 'adder'.
+Information: Building the design 'dff'. (HDL-193)
+
+Inferred memory devices in process
+        in routine dff line 73 in file
+                '/u/pratik2/Floorplan-based-synthesis/syn/rtl/adder.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|        q_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (dff)
+1
+if { [ info exists add_ios ] && $add_ios } {
+   source -echo -verbose ../scripts/add_ios.tcl
+   # Source the design dependent code that will put IOs on different sides
+   source ../../$top_design.add_ios.tcl
+}
+#####################################################
+proc insert_io { port side} {
+  set this_io io_${side}_${port}
+  if {  $side == "t"   } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "b"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if {  $side == "r"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "l"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  set pins [ get_pins -of_obj [ get_net $port ] ]
+  foreach_in i $pins { disconnect_net [get_net $port ] $i }
+  set port_net [get_nets -quiet $port ]
+
+  # If only a port is created, the related net is not created and connected to the port.  Do that here.
+  if { [sizeof_collection $port_net ] == 0 } { 
+      create_net $port 
+      connect_net $port [get_ports $port ]
+  }
+
+  connect_net [get_net $port ]  $this_io/PADIO
+  create_net ${this_io}_net
+  foreach_in i $pins { connect_net ${this_io}_net $i }
+  #DIN is input to IO_PAD
+  #DOUT is output of IO_PAD
+  #EN is the IO_PAD enable to output
+  if { [get_attribute [get_ports $port ] direction ] == "in" } {
+     #connect_net [get_nets  *Logic0* ] ${this_io}/EN 
+     connect_net [get_nets  *Logic1* ] ${this_io}/R_EN 
+     connect_net ${this_io}_net ${this_io}/DOUT
+  } else {
+     connect_net [get_nets  *Logic1* ] $this_io/EN 
+     #connect_net [get_nets  *Logic0* ] $this_io/R_EN 
+     connect_net ${this_io}_net $this_io/DIN
+  }
+}
+####################################################
+change_names -rules verilog -hierarchy
+1
+# Comment the line below if no DEF is available.  Generic floorplan will be created.
+# extract_physical_constraints ../../apr/outputs/${top_design}.floorplan.def.gz
+set_attribute [all_macro_cells] is_fixed true
+source -echo -verbose ../../constraints/${top_design}.sdc
+if { [info exists synopsys_program_name ] && ($synopsys_program_name == "icc2_shell") } {
+    puts " Creating ICC2 MCMM "
+    create_mode func
+    create_corner slow
+    create_scenario -mode func -corner slow -name func_slow
+    current_scenario func_slow
+    set_operating_conditions ss0p75v125c
+    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmax.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmax
+    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmin.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmin
+    set_parasitic_parameters -early_spec Cmax -early_temperature 125
+    set_parasitic_parameters -late_spec Cmax -late_temperature 125
+    #set_parasitic_parameters -early_spec 1p9m_Cmax -early_temperature 125 -corner default
+    #set_parasitic_parameters -late_spec 1p9m_Cmax -late_temperature 125 -corner default
+
+    #set_scenario_status  default -active false
+    set_scenario_status func_slow -active true -hold true -setup true
+}
+set clock_period 1.00
+1.00
+create_clock -name "clock" -period 1 -waveform {0.0 0.50} clock
+1
+# 0.07 ns is fairly typical for pll jitter plus other jitter.
+set_clock_uncertainty -setup 0.07 clock
+1
+set_clock_uncertainty -hold 0.01 clock
+1
+set_clock_transition 0.1 clock
+1
+set_clock_latency 0.1 clock
+1
+set_input_delay 0.1 [all_inputs] -clock clock
+1
+set_output_delay 0.05 [all_outputs] -clock clock
+1
+set_drive 0.00001 [all_inputs ]
+1
+set_load 0.5 [all_outputs]
+1
+#group_path -name INTERNAL -from [all_clocks] -to [all_clocks ]
+group_path -name INPUTS -from [ get_ports -filter "direction==in&&full_name!~*clk*" ]
+1
+group_path -name OUTPUTS -to [ get_ports -filter "direction==out" ]
+1
+1
+# Constrain the overall data path of the design.
+# 50% or so of the clock period is good.
+set_max_transition 0.5 [current_design ]
+Current design is 'adder'.
+1
+set_ignored_layers -min_routing_layer M2 -max_routing_layer M7
+Information: setting M1 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M8 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M9 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting MRDL as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M2 as min routing layer.  (PSYN-179)
+Information: setting M7 as max routing layer.  (PSYN-179)
+1
+set_dont_use [get_lib_cells */DELLN* ]
+1
+uniquify
+Information: Uniquified 5 instances of design 'dff'. (OPT-1056)
+1
+compile_ultra  -scan -no_autoungroup
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+Warning: Total of 882 technology library cells with the same names are found. Run '-check_only' with 'compile_ultra' to see more details. (OPT-1434)
+Information: Choosing a test methodology will restrict the optimization of sequential cells. (UIO-12)
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+  Simplifying Design 'adder'
+
+Information: Layer M1 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M8 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M9 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MRDL is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer M1 : 0.16 0.14 (RCEX-011)
+Information: Library Derived Res for layer M1 : 2e-06 2e-06 (RCEX-011)
+Information: Library Derived Cap for layer M2 : 0.17 0.15 (RCEX-011)
+Information: Library Derived Res for layer M2 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M3 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M3 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M4 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M4 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M5 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M5 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M6 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M6 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M7 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M7 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M8 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M8 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M9 : 0.11 0.088 (RCEX-011)
+Information: Library Derived Res for layer M9 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer MRDL : 0.11 0.11 (RCEX-011)
+Information: Library Derived Res for layer MRDL : 1.8e-07 1.8e-07 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.098 0.084 (RCEX-011)
+Information: Library Derived Horizontal Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.12 0.11 (RCEX-011)
+Information: Library Derived Vertical Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 5.8e-07 5.8e-07 (RCEX-011)
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Loaded alib file './alib-52/saed32hvt_ss0p75v125c.db.alib'
+Loaded alib file './alib-52/saed32hvt_ss0p95v125c.db.alib'
+Loaded alib file './alib-52/saed32lvt_ss0p75v125c.db.alib' (placeholder)
+Loaded alib file './alib-52/saed32lvt_ss0p95v125c.db.alib' (placeholder)
+Warning: Operating condition ss0p75v125c set on design adder has different process,
+voltage and temperatures parameters than the parameters at which target library 
+saed32hvt_ss0p95v125c is characterized. Delays may be inaccurate as a result. (OPT-998)
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'adder'
+  Processing 'dff_0'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: Automatic shift-register identification is enabled for scan. Not all registers will be scan-replaced. (OPT-467)
+Information: Complementing port 'q' in design 'dff_4'.
+         The new name of the port is 'q_BAR'. (OPT-319)
+Information: Complementing port 'q' in design 'dff_2'.
+         The new name of the port is 'q_BAR'. (OPT-319)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+  Mapping Optimization (Phase 1)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+
+  Beginning Global Optimizations
+  ------------------------------
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+
+  Beginning Delay Optimization
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:14      67.3      0.00       0.0       0.0                           4482832.0000
+    0:00:14      67.3      0.00       0.0       0.0                           4482832.0000
+    0:00:14      67.3      0.00       0.0       0.0                           4482832.0000
+    0:00:14      67.3      0.00       0.0       0.0                           4482832.0000
+    0:00:14      67.3      0.00       0.0       0.0                           4482832.0000
+    0:00:14      67.3      0.00       0.0       0.0                           4482832.0000
+    0:00:14      67.3      0.00       0.0       0.0                           4482832.0000
+    0:00:14      67.3      0.00       0.0       0.0                           4482832.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+  Loading design 'adder'
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: Layer M1 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M8 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M9 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MRDL is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer M1 : 0.16 0.14 (RCEX-011)
+Information: Library Derived Res for layer M1 : 2e-06 2e-06 (RCEX-011)
+Information: Library Derived Cap for layer M2 : 0.17 0.15 (RCEX-011)
+Information: Library Derived Res for layer M2 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M3 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M3 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M4 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M4 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M5 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M5 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M6 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M6 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M7 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M7 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M8 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M8 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M9 : 0.11 0.088 (RCEX-011)
+Information: Library Derived Res for layer M9 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer MRDL : 0.11 0.11 (RCEX-011)
+Information: Library Derived Res for layer MRDL : 1.8e-07 1.8e-07 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.098 0.084 (RCEX-011)
+Information: Library Derived Horizontal Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.12 0.11 (RCEX-011)
+Information: Library Derived Vertical Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 5.8e-07 5.8e-07 (RCEX-011)
+
+...50%...100% done.
+
+
+ Collecting Buffer Trees ... Found 0
+
+ Processing Buffer Trees ... 
+
+    [0] 100% Done ...
+
+
+Information: Automatic high-fanout synthesis deletes 0 cells. (HFS-802)
+Information: Automatic high-fanout synthesis adds 0 new cells. (PSYN-864)
+
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:24      67.3      0.00       0.0       0.0                           4037875.0000
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+    0:00:24      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:24      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:24      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:24      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:24      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:24      66.1      0.00       0.0       0.0                           3502576.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 46.67%, saed32cell_lvt 53.33%
+
+  Beginning Delay Optimization HSVT Pass
+  --------------------------------------
+    0:00:25      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:25      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:25      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:25      66.1      0.00       0.0       0.0                           3502576.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 46.67%, saed32cell_lvt 53.33%
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 46.67%, saed32cell_lvt 53.33%
+
+
+  Beginning High Effort Optimization Phase
+  ----------------------------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 46.67%, saed32cell_lvt 53.33%
+
+
+  Beginning Timing Optimization
+  -----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+    0:00:28      66.1      0.00       0.0       0.0                           3502576.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 46.67%, saed32cell_lvt 53.33%
+
+
+  High Effort Optimization Phase Complete
+  ---------------------------------------
+
+Skipping remaining steps due to timing met. Go to finish
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 46.67%, saed32cell_lvt 53.33%
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+1
+change_names -rules verilog -hierarchy
+1
+set stage dct
+dct
+report_qor > ../reports/${top_design}.$stage.qor.rpt
+report_constraint -all_viol > ../reports/${top_design}.$stage.constraint.rpt
+report_timing -delay max -input -tran -cross -sig 4 -derate -net -cap  -max_path 10000 -slack_less 0 > ../reports/${top_design}.$stage.timing.max.rpt
+check_timing  > ../reports/${top_design}.$stage.check_timing.rpt
+check_design > ../reports/${top_design}.$stage.check_design.rpt
+check_mv_design  > ../reports/${top_design}.$stage.mvrc.rpt
+write -hier -format verilog -output ../outputs/${top_design}.$stage.vg
+Writing verilog file '/u/pratik2/Floorplan-based-synthesis/syn/outputs/adder.dct.vg'.
+1
+write -hier -format ddc -output ../outputs/${top_design}.$stage.ddc
+Writing ddc file '../outputs/adder.dct.ddc'.
+1
+write_def -blockages -macro -pins -output ../outputs/${top_design}.$stage.def
+Error: Cannot initialize route storage for design 'adder'. (MWDC-013)
+WARNING : Failed to create Long Name VIAS attached file (defInLongViaNameMap)
+Error: Cannot initialize route storage for design 'adder'. (MWDC-013)
+Information: Writing PINS section (DDEFW-014)
+Information: Completed PINS section  (DDEFW-016)
+1
+save_upf ../outputs/${top_design}.$stage.upf
+1
+write_def -scanchain -output ../outputs/${top_design}.$stage.scan.def
+Warning: Design Compiler topographical mode does not support option '-scanchain' in the command 'write_def', and the option is ignored. (DCT-081)
+Error: Cannot initialize route storage for design 'adder'. (MWDC-013)
+WARNING : Failed to create Long Name VIAS attached file (defInLongViaNameMap)
+Error: Cannot initialize route storage for design 'adder'. (MWDC-013)
+Error: Cannot initialize route storage for design 'adder'. (MWDC-013)
+Information: Writing COMPONENTS section (DDEFW-014)
+Information: Completed COMPONENTS section  (DDEFW-016)
+Information: Writing PINS section (DDEFW-014)
+Information: Completed PINS section  (DDEFW-016)
+Error: Cannot initialize route storage for design 'adder'. (MWDC-013)
+Information: Writing NETS section (DDEFW-014)
+Information: Completed NETS section  (DDEFW-016)
+1
+1
+dc_shell-topo> exit
+
+Thank you...
+

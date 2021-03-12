@@ -1,0 +1,898 @@
+setting auto_restore_mw_cel_lib_setup true
+icc2_shell> set top_design adder
+adder
+icc2_shell> source -echo -verbose ../scripts/create_dct_floorplan2.tcl
+#####################################################
+# Main Code
+####################################################
+source -echo -verbose ../../${top_design}.design_config.tcl
+set lib_dir /pkgs/synopsys/2020/32_28nm/SAED32_EDK
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK
+# Decoder ring for the libraries
+# You will need to follow another example or look in the library directories to understand.
+# lib_types is used for the dc/dct linking variables and ICC2 NDM lcoations.
+# /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm
+# /          $lib_dir                   /lib/ $lib_type /db_nldm
+# link_library, Target_library use the sub_lib_types and corner variables. 
+# For sub_lib_types and corner:
+# Example:
+#     saed32hvt_ss0p75v125c.db
+#     |sub_lib  corner    .db
+# The current flow tries to find all sub_lib and all corners in all the search paths.  Any match will be put in the library list.
+# Wild cards can be used, but be careful.  Multiple matches can occur in ways you don't want.
+# For the target library, the same method is used as the link library except only HVT and RVT lib_types are used.
+# ICC2 NDM choosing also uses the sub_lib_types so that only the required libraries and extras are not loaded.
+# adder
+set top_design adder
+adder
+set add_ios 1
+1
+set pad_design 1
+1
+set design_size { 580 580  } 
+ 580 580  
+set design_io_border 310
+310
+set dc_floorplanning 1
+1
+set rtl_list [list ../rtl/$top_design.v ]
+../rtl/adder.v
+set slow_corner "ss0p75v125c ss0p95v125c_2p25v ss0p95v125c"
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set fast_corner "ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c"
+ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c
+set synth_corners $slow_corner
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set slow_metal Cmax_125
+Cmax_125
+set fast_metal Cmax_125
+Cmax_125
+set lib_types "stdcell_hvt stdcell_rvt stdcell_lvt io_std sram"
+stdcell_hvt stdcell_rvt stdcell_lvt io_std sram
+# Get just the main standard cells, srams and IOs
+set sub_lib_type "saed32?vt_ saed32sram_ saed32io_wb_"
+saed32?vt_ saed32sram_ saed32io_wb_
+#set topdir /u/$env(USER)/PSU_RTL2GDS
+set topdir [ lindex [ regexp -inline "(.*)\(syn\|pt\|apr\)" [pwd] ] 1 ]
+/u/pratik2/ECE581-2021/Final_Project/
+/u/pratik2/ECE581-2021/Final_Project/
+if { ![ info exists dc_floorplanning ] } {
+   set dc_floorplanning 1
+}
+set my_lib ${top_design}_fp_lib
+adder_fp_lib
+source -echo -verbose ../scripts/setup2.tcl
+# Look for directories like this "/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/ndm"
+# This may not be used
+set search_path ""
+foreach i $lib_types { lappend search_path $lib_dir/lib/$i/ndm }
+#set synthetic_library dw_foundation.sldb
+# Changed to only be the slow corner libraries
+#set target_library "saed32hvt_ss0p75v125c.db saed32lvt_ss0p75v125c.db saed32rvt_ss0p75v125c.db"
+# enable the lvt and rvt library for now at the slow corner
+#set target_library "saed32lvt_ss0p75v125c.db saed32rvt_ss0p75v125c.db saed32io_wb_ss0p95v125c_2p25v.db"
+set libs ""
+# should we use _pg_c.ndm, _c.ndm, dlvl_v.ndm, _ulvl_v.ndm
+set suffix "c.ndm 5v.ndm v.ndm"
+c.ndm 5v.ndm v.ndm
+# Look for files like this "/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/ndm/saed32hvt$suffix"
+set libs ""
+foreach i $lib_types { 
+    foreach j $suffix {
+        foreach k $sub_lib_type {
+          foreach m [glob -nocomplain $lib_dir/lib/$i/ndm/$k$j ] {
+            lappend libs $m
+          }
+        }
+    }
+}
+set tf_dir "$lib_dir/tech/milkyway/"
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/milkyway/
+set tlu_dir "$lib_dir/tech/star_rcxt/"
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/star_rcxt/
+#set_tlu_plus_files  -max_tluplus $tlu_dir/saed32nm_1p9m_Cmax.tluplus  #                    -min_tluplus $tlu_dir/saed32nm_1p9m_Cmin.tluplus  #                    -tech2itf_map  $tlu_dir/saed32nm_tf_itf_tluplus.map
+source -echo -verbose ../scripts/read2.tcl
+if { [ info exists dc_floorplanning ] && $dc_floorplanning } {
+   set verilog_file ../../syn/outputs/${top_design}.dc.vg
+} else {
+   set verilog_file ../../syn/outputs/${top_design}.dct.vg
+}
+../../syn/outputs/adder.dc.vg
+file delete -force $my_lib 
+# Adding the tech file causes problems later with missing routing directions for some reason.
+#create_lib $my_lib -ref_libs $libs -tech $tf_dir/saed32nm_1p9m_mw.tf 
+create_lib $my_lib -ref_libs $libs  -use_technology_lib [lindex $libs 0 ] 
+{adder_fp_lib}
+create_block ${top_design}
+Information: Creating block 'adder.design' in library 'adder_fp_lib'. (DES-013)
+{adder_fp_lib:adder.design}
+open_block ${top_design}
+Information: Incrementing open_count of block 'adder_fp_lib:adder.design' to 2. (DES-021)
+{adder_fp_lib:adder.design}
+#import_designs $verilog_file # -format verilog #       -cel $top_design #      -top $top_design
+read_verilog  -top $top_design  $verilog_file
+Loading verilog file '/u/pratik2/ECE581-2021/Final_Project/syn/outputs/adder.dc.vg'
+Warning: Found redefinition of module 'adder' (overwriting with new version found at line 8 in /u/pratik2/ECE581-2021/Final_Project/syn/outputs/adder.dc.vg). (VR-018)
+Number of modules read: 1
+Top level ports: 7
+Total ports in all modules: 7
+Total nets in all modules: 8
+Total instances in all modules: 7
+Elapsed = 00:00:00.01, CPU = 00:00:00.00
+1
+# Read the SCANDEF information created by DFTC
+# read_def $scandef_file
+# Source before floorplan in case we want to use timing to place pins
+# Our time to load constraints is relatively small so we can do it at this spot if we want
+source -echo -verbose ../../constraints/${top_design}.sdc
+if { [info exists synopsys_program_name ] && ($synopsys_program_name == "icc2_shell") } {
+    puts " Creating ICC2 MCMM "
+    create_mode func
+    create_corner slow
+    create_scenario -mode func -corner slow -name func_slow
+    current_scenario func_slow
+    set_operating_conditions ss0p75v125c
+    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmax.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmax
+    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmin.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmin
+    set_parasitic_parameters -early_spec Cmax -early_temperature 125
+    set_parasitic_parameters -late_spec Cmax -late_temperature 125
+    #set_parasitic_parameters -early_spec 1p9m_Cmax -early_temperature 125 -corner default
+    #set_parasitic_parameters -late_spec 1p9m_Cmax -late_temperature 125 -corner default
+
+    #set_scenario_status  default -active false
+    set_scenario_status func_slow -active true -hold true -setup true
+}
+ Creating ICC2 MCMM 
+Using libraries: adder_fp_lib saed32hvt_c saed32rvt_c saed32lvt_c saed32io_wb_5v saed32sram_c
+Linking block adder_fp_lib:adder.design
+Information: User units loaded from library 'saed32hvt_c' (LNK-040)
+Design 'adder' was successfully linked.
+Created scenario func_slow for mode func and corner slow
+All analysis types are activated.
+Warning: use early spec Cmax for late which is not specified
+Warning: use late spec Cmax for early which spec is not specified. 
+Scenario func_slow (mode func corner slow) is active for setup/hold/leakage_power/dynamic_power/max_transition/max_capacitance/min_capacitance analysis.
+1
+set CLK_period 1.00
+1.00
+#set wclk_period 1.18
+#set rclk_period 1.22
+#set wclk2x_period [ expr $wclk_period / 2 ]
+create_clock -name "CLK" -period 0.500 -waveform {0.0 0.250} clock 
+{CLK}
+#create_clock -name "clk" -period $CLK_period  CLK
+# 0.07 ns is fairly typical for pll jitter plus other jitter.
+set_clock_uncertainty -setup 0.07 CLK
+1
+set_clock_uncertainty -hold 0.01 CLK
+1
+set_clock_transition 0.1 CLK
+1
+set_clock_latency 0.1 CLK
+1
+#create_clock -name "wclk" -period $wclk_period  wclk
+# 0.07 ns is fairly typical for pll jitter plus other jitter.
+#set_clock_uncertainty -setup 0.07 wclk
+#set_clock_uncertainty -hold 0.01 wclk
+#set_clock_transition 0.1 wclk
+#set_clock_latency 0.1 wclk
+#create_clock -name "rclk" -period $rclk_period rclk
+#set_clock_uncertainty -setup 0.07 rclk
+#set_clock_uncertainty -hold 0.01 rclk
+#set_clock_transition 0.1 rclk
+#set_clock_latency 0.1 rclk
+#Add the new clock.  Make it 1/2 the wclk period since it is called wclk2x
+#create_clock -name "wclk2x" -period $wclk2x_period wclk2x
+#set_clock_uncertainty 0.07 -setup wclk2x
+#set_clock_uncertainty 0.01 -hold wclk2x
+#set_clock_transition 0.1 wclk2x
+#set_clock_latency 0.1 wclk2x
+#set_false_path -from [get_clocks wclk ] -to [get_clocks rclk]
+#set_false_path -from [get_clocks rclk ] -to [ get_clocks wclk]
+# Add input/output delays in relation to related clocks
+# Can tell the related clock by doing report_timing -group INPUTS  or -group OUTPUTS after using group_path
+# External delay should be some percentage of clock period.
+# Tune/relax if violating; most concerned about internal paths.
+#set_input_delay 0.0 wdata_in* -clock wclk2x
+#set_input_delay 0.0 winc -clock wclk
+#set_input_delay 0.0 rinc -clock rclk
+#set_output_delay -0.5 rdata* -clock rclk
+#set_output_delay -0.5 {rempty } -clock rclk
+#set_output_delay -0.5 { wfull } -clock wclk
+# This port does not seem to need to be constrained with the way the library works.
+# I constrained anyway and did to multiple clocks.
+# I understand you probably wouldn't know that part.
+#set_input_delay 0.0 rrst_n -clock rclk
+#set_input_delay 0.0 rrst_n -clock wclk -add_delay
+#set_input_delay 0.0 rrst_n -clock wclk2x -add_delay
+# I like set_driving_cell to a std cell from the library.  set_drive works to.
+#set_driving_cell -lib_cell INVX1_HVT [all_inputs]
+set_drive 0.00001 [all_inputs ]
+1
+# Make a guess for now.  A real value would normally be given.
+set_load 0.5 [all_outputs]
+1
+#group_path -name INTERNAL -from [all_clocks] -to [all_clocks ]
+group_path -name INPUTS -from [ get_ports -filter "direction==in&&full_name!~*clk*" ]
+Information: Timer using 1 threads
+1
+group_path -name OUTPUTS -to [ get_ports -filter "direction==out" ]
+1
+1
+initialize_floorplan -control_type core -shape R -side_length $design_size -core_offset $design_io_border
+Removing existing floorplan objects
+Creating core...
+Core utilization ratio = 0.00%
+Unplacing all cells...
+Creating site array...
+Creating routing tracks...
+Initializing floorplan completed.
+source -echo -verbose ../../${top_design}.design_options.tcl
+######PLACE
+set_app_option -name place.coarse.continue_on_missing_scandef -value true
+place.coarse.continue_on_missing_scandef true
+#set enable_recovery_removal_arcs true
+set_app_option -name time.disable_recovery_removal_checks -value false
+time.disable_recovery_removal_checks false
+#set timing_enable_multiple_clocks_per_reg true
+#set timing_remove_clock_reconvergence_pessimism true
+set_app_option -name timer.remove_clock_reconvergence_pessimism -value true
+Warning: application option <timer.remove_clock_reconvergence_pessimism> is deprecated and scheduled for removal in a future release. See the man page for this  application option for migration assistance. (NDMUI-441)
+time.remove_clock_reconvergence_pessimism true
+#set physopt_enable_via_res_support true
+#set physopt_hard_keepout_distance 5
+#set_preferred_routing_direction -direction vertical -l {M2 M4}
+#set_preferred_routing_direction -direction horizontal -l {M3 M5}
+set_ignored_layers  -min_routing_layer M2 -max_routing_layer M7
+1
+# To optimize DW components (I think only adders right now??) - default is false
+#set physopt_dw_opto true
+#set_ahfs_options -remove_effort high
+#set_buffer_opt_strategy -effort medium
+# Dont use delay buffers
+#set_dont_use [get_lib_cells */DELLN* ]
+set_lib_cell_purpose -include hold [get_lib_cells */DELLN* ]
+Information: The design specific attribute override for lib_cell 'saed32hvt_c:DELLN1X2_HVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32hvt_c:DELLN2X2_HVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32hvt_c:DELLN3X2_HVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32rvt_c:DELLN1X2_RVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32rvt_c:DELLN2X2_RVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32rvt_c:DELLN3X2_RVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32lvt_c:DELLN1X2_LVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32lvt_c:DELLN2X2_LVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32lvt_c:DELLN3X2_LVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+1
+#FIXME
+#set_host_options -max_cores 1 -num_processes 1 mo.ece.pdx.edu
+set_app_options -name place_opt.flow.enable_ccd -value false
+place_opt.flow.enable_ccd false
+set_app_options -name clock_opt.flow.enable_ccd -value false
+clock_opt.flow.enable_ccd false
+set_app_options -name route_opt.flow.enable_ccd -value false
+route_opt.flow.enable_ccd false
+set_app_options -name ccd.max_postpone -value 0
+ccd.max_postpone 0
+set_app_options -name ccd.max_prepone -value 0
+ccd.max_prepone 0
+###########################  CTS Related
+create_routing_rule clock_double_spacing -spacings {M1 0.1 M2 0.112 M3 0.112 M4 0.112 M5 0.112 M6 0.112 M7 0.112 M8 0.112}
+{clock_double_spacing}
+set_clock_routing_rules -clock [ get_clocks * ] -net_type internal -rule clock_double_spacing -max_routing_layer M6 -min_routing_layer M3
+1
+set_clock_routing_rules -clock [ get_clocks * ] -net_type root -rule clock_double_spacing -max_routing_layer M6 -min_routing_layer M3
+1
+# Set other cts app_options?  Bufs vs Inverters, certain drive strengths.  
+# Allow delay buffers just for hold fixing
+#set_prefer -min [get_lib_cells */DELLN*HVT ]
+#set_fix_hold_options -preferred_buffer
+# fix hold on all clocks
+#set_fix_hold [all_clocks]
+# If design blows up, try turning hold fixing off. 
+# -optimize_dft is good if scan is inserted.
+# Sometimes better to separate CTS and setup/hold so any hold concerns can be seen before hold fixing.
+# Can look in the log at the beginning of clock_opt hold fixing to see if there was a large hold problem to fix.
+# set_app_option -name clock_opt.flow.skip_hold -value true
+########################## Route related
+set_app_option -name route_opt.flow.xtalk_reduction -value true
+Warning: The application option <route_opt.flow.xtalk_reduction> is deprecated and scheduled for removal in a future release. (NDMUI-443)
+route_opt.flow.xtalk_reduction true
+set_app_option -name time.si_enable_analysis -value true
+time.si_enable_analysis true
+if { $top_design == "ORCA_TOP" } {
+  create_voltage_area  -region {{580 0} {1000 400}} -power_domains PD_RISC_CORE
+}
+# Use the def saved when planning macro placement in apr area.
+set def ../outputs/${top_design}.floorplan.macros.def 
+../outputs/adder.floorplan.macros.def
+source -echo -verbose ../scripts/floorplan2.tcl
+# Do some extra setting up of the IO ring if we are a pad_design
+if { $pad_design } {
+  source -echo -verbose ../scripts/floorplan-ios2.tcl
+}
+if { [ sizeof_coll [ get_cell -quiet io_* ] ] == 0 } {
+ source -echo -verbose ../scripts/add_ios.tcl
+}
+# Move this outside the if statement, and make it configurable through a variable?
+create_io_ring -name outer_ring -corner_height 300
+{outer_ring}
+get_io_guides
+{outer_ring.left outer_ring.bottom outer_ring.right outer_ring.top}
+create_net -power VDD
+{VDD}
+# Maybe try non-power net so that it doesn't complain about multiple powers defined and no UPF?
+#create_net -power VDDIO
+create_net -ground VSS
+{VSS}
+#create_net -ground VSSIO
+add_to_io_guide outer_ring.left [get_cells -phys { io_l_*  } ]
+Warning: No cell objects matched 'io_l_*' (SEL-004)
+Error: Nothing matched for pad_cell_list (SEL-005)
+1
+add_to_io_guide outer_ring.right [get_cells -phys { io_r_*  } ]
+Warning: No cell objects matched 'io_r_*' (SEL-004)
+Error: Nothing matched for pad_cell_list (SEL-005)
+1
+add_to_io_guide outer_ring.bottom [get_cells -phys { io_b_*  } ]
+1
+add_to_io_guide outer_ring.top [get_cells -phys { io_t_*  } ]
+Warning: No cell objects matched 'io_t_*' (SEL-004)
+Error: Nothing matched for pad_cell_list (SEL-005)
+1
+set_power_io_constraints -io_guide_object [get_io_guide { *.left *.right} ] { {reference:VDD_EW} {prefix:VDD} {ratio:5} {connect: {VDD VDD } { VSS VSS} }  }
+Warning: some pins remain dangling for power constraints. (DPUI-838)
+Power IO constraints set successfully
+1
+set_power_io_constraints -io_guide_object [get_io_guide { *.top *.bottom} ] { {reference:VDD_NS} {prefix:VDD} {ratio:5} {connect:  {VDD VDD } { VSS VSS} }  }
+Warning: some pins remain dangling for power constraints. (DPUI-838)
+Power IO constraints set successfully
+1
+remove_cell { io_s* io_n* io_w* io_e*}
+Warning: Nothing implicitly matched 'io_s*' (SEL-003)
+Warning: Nothing implicitly matched 'io_n*' (SEL-003)
+Warning: Nothing implicitly matched 'io_w*' (SEL-003)
+Warning: Nothing implicitly matched 'io_e*' (SEL-003)
+Error: Nothing matched for objects (SEL-005)
+0
+#       create_io_filler_cells -prefix filler_ -reference_cells [ list [ list [ get_attribute [get_lib_cells */FILLER?* ] name ] ] ]
+# Library does not have the corner cell of design_type corner.  Try changing it and retry the create_io_corner
+set_app_option -name design.enable_lib_cell_editing -value mutable
+design.enable_lib_cell_editing mutable
+set_attribute [ get_lib_cell */CAPCORNER ] design_type corner
+{saed32io_wb_5v/CAPCORNER}
+#       create_io_corner_cell   -reference_cell CAPCORNER {outer_ring.left outer_ring.bottom}
+place_io -io_guide [get_io_guides * ]
+Information: Starting 'place_io' (FLW-8000)
+Information: Time: 2021-02-28 13:24:03 / Session: 0.02 hr / Command: 0.00 hr / Memory: 353 MB (FLW-8100)
+Error: power constraints of IO guide outer_ring.bottom cannot be satisfied. (DPUI-035)
+Warning: skipping IO guide outer_ring.left since it contains no driver cells. (DPI-507)
+Warning: skipping IO guide outer_ring.right since it contains no driver cells. (DPI-507)
+Warning: skipping IO guide outer_ring.top since it contains no driver cells. (DPI-507)
+Overall runtime for IO placement: 0.008u 0.000s 0:00.01e 100.0%
+Information: Ending 'place_io' (FLW-8001)
+Information: Time: 2021-02-28 13:24:03 / Session: 0.02 hr / Command: 0.00 hr / Memory: 353 MB (FLW-8100)
+1
+check_io_placement -io_guides [ get_io_guides * ]
+------------------------- Start of Overlap Check --------------------------
+-------------------------- End of Overlap Check ---------------------------
+
+--------------------- Start of Bump Assignment Check ----------------------
+---------------------- End of Bump Assignment Check -----------------------
+
+----------------- Start of Pad to Guide Assignment Check ------------------
+------------------ End of Pad to Guide Assignment Check -------------------
+
+------------------ Start of Signal I/O constraints Check ------------------
+------------------- End of Signal I/O constraints Check -------------------
+
+------------------ Start of Power I/O Constraints Check -------------------
+------------------- End of Power I/O Constraints Check --------------------
+
+---------------------- Start of Unplaced Pads Check -----------------------
+----------------------- End of Unplaced Pads Check ------------------------
+
+------------------------- Start of Pad Flip Check -------------------------
+-------------------------- End of Pad Flip Check --------------------------
+
+--------------------------- Start of Gap Check ----------------------------
+ Cell io_b_a and cell io_b_b have a gap between them. 
+ Cell io_b_b and cell io_b_cin have a gap between them. 
+ Cell io_b_cin and cell io_b_clk have a gap between them. 
+ Cell io_b_clk and cell io_b_cout have a gap between them. 
+ Cell io_b_cout and cell io_b_reset have a gap between them. 
+ Cell io_b_reset and cell io_b_sum have a gap between them. 
+
+ Total 7 cells have gap violation.
+---------------------------- End of Gap Check -----------------------------
+
+------------------------ Start of Min Pitch Check -------------------------
+------------------------- End of Min Pitch Check --------------------------
+
+{io_b_a io_b_b io_b_cin io_b_sum io_b_cout io_b_clk io_b_reset}
+# done inside add_ios.tcl right now
+#create_cell sram_example SRAM1RW64x8
+set_attribute -objects [ get_cells -phys io_*  ] -name physical_status -value fixed
+{io_b_a io_b_b io_b_cin io_b_clk io_b_cout io_b_reset io_b_sum}
+{io_b_a io_b_b io_b_cin io_b_clk io_b_cout io_b_reset io_b_sum}
+#derive_pg_connection -tie
+connect_pg_net -automatic
+****************************************
+Report : Power/Ground Connection Summary
+Design : adder
+Version: Q-2019.12-SP4
+Date   : Sun Feb 28 13:24:03 2021
+****************************************
+P/G net name                  P/G pin count(previous/current)
+--------------------------------------------------------------------------------
+Power net VDD                 0/14
+Ground net VSS                0/14
+--------------------------------------------------------------------------------
+Information: connections of 28 power/ground pin(s) are created or changed.
+puts "Starting FP Placement: ..."
+Starting FP Placement: ...
+#set_keepout_margin  -type hard -all_macros -outer {2 2 2 2}
+read_def -exclude { diearea } ../outputs/${top_design}.floorplan.macros.def
+Information: Loading DEF file '/u/pratik2/ECE581-2021/Final_Project/apr/outputs/adder.floorplan.macros.def' (FILE-007)
+Information: Reading 'VERSION' statement. (DEFR-016)
+Information: Reading 'DIVIDERCHAR' statement. (DEFR-016)
+Information: Reading 'BUSBITCHARS' statement. (DEFR-016)
+Information: Reading 'DESIGN' statement. (DEFR-016)
+Information: Reading 'UNITS' statement. (DEFR-016)
+ERROR (DEFPARS-6002): Incomplete def file. Error in file /u/pratik2/ECE581-2021/Final_Project/apr/outputs/adder.floorplan.macros.def at line 7, on token ;.
+Update the def file before parsing the file again.
+ERROR (DEFPARS-5500): Def parser has encountered an error in file /u/pratik2/ECE581-2021/Final_Project/apr/outputs/adder.floorplan.macros.def at line 7, on token ;.
+Problem can be syntax error on the def file or an invalid parameter name.
+Double check the syntax on the def file with the LEFDEF Reference Manual.
+Error: read def '/u/pratik2/ECE581-2021/Final_Project/apr/outputs/adder.floorplan.macros.def' failed. (DEFR-002)
+Error: problem in read_def
+        Use error_info for more info. (CMD-013)
+Information: script '/u/pratik2/ECE581-2021/Final_Project/apr/scripts/floorplan2.tcl'
+                stopped at line 16 due to error. (CMD-081)
+Extended error info:
+problem in read_def
+    while executing
+"read_def -exclude { diearea } ../outputs/${top_design}.floorplan.macros.def"
+ -- End Extended Error Info
+Information: script '/u/pratik2/ECE581-2021/Final_Project/apr/scripts/create_dct_floorplan2.tcl'
+                stopped at line 23 due to error. (CMD-081)
+Extended error info:
+problem in read_def
+    while executing
+"read_def -exclude { diearea } ../outputs/${top_design}.floorplan.macros.def"
+    (file "/u/pratik2/ECE581-2021/Final_Project/apr/scripts/floorplan2.tcl" line 16)
+    invoked from within
+"source -echo -verbose ../scripts/floorplan2.tcl"
+ -- End Extended Error Info
+icc2_shell> man write_def
+2.  Synopsys Commands                                        Command Reference
+                                   write_def
+
+NAME
+       write_def
+              Writes a DEF file from a given design.
+
+SYNTAX
+       string write_def
+              [-compress method]
+              [-units units_per_micron]
+              [-include include_list]
+              [-exclude exclude_list]
+              [-objects objects]
+              [-version version]
+              [-convert_sites { {from_site to_site} ... }
+              [-include_tech_via_definitions]
+              [-via_as_fixed]
+              [-routed_nets]
+              [-self_contained]
+              [-bus_delimiters bus_bit_chars]
+              [-traverse_physical_hierarchy]
+              [-no_marker_layer]
+              def_file_name
+              [-include_physical_status include_physical_status_list]
+              [-exclude_physical_status exclude_physical_status_list]
+              [-only_master_variant]
+              [-cell_types cell_types_list]
+              [-net_types net_types_list]
+              [-include_pad_owned_terminals]
+              [-design design]
+
+   Data Types
+       design                        string
+       method                        string
+       units_per_micron              int
+       include_list                  list
+       exclude_list                  list
+       objects                       collection
+       version                       string
+       from_site                     string
+       to_site                       string
+       bus_bit_chars                 string
+       def_file_name                 string
+       include_physical_status_list  list
+       exclude_physical_status_list  list
+       cell_types_list               list
+       net_types_list               list
+
+ARGUMENTS
+       -compress method
+              Specifies  file  compression  format.  The only format currently
+              supported is gzip. A .gz extension is appended to the file  name
+              if  no extension is specified. By default, DEF files are written
+              in uncompressed text format.
+
+       -units units_per_micron
+              Specifies the number of units per micron in the  DEF  file.  All
+              database  length  units are scaled accordingly in the output DEF
+              file. If not specified, the units per micron  is  obtained  from
+              the  technology  length  precision.  Valid  values are 100, 200,
+              1000, 2000, 10000, and 20000.
+
+       -include include_list
+              Specifies which optional constructs and object types to  include
+              in  the output DEF file. The output DEF file always contains the
+              basic DEF items: version, divider character, bus bit characters,
+              design  name,  units,  and  die  area. When you use the -include
+              option, only the listed optional constructs and object types are
+              included  in the generated DEF file. These are the optional con-
+              structs and object types:
+
+              blockages
+              bounds
+              cells
+              fills
+              nets
+              pg_metal_fills
+              ports
+              routing_rules
+              rows_tracks
+              scanchains
+              specialnets
+              vias
+              cut_metal
+
+       -exclude exclude_list
+              Specifies which optional constructs and object types to  exclude
+              from  the  output DEF file. When you use this option, all of the
+              optional constructs and object types are included in the  gener-
+              ated  DEF file except for those specified in the exclusion list.
+
+              When you use neither  the  -include  nor  -exclude  option,  the
+              default behavior is to write out all the optional constructs and
+              object types.
+
+       -objects objects
+              Specifies a collection of objects to write out to the DEF  file.
+              The  objects  can  be  physical  cells,  physical nets, physical
+              ports,   routing_blockage   (non-reserved),   placement_blockage
+              (hard,  soft,  partial), move bounds, rows, net shapes and vias.
+              The output DEF file contains only the objects specified by  this
+              option, unless you also use the -include or -exclude option.
+
+              o  If  cells  are  specified, they are written to the COMPONENTS
+                section, and all other cells are omitted.
+              o If nets are specified, they are  written  to  the  SPECIALNETS
+                and/or NETS sections, and all other nets are omitted.
+              o  If ports are specified, they are written to the PINS section,
+                and all other ports are omitted.
+              o If blockages are specified, they are written to the  BLOCKAGES
+                section, and all other blockages are omitted.
+              o  If move bounds are specified, they are written to the REGIONS
+                and GROUPS sections, and all other move bounds are omitted.
+              o If net shapes and/or vias are specified, they are  written  to
+                the  SPECIALNETS  and/or  NETS  sections, and all other shapes
+                and/or vias and the net connections are omitted. You  can  use
+                the  set_app_options  -name file.def.skip_connection_of_incom-
+                plete_net -value false command  before  write_def  command  to
+                write the net connections.
+              o  If  you  specify  the  lower  left via of a via ladder to the
+                -objects option, the via ladder is written out. If you specify
+                other  vias  or shapes of a via ladder to the -objects option,
+                the via ladder is excluded from the generated  DEF  file,  and
+                only the corresponding net will be written out.
+
+       -version version
+              Specifies  the DEF syntax version. Valid values are 5.7 and 5.8.
+              The default is DEF version 5.8.
+
+       -convert_sites { {from_site to_site} ... }
+              Specifies a list of site name pairs, with each pair representing
+              a  map from one site name to another site name. All rows of site
+              from_site are written as rows of to_site.
+
+       -include_tech_via_definitions
+              Includes all via definitions in the technology  file,  including
+              those  not  used  in  the  design,  in  the  output DEF file. By
+              default, only via definitions present in the design are  written
+              out to the DEF VIAS section.
+
+       -self_contained
+              Indicates  that  the  output DEF must be self-contained. A self-
+              contained DEF should not reference any  objects  which  are  not
+              defined in the same DEF file.  Please note that this option sup-
+              ports cell and move bound objects only.
+
+       -via_as_fixed
+              Indicates that all the via definitions are written out as  fixed
+              vias in the output DEF file.
+
+       -routed_nets
+              Indicates  that  all the nets written out in the output DEF file
+              are routed nets i.e. has atleast one shape associated it.
+
+       -bus_delimiters bus_bit_chars
+              Specifies the bus bit characters to use in the output DEF. Valid
+              values  are  "[]", "{}", "()", and "<>". When specified, the DEF
+              BUSBITCHARS statement and bus names are written out using  these
+              bus bit characters.
+
+       -traverse_physical_hierarchy
+              Indicates  writing  the  design information across all levels of
+              the physical hierarchy to DEF file.
+                nets            If the net crosses physical hierarchy, the sub-block
+                                nets are not written out, but all their wiring shapes
+                                are superimposed onto the net and written out. All the
+                                nets, which does not cross physical hierarchy, can be
+                                written out.
+
+                pins            Sub-block pins are not written out, but all their shapes
+                                can be superimposed onto the connected net and written out.
+
+                via definitions and bounds
+                                If there is a name collision between top and sub block
+                                objects, the sub block objects are written out with block
+                                name prefix.
+
+                routing rules   If a routing rule exists in the sub block and matches a
+                                routing rule that already exists in the top block, the
+                                sub block routing rule is not written out. If two routing
+                                rules have the same name but they are different in fact,
+                                the sub block routing rule is written out with the block
+                                name prefix.
+
+                cells, rows, blockages and tracks
+                                They can be written out from each level of the physical
+                                hierarchy.
+
+       -no_marker_layer
+              Indicates disabling the writing of marker layers.
+
+       def_file_name
+              Specifies the name of the DEF file to be written.  If  the  file
+              already exists, it is overwritten. If the name ends with the .gz
+              extension, it is compressed using the gzip format.
+
+       -include_physical_status include_physical_status_list
+              Specifies which cells to include in the output DEF file based on
+              their  physical  status.   When  you use this option, all of the
+              specified cells are excluded in the generated  DEF  file  except
+              for   those   whose   physical   status   is  specified  in  the
+              include_physical_status_list.  These are the  optional  physical
+              status:
+              unplaced
+              placed
+              legalize_only
+              application_fixed
+              fixed
+              locked
+              all
+
+       -exclude_physical_status exclude_physical_status_list
+              Specifies which cells to exclude in the output DEF file based on
+              their physical status.  When you use this  option,  all  of  the
+              specified cell are included in the generated DEF file except for
+              those whose physical status is specified in  the  exclude_physi-
+              cal_status_list.
+
+              -include_physical_status  and -exclude_physical_status are mutu-
+              ally exclusive.
+
+       -only_master_variant
+              Indicates that all the instances of  variants  are  replaced  by
+              instances of the masters.
+
+       -cell_types cell_types_list
+              Specifies which cells to include in the output DEF file based on
+              their types.  When you use this option,  all  of  the  specified
+              cells  are  excluded  in the generated DEF file except for those
+              whose cell types is specified in the cell_types_list.  These are
+              the specifiable cell types:
+
+              corner
+              end_cap
+              pad
+              flip_chip_pad
+              flip_chip_driver
+              pad_spacer
+              macro
+              lib_cell
+
+              This  option  provides  additional  level of filtering when used
+              along with -include_physical_status  and  -exclude_physical_sta-
+              tus.
+
+       -net_types net_types_list
+              Specifies  which nets to include in the output DEF file based on
+              their types.  When you use this option,  all  of  the  specified
+              nets  are  excluded  in  the generated DEF file except for those
+              whose net types is specified in the net_types_list.   These  are
+              the specifiable net types:
+
+              signal
+              power
+              ground
+              clock
+
+       -include_pad_owned_terminals
+              Includes  port terminals having is_owned_by_pad attribute values
+              of true. If the port preferred_pin attribute is  set,  then  the
+              preferred pin terminal is output. Otherwise if the port die_side
+              attribute is set, then terminals on the  die  side  are  output.
+              Otherwise  all  such  terminals are output. Without this option,
+              such terminals are output if and only if their  is_def_duplicate
+              attribute values are true.
+
+       -design design
+              Specifies the design (block) to be written as a DEF format.  The
+              default is the current block.
+
+DESCRIPTION
+       This command writes the current or given design to a DEF file,  includ-
+       ing  the  physical layout, netlist, and design constraints. If the cur-
+       rent design is not linked, it is automatically linked and then  written
+       out.
+
+       For  the  shapes which have no nets association, only when they are cut
+       metal, or special wire extension, or metal fill they  will  be  written
+       out, otherwise, they will not.
+
+       The  -include and -exclude options are mutually exclusive. When you use
+       the -include option, the DEF contains the  basic  DEF  items  (version,
+       divider  character,  bus  bit  characters,  design name, units, and die
+       area) and the objects specified with this  option.  When  you  use  the
+       -exclude  option,  the  DEF  contains everything except for the objects
+       specified with this option.
+
+       When neither the -include nor -exclude  option  is  used,  the  default
+       behavior  is  to write out everything. However, if you use the -objects
+       option, the output includes only the objects specified in the  -objects
+       argument.
+
+       These are the valid values for the include_list and exclude_list:
+         blockages            Routing and placement blockage definitions
+                              defined in the DEF BLOCKAGES section.
+
+         bounds               Move bound definitions defined in the
+                              DEF REGIONS and GROUPS sections.
+
+         cells                Cell definitions defined in the
+                              DEF COMPONENTS section.
+
+         fills                Floating metal fills defined in the
+                              DEF FILLS section.
+
+         nets                 Regular net definitions defined in the
+                              DEF NETS section.
+
+         pg_metal_fills       Special net power and ground net fill
+                              shapes defined in the DEF SPECIALNETS
+                              section.
+
+         ports                Port definitions defined in the DEF PINS
+                              section.
+
+         routing_rules        Nondefault routing rule definitions
+                              in the DEF NONDEFAULTRULES section.
+
+         rows_tracks          Row and track definitions defined with the
+                              DEF ROW and TRACKS statements.
+
+         scanchains           Scan chain definitions in the
+                              DEF SCANCHAINS section.
+
+         specialnets          Special net definitions, except power and
+                              ground net fill shapes, in the
+                              DEF SPECIALNETS section. Power and ground
+                              net fill shapes are specified by the option
+                              value, pg_metal_fills.
+
+         vias                 Via definitions defined in the DEF VIAS
+                              section.
+
+         cut_metal            Shapes on the cut-metal layers, and metal shapes
+                              under cut-metal shapes.
+
+         These are the valid value only for the exclude_list:
+
+         non_mask_purpose     Shapes of LayerDataType with nonMask=1 will be
+                              excluded from the DEF.
+
+EXAMPLES
+       The following example writes a compressed DEF file using 1000 units per
+       micron:
+         prompt> write_def -compress gzip -units 1000 top.def
+
+       The following example writes a DEF file  that  includes  the  floorplan
+       data and excludes all other optional constructs and object types.
+         prompt> write_def -include {rows_tracks bounds cells blockages} fp.def
+
+       The  following  example  writes  a  DEF  file that excludes all special
+       wiring but includes all other optional constructs and object types.
+         prompt> write_def -exclude {specialnets pg_metal_fills} no_special.def
+
+SEE ALSO
+       read_def(2)
+       set_app_options(2)
+
+                          Version Q-2019.12-SP4
+            Copyright (c) 2020 Synopsys, Inc. All rights reserved.
+icc2_shell> write_def -compress gzip -units 1000 -objects COMPONENTS PINS BLOCKAGES adder.floorplan.macros.def
+Error: extra positional option 'BLOCKAGES' (CMD-012)
+Error: extra positional option 'adder.floorplan.macros.def' (CMD-012)
+icc2_shell> write_def -compress gzip -units 1000 -objects COMPONENTS -objects PINS -objects BLOCKAGES -def_file_name adder.floorplan.macros.def
+Warning: duplicate option '-objects' overrides previous value. (CMD-018)
+Warning: duplicate option '-objects' overrides previous value. (CMD-018)
+Error: unknown option '-def_file_name' (CMD-010)
+icc2_shell> write_def -compress gzip -units 1000 -objects COMPONENTS,PINS,BLOCKAGES -def_file_name adder.floorplan.macros.def
+Error: unknown option '-def_file_name' (CMD-010)
+icc2_shell> write_def -compress gzip -units 1000 -objects COMPONENTS,PINS,BLOCKAGES adder.floorplan.macros.def
+Warning: Nothing implicitly matched 'COMPONENTS,PINS,BLOCKAGES' (SEL-003)
+Error: Nothing matched for -objects (SEL-005)
+icc2_shell> write_def -compress gzip -units 1000 -objects PINS adder.floorplan.macros.def
+Warning: Nothing implicitly matched 'PINS' (SEL-003)
+Error: Nothing matched for -objects (SEL-005)
+icc2_shell> write_def -compress gzip -units 1000 adder.floorplan.macros.def
+****************************************
+Report : Data Mismatches
+Version: Q-2019.12-SP4
+Date   : Sun Feb 28 14:08:22 2021
+****************************************
+No mismatches exist on the design.
+---------------------------------------
+Number of Written DEF Constructs
+---------------------------------------
+VERSION                        : 1
+DIVIDERCHAR                    : 1
+BUSBITCHARS                    : 1
+DESIGN                         : 1
+UNITS                          : 1
+DIEAREA                        : 1
+ROW                            : 346
+TRACKS                         : 20
+NONDEFAULTRULES                : 1
+COMPONENTS                     : 7
+PINS                           : 9
+SPECIALNETS                    : 2
+NETS                           : 8
+1
+icc2_shell> write_def -compress gzip -units 1000 -objects pins adder.floorplan.macros.def
+Warning: Nothing implicitly matched 'pins' (SEL-003)
+Error: Nothing matched for -objects (SEL-005)
+icc2_shell> write_def -compress gzip -units 1000 -objects PINS adder.floorplan.macros.def
+Warning: Nothing implicitly matched 'PINS' (SEL-003)
+Error: Nothing matched for -objects (SEL-005)
+icc2_shell> write_def -version 5.7 -rows_tracks_gcells -macro -pins \ -blockages -specialnets -vias -regions_groups -verbose \ -output adder.floorplan.macros.def
+Error: unknown option '-rows_tracks_gcells' (CMD-010)
+Error: unknown option '-macro' (CMD-010)
+Error: unknown option '-pins' (CMD-010)
+Error: unknown option '-specialnets' (CMD-010)
+Error: unknown option '-vias' (CMD-010)
+Error: unknown option '-regions_groups' (CMD-010)
+Error: unknown option '-verbose' (CMD-010)
+Error: extra positional option ' -output' (CMD-012)
+Error: extra positional option 'adder.floorplan.macros.def' (CMD-012)
+icc2_shell> write_def -version 5.8 -rows_tracks_gcells -macro -pins \ -blockages -specialnets -vias -regions_groups -verbose \ -output adder.floorplan.macros.def
+Error: unknown option '-rows_tracks_gcells' (CMD-010)
+Error: unknown option '-macro' (CMD-010)
+Error: unknown option '-pins' (CMD-010)
+Error: unknown option '-specialnets' (CMD-010)
+Error: unknown option '-vias' (CMD-010)
+Error: unknown option '-regions_groups' (CMD-010)
+Error: unknown option '-verbose' (CMD-010)
+Error: extra positional option ' -output' (CMD-012)
+Error: extra positional option 'adder.floorplan.macros.def' (CMD-012)
+icc2_shell> exit
+Maximum memory usage for this session: 353.77 MB
+Maximum memory usage for this session including child processes: 353.77 MB
+CPU usage for this session:     70 seconds (  0.02 hours)
+Elapsed time for this session:  10953 seconds (  3.04 hours)
+Thank you for using IC Compiler II.
+

@@ -1,0 +1,22 @@
+ 
+****************************************
+check_design summary:
+Version:     P-2019.03-SP1-1
+Date:        Thu Mar 11 21:26:50 2021
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Cells                                                               4
+    Nets connected to multiple pins on same cell (LINT-33)          4
+--------------------------------------------------------------------------------
+
+Warning: In design 'fifo1', the same net is connected to more than one pin on submodule 'sync_r2w'. (LINT-33)
+   Net 'io_b_wrst_n_net' is connected to pins 'wrst_n', 'IN0'', 'IN1'.
+Warning: In design 'fifo1', the same net is connected to more than one pin on submodule 'sync_w2r'. (LINT-33)
+   Net 'io_b_rrst_n_net' is connected to pins 'rrst_n', 'IN0''.
+Warning: In design 'fifo1', the same net is connected to more than one pin on submodule 'rptr_empty'. (LINT-33)
+   Net 'io_b_rrst_n_net' is connected to pins 'rrst_n', 'IN1''.
+Warning: In design 'fifo1', the same net is connected to more than one pin on submodule 'wptr_full'. (LINT-33)
+   Net 'io_b_wrst_n_net' is connected to pins 'wrst_n', 'IN5''.
+1

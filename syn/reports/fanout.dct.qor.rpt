@@ -1,0 +1,87 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : qor
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar 11 17:55:06 2021
+****************************************
+
+
+  Timing Path Group (none)
+  -----------------------------------
+  Levels of Logic:              11.00
+  Critical Path Length:          9.34
+  Critical Path Slack:         uninit
+  Critical Path Clk Period:       n/a
+  Total Negative Slack:          0.00
+  No. of Violating Paths:        0.00
+  Worst Hold Violation:          0.00
+  Total Hold Violation:          0.00
+  No. of Hold Violations:        0.00
+  -----------------------------------
+
+
+  Cell Count
+  -----------------------------------
+  Hierarchical Cell Count:         40
+  Hierarchical Port Count:        160
+  Leaf Cell Count:                181
+  Buf/Inv Cell Count:              89
+  Buf Cell Count:                  49
+  Inv Cell Count:                  40
+  CT Buf/Inv Cell Count:            0
+  Combinational Cell Count:       181
+  Sequential Cell Count:            0
+  Macro Count:                      0
+  -----------------------------------
+
+
+  Area
+  -----------------------------------
+  Combinational Area:      337.503237
+  Noncombinational Area:     0.000000
+  Buf/Inv Area:            150.453253
+  Total Buffer Area:            99.62
+  Total Inverter Area:          50.83
+  Macro/Black Box Area:      0.000000
+  Net Area:                  0.000000
+  Net XLength        :         691.45
+  Net YLength        :         619.09
+  -----------------------------------
+  Cell Area:               337.503237
+  Design Area:             337.503237
+  Net Length        :         1310.54
+
+
+  Design Rules
+  -----------------------------------
+  Total Number of Nets:           185
+  Nets With Violations:            86
+  Max Trans Violations:            86
+  Max Cap Violations:               2
+  -----------------------------------
+
+
+  Hostname: mo.ece.pdx.edu
+
+  Compile CPU Statistics
+  -----------------------------------------
+  Resource Sharing:                    0.00
+  Logic Optimization:                  2.61
+  Mapping Optimization:               11.30
+  -----------------------------------------
+  Overall Compile Time:               39.86
+  Overall Compile Wall Clock Time:    44.94
+
+  --------------------------------------------------------------------
+
+  Design  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+
+
+  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+
+  --------------------------------------------------------------------
+
+
+1

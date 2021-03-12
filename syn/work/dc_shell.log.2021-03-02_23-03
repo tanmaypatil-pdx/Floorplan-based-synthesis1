@@ -1,0 +1,1943 @@
+Starting shell in Topographical mode...
+setting auto_restore_mw_cel_lib_setup true
+Initializing gui preferences from file  /u/pratik2/.synopsys_dv_prefs.tcl
+dc_shell> source -echo -verbose ../scripts/dct.tcl
+set top_design adder
+adder
+source -echo -verbose ../../$top_design.design_config.tcl
+set lib_dir /pkgs/synopsys/2020/32_28nm/SAED32_EDK
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK
+# Decoder ring for the libraries
+# You will need to follow another example or look in the library directories to understand.
+# lib_types is used for the dc/dct linking variables and ICC2 NDM lcoations.
+# /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm
+# /          $lib_dir                   /lib/ $lib_type /db_nldm
+# link_library, Target_library use the sub_lib_types and corner variables. 
+# For sub_lib_types and corner:
+# Example:
+#     saed32hvt_ss0p75v125c.db
+#     |sub_lib  corner    .db
+# The current flow tries to find all sub_lib and all corners in all the search paths.  Any match will be put in the library list.
+# Wild cards can be used, but be careful.  Multiple matches can occur in ways you don't want.
+# For the target library, the same method is used as the link library except only HVT and RVT lib_types are used.
+# ICC2 NDM choosing also uses the sub_lib_types so that only the required libraries and extras are not loaded.
+# adder
+set top_design adder
+adder
+set add_ios 1
+1
+set pad_design 1
+1
+set design_size { 580 580  } 
+ 580 580  
+set design_io_border 310
+310
+set dc_floorplanning 1
+1
+set rtl_list [list ../rtl/$top_design.v ]
+../rtl/adder.v
+set slow_corner "ss0p75v125c ss0p95v125c_2p25v ss0p95v125c"
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set fast_corner "ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c"
+ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c
+set synth_corners $slow_corner
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set slow_metal Cmax_125
+Cmax_125
+set fast_metal Cmax_125
+Cmax_125
+set lib_types "stdcell_hvt stdcell_rvt stdcell_lvt io_std sram"
+stdcell_hvt stdcell_rvt stdcell_lvt io_std sram
+# Get just the main standard cells, srams and IOs
+set sub_lib_type "saed32?vt_ saed32sram_ saed32io_wb_"
+saed32?vt_ saed32sram_ saed32io_wb_
+#set topdir /u/$env(USER)/PSU_RTL2GDS
+set topdir [ lindex [ regexp -inline "(.*)\(syn\|pt\|apr\)" [pwd] ] 1 ]
+/u/pratik2/Floorplan-based-synthesis/
+/u/pratik2/Floorplan-based-synthesis/
+# List all current designs
+set this_design [ list_designs ]
+Warning: No designs to list. (UID-275)
+0
+# If there are existing designs reset/remove them
+if { $this_design != 0 } {
+  # To reset the earlier designs
+  reset_design
+  remove_design -designs
+}
+source ../scripts/dc-get-timlibs.tcl
+source ../scripts/dct-getcreate-mwlib.tcl
+Start to load technology file /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/milkyway/saed32nm_1p9m_mw.tf.
+Warning: Layer 'M1' has a pitch 0.152 that does not match the recommended wire-to-via pitch 0.13 or 0.105. (TFCHK-049)
+Warning: Layer 'M2' has a pitch 0.152 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M3' has a pitch 0.304 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M4' has a pitch 0.304 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M5' has a pitch 0.608 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M6' has a pitch 0.608 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M7' has a pitch 1.216 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M8' has a pitch 1.216 that does not match the recommended wire-to-via pitch 0.179 or 0.164. (TFCHK-049)
+Warning: Layer 'M9' has a pitch 2.432 that does not match the recommended wire-to-via pitch 1.74. (TFCHK-049)
+Warning: Layer 'MRDL' has a pitch 4.864 that does not match the recommended wire-to-via pitch 4.5. (TFCHK-049)
+Warning: Layer 'MRDL' has a pitch 4.864 that does not match the doubled pitch 2.432 or tripled pitch 3.648. (TFCHK-050)
+Warning: CapModel sections are missing. Capacitance models should be loaded with a TLU+ file later. (TFCHK-084)
+Technology file /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/milkyway/saed32nm_1p9m_mw.tf has been loaded successfully.
+{adder.mw}
+# Analyzing the files for the design
+analyze $rtl_list -autoread -define SYNTHESIS
+== ANALYZE autoread all files ==
+
+Starting ANALYZE autoread mode...
+Warning: Defining design library 'WORK' at directory '/u/pratik2/Floorplan-based-synthesis/syn/work/WORK_autoread'. (AUTOREAD-107)
+Information: Adding '/u/pratik2/Floorplan-based-synthesis/syn/rtl/adder.v'.  (AUTOREAD-100)
+Information: Scanning file { adder.v }. (AUTOREAD-303)
+Compiling source file /u/pratik2/Floorplan-based-synthesis/syn/rtl/adder.v
+Presto compilation completed successfully.
+Autoread command completed successfully.
+1
+# Elaborate the design
+elaborate ${top_design}
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/gtech.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/standard.sldb'
+  Loading link library 'saed32hvt_ss0p75v125c'
+  Loading link library 'saed32hvt_ss0p95v125c'
+  Loading link library 'saed32rvt_ss0p75v125c'
+  Loading link library 'saed32rvt_ss0p95v125c'
+  Loading link library 'saed32lvt_ss0p75v125c'
+  Loading link library 'saed32lvt_ss0p95v125c'
+  Loading link library 'saed32io_wb_ss0p95v125c_2p25v'
+  Loading link library 'saed32sram_ss0p95v125c'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Presto compilation completed successfully. (adder)
+Elaborated 1 design.
+Current design is now 'adder'.
+Information: Building the design 'dff'. (HDL-193)
+
+Inferred memory devices in process
+        in routine dff line 73 in file
+                '/u/pratik2/Floorplan-based-synthesis/syn/rtl/adder.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|        q_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (dff)
+1
+if { [ info exists add_ios ] && $add_ios } {
+   source -echo -verbose ../scripts/add_ios.tcl
+   # Source the design dependent code that will put IOs on different sides
+   source ../../$top_design.add_ios.tcl
+}
+#####################################################
+proc insert_io { port side} {
+  set this_io io_${side}_${port}
+  if {  $side == "t"   } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "b"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if {  $side == "r"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "l"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  set pins [ get_pins -of_obj [ get_net $port ] ]
+  foreach_in i $pins { disconnect_net [get_net $port ] $i }
+  set port_net [get_nets -quiet $port ]
+
+  # If only a port is created, the related net is not created and connected to the port.  Do that here.
+  if { [sizeof_collection $port_net ] == 0 } { 
+      create_net $port 
+      connect_net $port [get_ports $port ]
+  }
+
+  connect_net [get_net $port ]  $this_io/PADIO
+  create_net ${this_io}_net
+  foreach_in i $pins { connect_net ${this_io}_net $i }
+  #DIN is input to IO_PAD
+  #DOUT is output of IO_PAD
+  #EN is the IO_PAD enable to output
+  if { [get_attribute [get_ports $port ] direction ] == "in" } {
+     #connect_net [get_nets  *Logic0* ] ${this_io}/EN 
+     connect_net [get_nets  *Logic1* ] ${this_io}/R_EN 
+     connect_net ${this_io}_net ${this_io}/DOUT
+  } else {
+     connect_net [get_nets  *Logic1* ] $this_io/EN 
+     #connect_net [get_nets  *Logic0* ] $this_io/R_EN 
+     connect_net ${this_io}_net $this_io/DIN
+  }
+}
+####################################################
+change_names -rules verilog -hierarchy
+Warning: The specified replacement character (_) is conflicting with the specified allowed or restricted character.   (UCN-4)
+1
+# Comment the line below if no DEF is available.  Generic floorplan will be created.
+extract_physical_constraints ../../apr/outputs/${top_design}.floorplan.macros.def
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/milkyway/saed32nm_hvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/milkyway/saed32nm_rvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/milkyway/saed32nm_lvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/milkyway/saed32_io_wb. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/milkyway/SRAM32NM. (PSYN-878)
+
+  Linking design 'adder'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  adder                       /u/pratik2/Floorplan-based-synthesis/syn/work/adder.db
+  saed32hvt_ss0p75v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db
+  saed32hvt_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db
+  saed32rvt_ss0p75v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db
+  saed32rvt_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db
+  saed32lvt_ss0p75v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db
+  saed32lvt_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db
+  saed32io_wb_ss0p95v125c_2p25v (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db
+  saed32sram_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db
+  dw_foundation.sldb (library) /pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb
+  dff                         /u/pratik2/Floorplan-based-synthesis/syn/work/dff.db
+
+Information: No preferred routing direction is found for design layer M1. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M2. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M3. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M4. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M5. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M6. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M7. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M8. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M9. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer MRDL. Automatically deriving direction V. (DCT-035)
+Information: Reading input def file '/u/pratik2/Floorplan-based-synthesis/apr/outputs/adder.floorplan.macros.def'. (DEFR-56)
+Warning: NAMECASESENSITIVITY always assumed to be ON. (DDEFR-005)
+Information: Parsing PINS section (DDEFR-038)
+Information: Completed PINS section (DDEFR-040)
+1
+set_attribute [all_macro_cells] is_fixed true
+source -echo -verbose ../../constraints/${top_design}.sdc
+if { [info exists synopsys_program_name ] && ($synopsys_program_name == "icc2_shell") } {
+    puts " Creating ICC2 MCMM "
+    create_mode func
+    create_corner slow
+    create_scenario -mode func -corner slow -name func_slow
+    current_scenario func_slow
+    set_operating_conditions ss0p75v125c
+    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmax.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmax
+    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmin.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmin
+    set_parasitic_parameters -early_spec Cmax -early_temperature 125
+    set_parasitic_parameters -late_spec Cmax -late_temperature 125
+    #set_parasitic_parameters -early_spec 1p9m_Cmax -early_temperature 125 -corner default
+    #set_parasitic_parameters -late_spec 1p9m_Cmax -late_temperature 125 -corner default
+
+    #set_scenario_status  default -active false
+    set_scenario_status func_slow -active true -hold true -setup true
+}
+set clock_period 1.00
+1.00
+create_clock -name "clock" -period 1 -waveform {0.0 0.50} clock
+1
+# 0.07 ns is fairly typical for pll jitter plus other jitter.
+set_clock_uncertainty -setup 0.07 clock
+1
+set_clock_uncertainty -hold 0.01 clock
+1
+set_clock_transition 0.1 clock
+1
+set_clock_latency 0.1 clock
+1
+set_input_delay 0.1 [all_inputs] -clock clock
+1
+set_output_delay 0.05 [all_outputs] -clock clock
+1
+set_drive 0.00001 [all_inputs ]
+1
+set_load 0.5 [all_outputs]
+1
+#group_path -name INTERNAL -from [all_clocks] -to [all_clocks ]
+group_path -name INPUTS -from [ get_ports -filter "direction==in&&full_name!~*clk*" ]
+1
+group_path -name OUTPUTS -to [ get_ports -filter "direction==out" ]
+1
+1
+# Constrain the overall data path of the design.
+# 50% or so of the clock period is good.
+set_max_transition 0.5 [current_design ]
+Current design is 'adder'.
+1
+set_ignored_layers -min_routing_layer M2 -max_routing_layer M7
+Information: setting M1 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M8 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M9 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting MRDL as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M2 as min routing layer.  (PSYN-179)
+Information: setting M7 as max routing layer.  (PSYN-179)
+1
+set_dont_use [get_lib_cells */DELLN* ]
+1
+uniquify
+Information: Uniquified 5 instances of design 'dff'. (OPT-1056)
+1
+create_placement_blockage -name def_obstuction_hard -bbox { 130 39 244 197 }
+1
+create_placement_blockage -name def_obstuction_soft -bbox { 475 250 730 350 } -type soft
+1
+create_placement_blockage -name def_obstuction_partial -bbox { 535 465 740 600 } -type partial -blocked_percentage 70
+1
+create_wiring_keepouts -name def_wiring_keepouts -layer M4 -coordinate { 285 770 550 870 }
+1
+compile_ultra  -scan -no_autoungroup
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+
+TLU+ File = /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/star_rcxt//saed32nm_1p9m_Cmax.tluplus
+TLU+ File = /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/star_rcxt//saed32nm_1p9m_Cmin.tluplus
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+Warning: Total of 882 technology library cells with the same names are found. Run '-check_only' with 'compile_ultra' to see more details. (OPT-1434)
+Information: Choosing a test methodology will restrict the optimization of sequential cells. (UIO-12)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | P-2019.03-DWBB_201903.1 |     *     |
+| Licensed DW Building Blocks        | P-2019.03-DWBB_201903.1 |     *     |
+============================================================================
+
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+  Simplifying Design 'adder'
+
+Information: Layer M1 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M8 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M9 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MRDL is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer M1 : 0.16 0.14 (RCEX-011)
+Information: Library Derived Res for layer M1 : 2e-06 2e-06 (RCEX-011)
+Information: Library Derived Cap for layer M2 : 0.17 0.15 (RCEX-011)
+Information: Library Derived Res for layer M2 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M3 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M3 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M4 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M4 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M5 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M5 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M6 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M6 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M7 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M7 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M8 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M8 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M9 : 0.11 0.088 (RCEX-011)
+Information: Library Derived Res for layer M9 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer MRDL : 0.11 0.11 (RCEX-011)
+Information: Library Derived Res for layer MRDL : 1.8e-07 1.8e-07 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.098 0.084 (RCEX-011)
+Information: Library Derived Horizontal Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.12 0.11 (RCEX-011)
+Information: Library Derived Vertical Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 5.8e-07 5.8e-07 (RCEX-011)
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Loaded alib file './alib-52/saed32hvt_ss0p75v125c.db.alib'
+Loaded alib file './alib-52/saed32hvt_ss0p95v125c.db.alib'
+Loaded alib file './alib-52/saed32lvt_ss0p75v125c.db.alib' (placeholder)
+Loaded alib file './alib-52/saed32lvt_ss0p95v125c.db.alib' (placeholder)
+Warning: Operating condition ss0p75v125c set on design adder has different process,
+voltage and temperatures parameters than the parameters at which target library 
+saed32hvt_ss0p95v125c is characterized. Delays may be inaccurate as a result. (OPT-998)
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'adder'
+  Processing 'dff_0'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: Automatic shift-register identification is enabled for scan. Not all registers will be scan-replaced. (OPT-467)
+Information: Complementing port 'q' in design 'dff_4'.
+         The new name of the port is 'q_BAR'. (OPT-319)
+Information: Complementing port 'q' in design 'dff_2'.
+         The new name of the port is 'q_BAR'. (OPT-319)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+  Mapping Optimization (Phase 1)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+
+  Beginning Global Optimizations
+  ------------------------------
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+
+  Beginning Delay Optimization
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:16      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:16      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:16      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:16      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:16      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:16      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:16      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:16      67.3      0.00       0.0       0.0                           4037875.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+  Loading design 'adder'
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: Layer M1 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M8 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M9 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MRDL is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer M1 : 0.16 0.14 (RCEX-011)
+Information: Library Derived Res for layer M1 : 2e-06 2e-06 (RCEX-011)
+Information: Library Derived Cap for layer M2 : 0.17 0.15 (RCEX-011)
+Information: Library Derived Res for layer M2 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M3 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M3 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M4 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M4 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M5 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M5 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M6 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M6 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M7 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M7 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M8 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M8 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M9 : 0.11 0.088 (RCEX-011)
+Information: Library Derived Res for layer M9 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer MRDL : 0.11 0.11 (RCEX-011)
+Information: Library Derived Res for layer MRDL : 1.8e-07 1.8e-07 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.098 0.084 (RCEX-011)
+Information: Library Derived Horizontal Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.12 0.11 (RCEX-011)
+Information: Library Derived Vertical Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 5.8e-07 5.8e-07 (RCEX-011)
+
+...50%...100% done.
+
+
+ Collecting Buffer Trees ... Found 9
+
+ Processing Buffer Trees ... 
+
+    [1]  10% ...
+    [2]  20% ...
+    [3]  30% ...
+    [4]  40% ...
+    [5]  50% ...
+    [6]  60% ...
+    [7]  70% ...
+    [8]  80% ...
+Information: Complementing port 'reset' in design 'dff_3'.
+         The new name of the port is 'reset_BAR'. (OPT-319)
+Information: Complementing port 'reset' in design 'dff_2'.
+         The new name of the port is 'reset_BAR'. (OPT-319)
+Information: Complementing port 'reset' in design 'dff_1'.
+         The new name of the port is 'reset_BAR'. (OPT-319)
+Information: Complementing port 'reset' in design 'dff_4'.
+         The new name of the port is 'reset_BAR'. (OPT-319)
+    [9]  90% ...
+    [9] 100% Done ...
+
+
+Information: Automatic high-fanout synthesis deletes 7 cells. (HFS-802)
+Information: Automatic high-fanout synthesis adds 6 new cells. (PSYN-864)
+
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 35.71%, saed32cell_lvt 64.29%
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:29      94.0      4.71       6.4     250.1                           12447664.0000
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+    0:00:29      94.0      4.71       6.4     250.1                           12447664.0000
+    0:00:29      94.3      4.25       5.9     241.7                           12631374.0000
+
+
+  Beginning Design Rule Fixing  (max_transition)  (max_capacitance)
+  ------------------------------------
+    0:00:29     150.5      0.54       1.0       0.0                           29504690.0000
+    0:00:29     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:29     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:29     127.1      0.00       0.0      65.4                           23817298.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 5.56%, saed32cell_lvt 94.44%
+
+  Beginning Delay Optimization HSVT Pass
+  --------------------------------------
+    0:00:31     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:31     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:31     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:31     127.1      0.00       0.0      65.4                           23817298.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 5.56%, saed32cell_lvt 94.44%
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     127.1      0.00       0.0      65.4                           23817298.0000
+    0:00:33     109.0      0.00       0.0      63.7                           16143711.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 17.65%, saed32cell_lvt 82.35%
+
+
+  Beginning High Effort Optimization Phase
+  ----------------------------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 17.65%, saed32cell_lvt 82.35%
+
+
+  Beginning Timing Optimization
+  -----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:33     109.0      0.00       0.0      63.7                           16143711.0000
+    0:00:34     109.0      0.00       0.0      63.7                           16143711.0000
+    0:00:34     109.0      0.00       0.0      63.7                           16143711.0000
+    0:00:34     109.0      0.00       0.0      63.7                           16143711.0000
+    0:00:34     109.0      0.00       0.0      63.7                           16143711.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 17.65%, saed32cell_lvt 82.35%
+
+
+  High Effort Optimization Phase Complete
+  ---------------------------------------
+
+Skipping remaining steps due to timing met. Go to finish
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 17.65%, saed32cell_lvt 82.35%
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+1
+change_names -rules verilog -hierarchy
+1
+set stage dct
+dct
+report_qor > ../reports/${top_design}.$stage.qor.rpt
+report_constraint -all_viol > ../reports/${top_design}.$stage.constraint.rpt
+report_timing -delay max -input -tran -cross -sig 4 -derate -net -cap  -max_path 10000 -slack_less 0 > ../reports/${top_design}.$stage.timing.max.rpt
+check_timing  > ../reports/${top_design}.$stage.check_timing.rpt
+check_design > ../reports/${top_design}.$stage.check_design.rpt
+check_mv_design  > ../reports/${top_design}.$stage.mvrc.rpt
+write -hier -format verilog -output ../outputs/${top_design}.$stage.vg
+Writing verilog file '/u/pratik2/Floorplan-based-synthesis/syn/outputs/adder.dct.vg'.
+1
+write -hier -format ddc -output ../outputs/${top_design}.$stage.ddc
+Writing ddc file '../outputs/adder.dct.ddc'.
+1
+write_def -blockages -macro -pins -output ../outputs/${top_design}.$stage.def
+Information: Writing PINS section (DDEFW-014)
+Information: Completed PINS section  (DDEFW-016)
+Information: Writing BLOCKAGES section (DDEFW-014)
+Information: Completed BLOCKAGES section  (DDEFW-016)
+1
+save_upf ../outputs/${top_design}.$stage.upf
+1
+write_def -scanchain -output ../outputs/${top_design}.$stage.scan.def
+Warning: Design Compiler topographical mode does not support option '-scanchain' in the command 'write_def', and the option is ignored. (DCT-081)
+Information: Writing COMPONENTS section (DDEFW-014)
+Information: Completed COMPONENTS section  (DDEFW-016)
+Information: Writing PINS section (DDEFW-014)
+Information: Completed PINS section  (DDEFW-016)
+Information: Writing BLOCKAGES section (DDEFW-014)
+Information: Completed BLOCKAGES section  (DDEFW-016)
+Information: Writing NETS section (DDEFW-014)
+Information: Completed NETS section  (DDEFW-016)
+1
+1
+dc_shell-topo> gui_start
+Current design is 'adder'.
+4.1
+Current design is 'adder'.
+dc_shell-topo> gui_start
+dc_shell-topo> create_bounds -coordinate {771 735 790 870} -name mb_soft INST2 -color cyan
+Warning: Can't find object 'INST2' in design 'adder'. (UID-95)
+Error: Value for list 'cell name(s)' must have 1 elements. (CMD-036)
+0
+dc_shell-topo> man create_bounds
+2.  Synopsys Commands                                        Command Reference
+                                 create_bounds
+
+NAME
+       create_bounds
+              Creates  a  fixed  move  bound  or  floating  group bound in the
+              design.
+
+SYNTAX
+       status create_bounds
+               [-name bound_name]
+               [-coordinate {llx1 lly1 urx1 ury1 ...}]
+               [-dimension bound_dimension]
+               [-diamond central_object]
+               [-effort low | medium | high | ultra]
+               [-type soft | hard]
+               [-exclusive]
+               [-color color]
+               [-cycle_color]
+               [-repelling diamond | rect]
+               object_list
+
+   Data Types
+       bound_name          string
+       llx1                float
+       lly1                float
+       urx1                float
+       ury1                float
+       bound_dimension     list
+       central_object      object
+       color               integer or string
+       object_list         list
+
+ARGUMENTS
+       -name bound_name
+              Specifies the name of the bound.
+
+       -coordinate {llx1 lly1 urx1 ury1 ...}
+              Specifies rectangular move bounds by specifying the  coordinates
+              of  the  lower-left  and upper-right corners for each rectangle.
+              The coordinates are in microns relative to the chip origin.
+
+              Each combination of {llx lly urx ury} defines a target placement
+              area  for  the  objects.  The  coarse placement engine can place
+              cells in any of the rectangles. These placeable areas can  over-
+              lap or be disjoint.
+
+              You  can  specify rectilinear move bounds by dividing the recti-
+              linear region into individual rectangular bounds and  specifying
+              the rectangles in the coordinate list.
+
+       -dimension bound_dimension
+              Specifies  the  dimension  of  a group bound or diamond bound in
+              microns.  The dimension of a group bound is specified as  {width
+              height},  while the dimension of a diamond bound is specified as
+              extent.
+
+       -diamond central_object
+              Creates a diamond bound centered on the specified object,  which
+              can be a port, cell, or pin.
+
+              The  objects in the bound are constrained to lie within the dis-
+              tance specified by the -dimension option (measured as a  Manhat-
+              tan distance) of the specified object. A diamond bound is always
+              a soft bound.
+
+              If you specify this option, you must also specify the -dimension
+              option.
+
+       -effort low | medium | high | ultra
+              Specifies the effort to bring cells closer inside a group bound.
+
+              The default is medium.
+
+              This option is  mutually  exclusive  with  the  -coordinate  and
+              -dimension options.
+
+       -type soft | hard
+              Specifies the type of the bound to be either hard or soft.
+
+              To use this option, you must also specify either the -coordinate
+              or -dimension option. The bound type cannot be set for automati-
+              cally generated group bounds or diamond bounds.
+
+              The default is soft.
+
+       -exclusive
+              Creates an exclusive move bound.
+
+              Exclusive  move  bounds  require all of their cells to be placed
+              inside them and prohibit the placement of  other  cells  in  the
+              same  area.   Exclusive move bounds are respected by both coarse
+              placement and legalization.
+
+       -color color
+              Specifies the move bound color. You can specify the color either
+              by specifying an integer value between 0 and 63 or by specifying
+              one of the following keywords: black, blue, green, cyan,  brown,
+              purple, red, magenta, salmon, orange, yellow, or white.
+
+              The default is no_color, meaning that no color is specified.
+
+       -cycle_color
+              Allows the tool to automatically assign a move bound color.
+
+              By default, this option is off.
+
+       -repelling diamond | rect
+              Specifies  a  bound  to  be repelling rather than attractive.  A
+              repelling bound specifies a floating  area  between  a  pair  of
+              objects  to keep them apart in the bound. You can specify either
+              a diamond-shaped bound (diamond)  or  a  rectangle-shaped  bound
+              (rect) for specifying the shape of the repelling bound.
+
+       object_list
+              Specifies a list of cells, ports, and pins to be included in the
+              bound.
+              o If a cell is a hierarchical cell, the bound applies to all cells
+                in the subdesign.
+                o If a port is a hierarchical port, the corresponding
+                port is attached to the bound instead.
+                o If a pin is a leaf pin, the
+                lower-left point of the first geometry of the pin is marked on the cell
+                of the pin, and the cell is added to the bound.
+                o If a pin is a hierarchical
+                pin, it is ignored.
+
+              A cell can be assigned to only one move bound; an  error  occurs
+              if a specified cell already belongs to another move bound.
+
+              This  argument  is  optional; you can create an empty move bound
+              and later associate cells with it  by  using  the  update_bounds
+              command.
+
+DESCRIPTION
+       The  create_bounds  command allows you to define region-based placement
+       constraints for coarse placement.
+
+       There are three types of bounds: move bounds, group bounds, and diamond
+       bounds.
+       o  Move  bounds restrict the placement of cells to a specific region of
+         the core area.
+
+         To create a move bound, use the -coordinate option.
+
+       o Group bounds are floating region  constraints.   Cells  in  the  same
+         group  bound  are  placed  within a specified bound, but the absolute
+         coordinates are not  fixed.   Instead,  they  are  optimized  by  the
+         placer.
+
+         To create a group bound, use the -dimension option.
+
+       o  Diamond bounds are region constraints centered on a specific object,
+         which can be fixed or floating. Other objects  in  the  same  diamond
+         bound  are  placed  within  the specified Manhattan distance from the
+         central  object  but  their  absolute  coordinates  are  not   fixed.
+         Instead, they are optimized by the placer.
+
+         To  create a diamond bound, use the -diamond option together with the
+         -dimension option.
+
+       If you do not use any of these options, the tool creates a group  bound
+       with a bounding box computed internally by the tool.  In this case, you
+       can use the -effort option to specify the effort level  used  to  bring
+       the  cells closer.  All automatically generated bounds are soft bounds;
+       you cannot use the -type option to change  the  bound  type  for  these
+       group bounds.
+
+       Generally,  there  is  no  guarantee  that  cells are placed completely
+       within the bounds. For  instance,  coarse  placement  can  violate  the
+       bounds  if the quality of its primary placement objectives would other-
+       wise be destroyed.
+
+       In these situations, you should revisit the  bounds  and  floorplan  to
+       ensure  that the design is not overconstrained.  Alternatively, you can
+       use the -type hard option to specify the bound type  to  be  hard.  The
+       default  is  soft.   The coarse placer tries to honor the hard bound as
+       hard constraints while sacrificing other objectives, such as timing and
+       routability.  You should not use many hard bounds because this can lead
+       to inferior placement solutions.
+
+       The bounds created by the create_bounds command are persistent  and  do
+       not need to be re-created when the design is reloaded.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The  following  example constrains the placement of the INST_1 instance
+       to lie within the rectangle with its lower-left corner  at  (100,  100)
+       and its upper-right corner at (200, 200):
+
+         prompt> create_bounds -name "temp" -coordinate {100 100 200 200} INST_1
+
+       The  following example creates a hard rectilinear move bound on a hier-
+       archical instance named INST2. The rectilinear move bound is created as
+       a set of two rectangles: one with its lower-left corner at (10, 10) and
+       its upper-right corner at (30, 20), and one with its lower-left  corner
+       at (20, 20) and its upper-right corner at (30, 30).
+
+         prompt> create_bounds -name "temp2" \
+            -coordinate {10 10 30 20 20 20 30 30} \
+            -type hard INST_2
+
+       The  following  example  creates  a  diamond  bound centered on the pin
+       MOD/U1/A. The cells MOD/INST1 and MOD/INST2 are constrained to  lie  at
+       most 64 microns of Manhattan distance away from MOD/U1/A.
+
+         prompt> create_bounds -name "temp3" \
+            -dimension 64 \
+            -diamond MOD/U1/A \
+            {MOD/INST1 MOD/INST2}
+
+SEE ALSO
+       remove_bounds(2)
+       report_bounds(2)
+       set_cell_location(2)
+       update_bounds(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> create_bounds -coordinate {771 735 790 870} -name mb_soft -color cyan INST1
+Warning: Can't find object 'INST1' in design 'adder'. (UID-95)
+Error: Value for list 'cell name(s)' must have 1 elements. (CMD-036)
+0
+dc_shell-topo> get_cells
+{dff_a dff_b dff_cin dff_cout dff_sum U7 U8 U9 U5 U2 U6 U4 U3}
+dc_shell-topo> create_bounds -coordinate {771 735 790 870} -name mb_soft -color cyan dff_a
+Information: The bound mb_soft is created successfully. (PSYN-129)
+1
+dc_shell-topo> get_ports
+{a b cin sum cout clock reset}
+dc_shell-topo> get_port_names
+Error: wrong # args: should be "get_port_names port_collection"
+        Use error_info for more info. (CMD-013)
+dc_shell-topo> create_terminal -name sum -port sum -layer M3 -bbox {{1200 233} {1200 133}}
+0
+dc_shell-topo> create_terminal -name sum -port sum -layer M3 -bbox {{1200 233} {1200 133}}
+0
+dc_shell-topo> create_net_shape -no_snap -type path -net vdd -datatype 0 -path_type 0          -route_type pg_strap -layer METAL3 -width 10.000          -points {{149 797} {343 1075}}
+Error: Only horizontal or vertical shapes allowed. (DCT-017)
+0
+dc_shell-topo> create_net_shape -no_snap -type path -net vdd -datatype 0 -path_type 0 -route_type pg_strap -layer METAL3 -width 10.000 -points {{149 797} {343 1075}}
+Error: Only horizontal or vertical shapes allowed. (DCT-017)
+0
+dc_shell-topo> create_site_row -name ROW_0 -coordinate {0.000 0.000} -kind core -orient 0 -dir H -space 0.560 -count 838
+Warning: Cannot find site core in physical library.  (PSYN-051)
+0
+dc_shell-topo> create_site_row -name ROW_0 -coordinate {0.000 0.000} -orient 0 -dir H -space 0.560 -count 838
+Error: Required argument '-kind' was not found (CMD-007)
+dc_shell-topo> man create_site_row
+2.  Synopsys Commands                                        Command Reference
+                                create_site_row
+
+NAME
+       create_site_row
+              Creates a row of sites.
+
+SYNTAX
+       collection create_site_row
+               -coordinate {X Y}
+               [-name row_name]
+               -kind site_type
+               -space space
+               -count site_count
+               [-orient orientation]
+               [-dir direction]
+
+   Data Types
+       X               float
+       Y               float
+       row_name        string
+       site_type       string
+       space           string
+       site_count      integer
+       direction       string
+
+ARGUMENTS
+       -coordinate {X Y}
+              Specifies  the  lower-left  corner of the row, regardless of the
+              orientation.  The values are specified in  microns  relative  to
+              the chip origin.
+
+       -name row_name
+              Specifies  the  name of the site row, such as ROW1, ROW2, and so
+              forth.  If a row name is  not  specified,  the  tool  names  the
+              newly-created site row.
+
+       -kind site_type
+              Specifies the type of site being defined.
+
+       -space space
+              Specifies the space for each site, from the lower-left corner of
+              the site to the lower-left corner of the next site.   The  value
+              is specified in microns.
+
+       -count site_count
+              Specifies the number of sites in the row.
+
+       -orient orientation
+              Specifies  the  orientation  of sites.  The following values are
+              allowed:
+
+                0
+                90
+                180
+                270
+                0-mirror
+                90-mirror
+                180-mirror
+                270-mirror
+
+              Alternatively, you can use the following values:
+
+                N
+                W
+                S
+                E
+                FN
+                FW
+                FS
+                FE
+
+              The default value is either 0 or N.
+
+       -dir direction
+              Specifies the direction of the row.  The  following  values  are
+              allowed:
+
+                h
+                v
+                horizontal
+                vertical
+                VERTICAL
+                HORIZONTAL
+                V
+                H
+
+              The default value is horizontal.
+
+DESCRIPTION
+       The  create_site_row  command  creates  a row of sites at the specified
+       location.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The following command creates a horizontal row of 3 sites spaced  by  5
+       units, and originating at {10,10}:
+
+         prompt> create_site_row -coordinate {10,10} -kind CORE -space 5 -count 3
+         {SITE_ROW#12345}
+
+SEE ALSO
+       extract_physical_constraints(2)
+       report_physical_constraints(2)
+       write_physical_constraints(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> create_site_row -name ROW_0 -coordinate {0.000 0.000} -kind CORE -orient 0 -dir H -space 0.560 -count 838
+Warning: Cannot find site CORE in physical library.  (PSYN-051)
+0
+dc_shell-topo> man PSYN-051
+N.  Messages                                                 Command Reference
+                                   messages
+
+NAME
+       PSYN-051 (warning) Cannot find site %s in physical library.
+
+DESCRIPTION
+       This  warning message occurs when site definition is not defined in the
+       physical library.  Because the compiler cannot find  the  site  in  the
+       physical library, it cannot determine whether this site belongs to CORE
+       or IO.  This warning indicates that in  this  case  the  compiler  will
+       ignore the site.
+
+WHAT NEXT
+       Add  the  site  definition to the physical library.  Then recompile the
+       physical library using the read_lib command.
+
+SEE ALSO
+       read_lib(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> get_site_rows
+Warning: Can't find object '*' in design 'adder'. (UID-95)
+dc_shell-topo> get_site_rows *
+Warning: Can't find object '*' in design 'adder'. (UID-95)
+dc_shell-topo> get_site_rows
+Warning: Can't find object '*' in design 'adder'. (UID-95)
+dc_shell-topo> create_via -type via -net VDD -master VIA67 -route_type pg_strap       -at {746.61 2279} -orient N
+Error: Invalid via master name 'VIA67'. (DCT-078)
+0
+dc_shell-topo> man create_via
+2.  Synopsys Commands                                        Command Reference
+                                  create_via
+
+NAME
+       create_via
+              Creates a new via at a specified location.
+
+SYNTAX
+       collection create_via
+               -at point
+               [-name name]
+               -master via_master | -auto
+               [-net net_name | -no_net]
+               [-allow_multiple]
+               [-route_type route_type]
+               [-orient orientation]
+               [-type via | via_array]
+               [-row num_rows]
+               [-col num_columns]
+               [-x_pitch x_distance]
+               [-y_pitch y_distance]
+
+   Data Types
+       point           point
+       name            string
+       via_master      collection
+       net_name        string
+       route_type      string
+       orientation     string
+       num_rows        integer
+       num_columns     integer
+       x_distance      float
+       y_distance      float
+
+ARGUMENTS
+       -at point
+              Specifies  the  location of the center of the created via or via
+              array in the format {x y}. The units  for  the  coordinates  are
+              microns.
+
+              This argument is required.
+
+       -name name
+              Specifies the name of the created via or via array.
+
+              If you do not specify this option, the tool assigns a name using
+              the naming convention VIA#n.
+
+       -master via_master
+              Specifies the via master. You can  specify  the  via  master  by
+              using its name or a collection of one via master.
+
+              To  determine the available via masters, use the get_via_masters
+              command.
+
+              When you use this option, you must also use either the  -net  or
+              -no_net option.
+
+       -auto  This  option  is  not supported in Design Compiler topographical
+              mode.
+
+       -net net_name
+              Specifies the name of the net to connect to the via.
+
+              This option and the -no_net option are mutually  exclusive;  you
+              must  specify  one of these options when you use the -via_master
+              option.
+
+       -no_net
+              Specifies that no net should be connected to the via.
+
+              This option and the -net option are mutually exclusive; you must
+              specify  one  of  these  options  when  you  use the -via_master
+              option.
+
+       -allow_multiple
+              This option is not supported in  Design  Compiler  topographical
+              mode.
+
+       -route_type route_type
+              Specifies the route type of the via.
+
+              Specify one of the following values:
+                user_enter                         User entered
+                signal_route, signal_route_detail  Detail routing
+                signal_route_global                Global routing
+                pg_ring                            Power or ground (PG) ring
+                pg_strap                           PG strap
+                pg_macro_io_pin_conn               PG net that connects to the PG pin
+                                                   of an I/O pad cell or a macro cell
+                pg_std_cell_pin_conn               PG net that connects to the PG pin
+                                                   of a standard cell
+                clk_ring                           Clock ring
+                clk_strap                          Clock strap
+                clk_zero_skew_route                Clock zero skew route
+                bus                                Bus
+                shield, shield_fixed               Fixed shield
+                shield_dynamic                     Dynamic shield
+                fill_track, clk_fill_track         Fill track
+
+              By default, the route type is signal_route.
+
+       -orient orientation
+              Specifies  the  orientation of the via or via array using either
+              DEF notation or the tool notation.
+
+              Specify one of the following values (values listed in  the  same
+              bullet are synonymous):
+
+              o N, NE, 0
+
+              o W , WN, 90
+
+              o S , SW, 180
+
+              o E , ES, 270
+
+              o FN, NW, 0-mirror
+
+              o FS, SE, 180-mirror
+
+              o FE, EN, 270-mirror
+
+              o FW, WS, 90-mirror
+
+              By default, the orientation is N.
+
+       -type via | via_array
+              Specifies the type of via to create.
+
+              By  default,  a  single-cut  via  is  created unless you specify
+              another command option that is specific to via arrays.
+
+       -row num_rows
+              Specifies the number of via array rows.
+
+       -col num_columns
+              Specifies the number of via array columns.
+
+       -x_pitch x_distance
+              Specifies the x-distance in microns between cut centers  in  the
+              via array.
+
+       -y_pitch y_distance
+              Specifies  the  y-distance in microns between cut centers in the
+              via array.
+
+              This pitch values must be greater than or equal to  the  sum  of
+              the  via  cut dimension and the minimum cut spacing specified in
+              the technology file for the specified via master.  If the  value
+              is  less  than this threshold, a warning is issued and the value
+              is adjusted to the minimum allowable value.
+
+DESCRIPTION
+       The create_via command creates a new via or via  array  and  returns  a
+       collection that contains the created object.
+
+       Snapping  is performed automatically by using the global snap settings.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The following example creates an instance of  a  VIA12  via  master  at
+       location  (100,100)  without connecting the via to any net, and identi-
+       fies the route type as "clock ring":
+
+         prompt> create_via -at {100 100} -route_type clk_ring \
+            -master VIA12 -no_net
+         {VIA#89088}
+
+SEE ALSO
+       create_net_shape(2)
+       create_placement_blockage(2)
+       create_route_guide(2)
+       create_terminal(2)
+       create_user_shape(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> create_via -type via -net VDD -route_type pg_strap       -at {746.61 2279} -orient N
+Error: Must specify one of these options: -master or -auto. (CMD-004)
+dc_shell-topo> create_via -type via -net VDD -route_type pg_strap -at {665 665} -orient N -auto
+Information: The '-auto' option for create_via is unsupported. (CMD-038)
+0
+dc_shell-topo> man create_via_master
+2.  Synopsys Commands                                        Command Reference
+                               create_via_master
+
+NAME
+       create_via_master
+              Creates a design via master using parameters or a geometry list.
+
+SYNTAX
+       status create_via_master
+               -name via_master_name
+               -cut_layer_name cut_layer_name
+               -lower_layer_name low_layer_name
+               -upper_layer_name up_layer_name
+               [-rectangles {{layer_name {llx lly urx ury}} ...}]
+               [-cut_width cut_width]
+               [-cut_height cut_height]
+               [-lower_layer_enc_width low_enc_width]
+               [-lower_layer_enc_height lo_enc_height]
+               [-upper_layer_enc_width up_enc_width]
+               [-upper_layer_enc_height up_enc_height]
+               [-min_cut_spacing min_cut_spacing]
+               [-quiet]
+
+   Data Types
+       via_master_name     string
+       cut_layer_name      string
+       low_layer_name      string
+       up_layer_name       string
+       layer_name          string
+       cut_width           float
+       cut_height          float
+       low_enc_width       float
+       lo_enc_height       float
+       up_enc_width        float
+       up_enc_height       float
+       min_cut_spacing     float
+
+ARGUMENTS
+       -name via_master_name
+              Specifies the name of the created via master.
+
+       -cut_layer_name cut_layer_name
+              Specifies the cut layer for the via master.
+
+       -lower_layer_name low_layer_name
+              Specifies the lower metal layer for the via master.
+
+       -upper_layer_name up_layer_name
+              Specifies the upper metal layer for the via master.
+
+       -rectangles {{layer_name {llx lly urx ury}} ...}
+              Specifies the list of rectangles that describe the  geometry  of
+              the via master.
+
+              If  you  use  this  option,  the  command  ignores the following
+              options:   -cut_width,   -cut_height,    -lower_layer_enc_width,
+              -lower_layer_enc_height,                 -upper_layer_enc_width,
+              -upper_layer_enc_height, and -min_cut_spacing.
+
+       -cut_width cut_width
+              Specifies the cut width in microns of the via master.
+
+              You cannot use this option if you use the -rectangles option.
+
+       -cut_height cut_height
+              Specifies the cut height in microns of the via master.
+
+              You cannot use this option if you use the -rectangles option.
+
+       -lower_layer_enc_width low_enc_width
+              Specifies the lower metal layer enclosure width  in  microns  of
+              the  via  master.  The value can be either positive or negative.
+              The negative range is down to -25% of cut size.
+
+              You cannot use this option if you use the -rectangles option.
+
+       -lower_layer_enc_height lo_enc_height
+              Specifies the lower metal layer enclosure height in  microns  of
+              the  via  master.  The value can be either positive or negative.
+              The negative range is down to -25% of cut size.
+
+              You cannot use this option if you use the -rectangles option.
+
+       -upper_layer_enc_width up_enc_width
+              Specifies the upper metal layer enclosure width  in  microns  of
+              the  via  master.  The value can be either positive or negative.
+              The negative range is down to -25% of cut size.
+
+              You cannot use this option if you use the -rectangles option.
+
+       -upper_layer_enc_height up_enc_height
+              Specifies the upper metal layer enclosure height in  microns  of
+              the  via  master.  The value can be either positive or negative.
+              The negative range is down to -25% of cut size.
+
+              You cannot use this option if you use the -rectangles option.
+
+       -min_cut_spacing min_cut_spacing
+              Specifies the minimum spacing in microns between cuts  when  the
+              via master is used to form an array.
+
+              You cannot use this option if you use the -rectangles option.
+
+       -quiet Suppresses error and warning messages.
+
+DESCRIPTION
+       This  command  creates  a new via master. You use this command when the
+       technology file does not already have a via  master  that  matches  the
+       required  geometry. The working design in which you want to use the via
+       must be open before you create the new via master.
+
+       You can create the new via master either by specifying its geometry  as
+       a  list  of  rectangles or by specifying the width, height, lower-layer
+       enclosure, upper-layer enclosure, and minimum cut-spacing  characteris-
+       tics of the via, similar to a technology file definition.
+
+       To  create a single-cut, symmetrical via master, use the height, width,
+       enclosure, and minimum spacing options. To create a multi-cut via  mas-
+       ter such as an H-shape, use the -rectangles option.
+
+       When  you  save  the current working cell, the via master is saved with
+       the current cell. You can use the new via master any number of times.
+
+       If you specify a geometry list using the  -rectangles  option  and  you
+       also  specify  parameters such as width, height, enclosure, and minimum
+       spacing, the tool ignores the parameter settings and issues a  warning.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The following command creates a single-cut via master using parameters:
+
+         prompt> create_via_master \
+         -name VIA1 \
+         -cut_layer_name CUT \
+         -lower_layer_name METAL1 \
+         -upper_layer_name METAL2 \
+         -cut_width 0.22 \
+         -cut_height 0.22 \
+         -lower_layer_enc_width 0.1 \
+         -lower_layer_enc_height 0.1 \
+         -upper_layer_enc_width 0.01 \
+         -upper_layer_enc_height 0.01 \
+         -min_cut_spacing 0.25
+
+       Using parameters always creates a symmetric, single-cut via master.
+
+       The following command creates an H-shaped via master  by  specifying  a
+       geometry list:
+
+         prompt> create_via_master \
+         -name VIA1 \
+         -cut_layer_name CUT \
+         -lower_layer_name METAL1 \
+         -upper_layer_name METAL2 \
+         -rectangles { \
+         {METAL1 {-0.130 -0.035 0.130 0.035}}   \
+         {CUT {0.035 -0.035 0.100 0.035}}   \
+         {CUT {-0.100 -0.035 -0.035 0.035}}   \
+         {METAL2 {-0.100 -0.065 -0.035 0.065}}  \
+         {METAL2 {0.035 -0.065 0.100 0.065}} \
+         }
+
+SEE ALSO
+       create_via(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> create_via_master          -name VIA1          -cut_layer_name CUT          -lower_layer_name METAL1          -upper_layer_name METAL2          -cut_width 0.22          -cut_height 0.22          -lower_layer_enc_width 0.1          -lower_layer_enc_height 0.1          -upper_layer_enc_width 0.01          -upper_layer_enc_height 0.01          -min_cut_spacing 0.25
+0
+dc_shell-topo> create_via_master -name VIA1 -cut_layer_name CUT -lower_layer_name M1 -upper_layer_name M2 -cut_width 0.22 -cut_height 0.22 -lower_layer_enc_width 0.1 -lower_layer_enc_height 0.1 -upper_layer_enc_height 0.01 -upper_layer_enc_width 0.01 -min_cut_spacing 0.25
+0
+dc_shell-topo> create_via_master -name VIA1 -cut_layer_name CUT -lower_layer_name M1 -upper_layer_name M2 -cut_width 0.22
+0
+dc_shell-topo> create_via_master -name VIA1 -cut_layer_name CUT
+Error: Required argument '-lower_layer_name' was not found (CMD-007)
+Error: Required argument '-upper_layer_name' was not found (CMD-007)
+dc_shell-topo> create_via_master -name VIA1 -cut_layer_name CUT -lower_layer_name M1 -upper_layer_name M2 -cut_width 0.22
+0
+dc_shell-topo> set_keepout_margin -tracks_per_macro_pin 0.6 -min_padding_per_macro 0.1 -max_padding_per_macro 0.2
+1
+dc_shell-topo> man extract_physical_constraints
+2.  Synopsys Commands                                        Command Reference
+                         extract_physical_constraints
+
+NAME
+       extract_physical_constraints
+              Extracts physical constraint information from one or more Design
+              Exchange Format (DEF) files.
+
+              This command is supported only in Design Compiler in topographi-
+              cal mode.
+
+SYNTAX
+       status extract_physical_constraints
+               def_files
+               [-verbose]
+               [-no_incremental]
+               [-exact]
+               [-allow_physical_cells]
+               [-standard_cell topo | spg]
+
+   Data Types
+       def_files     list
+
+ARGUMENTS
+       def_files
+              Specifies  one  or  more  DEF files from which the physical con-
+              straint information is extracted.  This argument is required.
+
+       -verbose
+              Provides more detailed output during the process  of  extracting
+              the physical constraints.
+
+       -no_incremental
+              Indicates  that  the  command  runs in non-incremental mode.  By
+              default, the command runs in incremental mode.
+
+              In incremental mode, the placement area is  extracted  based  on
+              the current core area and the site rows in the DEF file.
+
+              In  non-incremental  mode, the placement area is extracted based
+              on the site rows in the DEF file. If there are no site  rows  in
+              the  DEF file, other constraints are not extracted, and the fol-
+              lowing physical constraints are reset:
+
+              o Core area
+                o Route guide
+                o Voltage area
+                o Layer preferred routing direction
+                o Die area
+                o Placement area
+                o Macro location and orientation
+                o Hard, soft, and partial placement blockages
+                o Wiring keepouts
+                o Placement bounds
+                o Port location
+                o Preroutes
+                o Site array information
+                o Vias
+                o Routing tracks
+                o Keepout margins
+
+       -exact Specifies that an exact match is performed between  the  netlist
+              and DEF file for cell and port names.
+
+              By default, a rule-based match is performed, with the underlying
+              match rules determined by the set_query_rules command.
+
+       -allow_physical_cells
+              Specifies that physical-only cells are extracted  from  the  DEF
+              file  and  added  to the design. A cell instance is considered a
+              physical-only cell if the cell_type  attribute  of  its  library
+              cell is std_filler or if it has only power and ground pins or no
+              pins at all.  Physical-only cells are not written to  the  ASCII
+              netlist, and they are not passed to IC Compiler through the .ddc
+              file.  You can identify physical-only cells in the design by the
+              is_physical_only attribute.
+
+              In addition to extracting physical-only cells from the DEF file,
+              when you use the -allow_physical_cells option, the extract_phys-
+              ical_constraints  command extracts any cell in the DEF file that
+              is not found in the design if the cell has a fixed location. All
+              other cells in the DEF file that are not considered to be physi-
+              cal-only cells are added to the design as  logic  cells.   These
+              cells  can  be ROM or RAM cells. When you run the extract_physi-
+              cal_constraints -allow_physical_cells command, the tool  updates
+              the  current design with these new logic cells and includes them
+              in your Verilog netlist.
+
+              The tool sets a logical_cell_from_def attribute on  logic  cells
+              that are extracted from a DEF file. You can identify these logic
+              cells by using the following command:
+
+                prompt> get_cells -hierarchical -filter " logical_cell_from_def == true"
+
+              By default, the tool ignores  physical-only  cells  in  the  DEF
+              file.
+
+       -standard_cell topo | spg
+              Reads the standard cell locations specified in the DEF file when
+              you use the ASCII flow.
+
+              Specify topo if the DEF file was generated by using  the  Design
+              Compiler  topographical  flow.   Specify spg if the DEF file was
+              generated by using the Design Compiler physical guidance flow.
+
+DESCRIPTION
+       The extract_physical_constraints command  extracts  the  physical  con-
+       straint  information  from one or more DEF files and applies these con-
+       straints to the design.
+
+       The applied constraints are saved in the .ddc format and do not need to
+       be  reapplied in a new topographical mode session when the .ddc file is
+       read in.
+
+       The saved constraints are recognized only by Design Compiler topograph-
+       ical  mode; they have no effect in other tools, such as Design Compiler
+       in wire load mode or IC Compiler.
+
+       Note that not all information in DEF files is extracted and applied  to
+       the  design.  Only the following types of information are extracted and
+       applied:
+
+       o Placement area
+         Placement area is computed based on the site array definition and  is
+         applied to the design.
+
+       o Port location
+         Each  port  with  a  location  and port shape in the DEF file has the
+         location and port shape set on the corresponding port in the  design.
+         Ports that do not exist in the design or do not have locations in the
+         DEF file have no effect on the design.
+
+       o Cell location
+         Each cell with a location and a FIXED attribute in the DEF  file  has
+         the location set on the corresponding cell in the design.  Cells that
+         do not exist in the design  or  do  not  have  a  location  or  FIXED
+         attribute in the DEF file have no effect on the design.
+
+       o Placement blockage
+         Placement  blockages  are extracted as placement keepouts and are set
+         on the design.  For a single rectangle placement blockage in the  DEF
+         file,  one placement keepout is created on the design.  For placement
+         blockages with multiple rectangles, one placement keepout is  created
+         for  each  rectangle.   All  created  placement keepouts can be hard,
+         soft, or partial keepouts.
+
+       o Site rows
+         The site row commands are extracted and applied if they exist in  the
+         DEF file.
+
+       o Bounds
+         If  regions  are  defined  in  the DEF file, the placement bounds are
+         extracted.  Also, if there are cells in the related group attached to
+         the  region, the cells are matched using query rules with the ones in
+         the design and the matched cells are attached to the  bounds  in  the
+         following ways:
+
+       --  If  there  are  regions in the design with the same name in the DEF
+           file, in incremental mode, the  cells  in  the  related  group  are
+           attached to the region.
+
+       --  Otherwise,  the  region is created with the same name as in the DEF
+           file and the matched cells in the related group are also  attached.
+
+       o Wiring keepouts
+         Wiring keepouts are extracted in a manner similar to the way in which
+         placement blockages are extracted.
+
+       o Preroutes
+         Preroutes are extracted from DEF and applied  by  default.  Preroutes
+         include  net  shapes,  vias, and via arrays of matched contact codes,
+         as well as via cells.
+
+       To check which physical constraints were applied to the design, use the
+       report_physical_constraints  command.   To generate a Tcl script of the
+       physical constraints, use the write_physical_constraints command.
+
+EXAMPLES
+       The following example shows how to  extract  the  physical  constraints
+       from a DEF file named in.def:
+
+         prompt> extract_physical_constraints in.def
+
+SEE ALSO
+       create_bounds(2)
+       create_net_shape(2)
+       create_placement_blockage(2)
+       create_site_row(2)
+       create_wiring_keepouts(2)
+       report_physical_constraints(2)
+       set_query_rules(2)
+       write_physical_constraints(2)
+       update_bounds(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start RulerTool
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {0.000 -0.001} -scale 2.2031
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {0.000 1198.512} -scale 2.2031
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -abort
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start RulerTool
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {0.000 2.202} -scale 2.2031
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {1196.310 6.608} -scale 2.2031
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {1200.716 11.015} -scale 2.2031
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -abort
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start RulerTool
+dc_shell-topo> gui_set_mouse_tool_option -tool RulerTool -option {Mode} -value {Two point}
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {0.000 -0.001} -scale 2.2031
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {-2.203 1196.309} -scale 2.2031
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {0.000 2.202} -scale 2.2031
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {1198.513 -2.204} -scale 2.2031
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -abort
+dc_shell-topo> create_die_area -coordinate {0 0} {1198 1198}
+Information: The 'design_list' option for create_die_area is unsupported. (CMD-038)
+Error: Die area already exists in the design. (DCT-064)
+0
+dc_shell-topo> man create_die_area
+2.  Synopsys Commands                                        Command Reference
+                                create_die_area
+
+NAME
+       create_die_area
+              Creates the die area for the current design.
+
+SYNTAX
+       status create_die_area
+               -coordinate list
+               -polygon list
+
+ARGUMENTS
+DESCRIPTION
+       The  create_die_area  command  creates  the  die  area  for the current
+       design.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The following example creates the die area with an L-shape by  defining
+       a polygon:
+
+         prompt> create_die_area -polygon {{0 0} {0 400} {200 400} {200 200} \
+                 {400 200} {400 0} {0 0}}
+
+SEE ALSO
+       get_die_area(2)
+       remove_die_area(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> man set_ahfs_options
+2.  Synopsys Commands                                        Command Reference
+                               set_ahfs_options
+
+NAME
+       set_ahfs_options
+              Specifies  the options to use when running automatic high-fanout
+              synthesis (AHFS).
+
+SYNTAX
+       status set_ahfs_options
+               [-enable_port_punching true | false]
+               [-no_port_punching cells]
+               [-default_reference references]
+               [-port_map_file file_name]
+               [-preserve_boundary_phase true | false]
+               [-constant_nets true | false]
+               [-global_route true | false]
+               [-default]
+
+   Data Types
+       cells          string
+       references     string
+       file_name      string
+
+ARGUMENTS
+       -enable_port_punching true | false
+              Enables or disables port punching in automatic high-fanout  syn-
+              thesis optimization.  The default is true.
+
+              When  this  option  is true, automatic high-fanout synthesis can
+              insert buffers or inverters across hierarchy boundaries  to  get
+              better QoR.
+
+              Port  punching  is turned off in compile_ultra if the -no_bound-
+              ary_optimization option is defined for compile_ultra.
+
+              You can use the -no_port_punching option to prevent port  punch-
+              ing     on    specific    hierarchical    cells,    even    when
+              -enable_port_punching is true.
+
+       -no_port_punching cells
+              Specifies the hierarchical cells for which automatic high-fanout
+              synthesis  cannot add or remove any ports.  The cells are speci-
+              fied as a string of hierarchical cell instance  names  separated
+              by commands, such as "sub/mod1 sub/block2".
+
+              Use  this  option to limit the port punching on specific hierar-
+              chical cell instances when -enable_port_punching  is  true  (the
+              default).   If  -enable_port_punching is false, there is no need
+              for this option.
+
+              During the removal phase  of  automatic  high-fanout  synthesis,
+              inverters  might be moved across hierarchical boundaries to can-
+              cel "inverter chains" for better QoR.  If you  do  not  want  to
+              allow  any  phase  changes  on  hierarchical boundaries, use the
+              -preserve_boundary_phase  true  option  instead  of  using  this
+              option.
+
+       -default_reference references
+              Specifies a list of buffers or a list of inverters for automatic
+              high-fanout synthesis to use when  constructing  new  buffer  or
+              inverter trees.
+
+              You  can specify the reference cells with or without the library
+              prefix.
+
+              If you do not specify this option, or if  the  specified  refer-
+              ences are not active buffer cells, automatic high-fanout synthe-
+              sis tries to use all active buffer or inverter cells defined  in
+              the library.
+
+              This option is not supported by the place_opt command.
+
+       -port_map_file file_name
+              Specifies  the  name  of  the port-mapping file.  This option is
+              used only when -enable_port_punching is set to true.
+
+              If you do not specify this option and  -enable_port_punching  is
+              set  to  true,  the  default  name  of  the port-mapping file is
+              design_name_port_map.version.  The initial file is created  with
+              a  version  of  0.   If  the specified port-mapping file already
+              exists, a new version of the file is created  with  the  version
+              number increased by one, such as design_name_port_map.1.
+
+       -preserve_boundary_phase true | false
+              Specifies  whether automatic high-fanout synthesis is allowed to
+              move inverters across hierarchical boundaries so that the  logi-
+              cal phase of the boundary changes.
+
+              The default is false, meaning that automatic high-fanout synthe-
+              sis can freely move inverters  across  hierarchical  boundaries.
+              This  default  behavior  often leads to better QoR because auto-
+              matic  high-fanout  synthesis  can  move  inverters  and  cancel
+              inverter chains as needed.
+
+       -constant_nets true | false
+              Specifies that automatic high-fanout synthesis works on constant
+              nets as well as signal nets.
+
+              By default, automatic  high-fanout  synthesis  ignores  constant
+              nets.
+
+       -global_route true | false
+              Specifies whether to enable Zroute-based global buffering during
+              automatic high-fanout synthesis.  This feature is deprecated and
+              will be removed in a future release.
+
+              When  this  option  is  set to true before compile, Zroute-based
+              global buffering takes effect during the compile and incremental
+              compile  stages.  You must specify the -spg option with the com-
+              pile_ultra command to enable  it.   For  best  results,  if  you
+              enable  Zroute-based global buffering in Design Compiler Graphi-
+              cal, enable it also in IC Compiler.  Zroute-based global buffer-
+              ing  might  increase  runtime and affect area and timing; there-
+              fore, use it only on macro-intensive designs with  narrow  chan-
+              nels.
+
+       -default
+              Resets  all of the options set by previous set_ahfs_options com-
+              mands to their default values.
+
+DESCRIPTION
+       This command defines the constraints  used  when  performing  automatic
+       high-fanout  optimization.   You can report the settings by running the
+       report_ahfs_options command.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The following example shows how to set automatic high-fanout  synthesis
+       options  for  the  current  design.   It enables port punching and uses
+       cells of type BUFX3M or ss_0v80_125c/DLY4X4M during high-fanout synthe-
+       sis.   The -preserve_boundary_phase false option indicates that invert-
+       ers   should   not   move   across   hierarchical   boundaries.     The
+       -no_port_punching   "sub/mod1   sub/mod2"  option  indicates  that  the
+       sub/mod1 and sub/mod2 hierarchical cells should  not  have  changes  to
+       their ports during automatic high-fanout synthesis.
+
+         prompt> set_ahfs_options \
+                 -enable_port_punching true \
+                 -no_port_punching "sub/mod1 sub/mod2" \
+                 -preserve_boundary_phase false \
+                 -default_reference "BUFX3M ss_0v80_125c/DLY4X4M"
+
+         prompt> report_ahfs_options
+
+         Report AHFS options:
+         *********************************************************
+         AHFS options for the design:
+           Enable port punching: ON
+           Default Reference : BUFX3M ss_0v80_125c/DLY4X4M
+           Port Map File :
+           Preserve Boundary Phase : OFF
+           No Port Punching on these hier cells : "sub/mod1 sub/mod2"
+           Constant Nets allowed during AHFS optimization : OFF
+
+SEE ALSO
+       report_ahfs_options(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> create_die_area -coordinate {0 0} {0 1198} {1199 1198} {1199 0}
+Error: extra positional option '1199 1198' (CMD-012)
+Error: extra positional option '1199 0' (CMD-012)
+dc_shell-topo> man create_die_area
+2.  Synopsys Commands                                        Command Reference
+                                create_die_area
+
+NAME
+       create_die_area
+              Creates the die area for the current design.
+
+SYNTAX
+       status create_die_area
+               -coordinate list
+               -polygon list
+
+ARGUMENTS
+DESCRIPTION
+       The  create_die_area  command  creates  the  die  area  for the current
+       design.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The following example creates the die area with an L-shape by  defining
+       a polygon:
+
+         prompt> create_die_area -polygon {{0 0} {0 400} {200 400} {200 200} \
+                 {400 200} {400 0} {0 0}}
+
+SEE ALSO
+       get_die_area(2)
+       remove_die_area(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> create_die_area -coordinate {{0 0} {0 1198} {1199 1198} {1199 0}}
+Error: Die area already exists in the design. (DCT-064)
+0
+dc_shell-topo> exit
+
+Thank you...
+

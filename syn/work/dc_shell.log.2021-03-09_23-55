@@ -1,0 +1,1019 @@
+setting auto_restore_mw_cel_lib_setup true
+Initializing gui preferences from file  /u/pratik2/.synopsys_dv_prefs.tcl
+dc_shell> set top_design fanout
+fanout
+dc_shell> source -echo -verbose ../scripts/dc.tcl
+source -echo -verbose ../../$top_design.design_config.tcl
+set lib_dir /pkgs/synopsys/2020/32_28nm/SAED32_EDK
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK
+# Decoder ring for the libraries
+# You will need to follow another example or look in the library directories to understand.
+# lib_types is used for the dc/dct linking variables and ICC2 NDM lcoations.
+# /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm
+# /          $lib_dir                   /lib/ $lib_type /db_nldm
+# link_library, Target_library use the sub_lib_types and corner variables. 
+# For sub_lib_types and corner:
+# Example:
+#     saed32hvt_ss0p75v125c.db
+#     |sub_lib  corner    .db
+# The current flow tries to find all sub_lib and all corners in all the search paths.  Any match will be put in the library list.
+# Wild cards can be used, but be careful.  Multiple matches can occur in ways you don't want.
+# For the target library, the same method is used as the link library except only HVT and RVT lib_types are used.
+# ICC2 NDM choosing also uses the sub_lib_types so that only the required libraries and extras are not loaded.
+# adder
+set top_design fanout
+fanout
+set add_ios 1
+1
+set pad_design 1
+1
+set design_size { 580 580  } 
+ 580 580  
+set design_io_border 310
+310
+set dc_floorplanning 1
+1
+set rtl_list [list ../rtl/$top_design.v ]
+../rtl/fanout.v
+set slow_corner "ss0p75v125c ss0p95v125c_2p25v ss0p95v125c"
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set fast_corner "ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c"
+ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c
+set synth_corners $slow_corner
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set slow_metal Cmax_125
+Cmax_125
+set fast_metal Cmax_125
+Cmax_125
+set lib_types "stdcell_hvt stdcell_rvt stdcell_lvt io_std sram"
+stdcell_hvt stdcell_rvt stdcell_lvt io_std sram
+# Get just the main standard cells, srams and IOs
+set sub_lib_type "saed32?vt_ saed32sram_ saed32io_wb_"
+saed32?vt_ saed32sram_ saed32io_wb_
+#set topdir /u/$env(USER)/PSU_RTL2GDS
+set topdir [ lindex [ regexp -inline "(.*)\(syn\|pt\|apr\)" [pwd] ] 1 ]
+/u/pratik2/Floorplan-based-synthesis/
+/u/pratik2/Floorplan-based-synthesis/
+# List all current designs
+set this_design [ list_designs ]
+Warning: No designs to list. (UID-275)
+0
+# If there are existing designs reset/remove them
+if { $this_design != 0 } {
+  # To reset the earlier designs
+  reset_design
+  remove_design -designs
+}
+if { ! [ info exists top_design ] } {
+   set top_design adder
+}
+source ../scripts/dc-get-timlibs.tcl
+# Analyzing the files for the design
+analyze $rtl_list -autoread -define SYNTHESIS
+== ANALYZE autoread all files ==
+
+Starting ANALYZE autoread mode...
+Information: Adding '/u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v'.  (AUTOREAD-100)
+Information: Scanning file { fanout.v }. (AUTOREAD-303)
+Compiling source file /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v
+Presto compilation completed successfully.
+Autoread command completed successfully.
+1
+# Elaborate the design
+elaborate ${top_design} 
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/gtech.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/standard.sldb'
+  Loading link library 'saed32hvt_ss0p75v125c'
+  Loading link library 'saed32hvt_ss0p95v125c'
+  Loading link library 'saed32rvt_ss0p75v125c'
+  Loading link library 'saed32rvt_ss0p95v125c'
+  Loading link library 'saed32lvt_ss0p75v125c'
+  Loading link library 'saed32lvt_ss0p95v125c'
+  Loading link library 'saed32io_wb_ss0p95v125c_2p25v'
+  Loading link library 'saed32sram_ss0p95v125c'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Presto compilation completed successfully. (fanout)
+Elaborated 1 design.
+Current design is now 'fanout'.
+Information: Building the design 'HA'. (HDL-193)
+Presto compilation completed successfully. (HA)
+1
+if { [ info exists add_ios ] && $add_ios } {
+   source -echo -verbose ../scripts/add_ios.tcl
+   # Source the design dependent code that will put IOs on different sides
+   #source ../../$top_design.add_ios.tcl
+}
+#####################################################
+proc insert_io { port side} {
+  set this_io io_${side}_${port}
+  if {  $side == "t"   } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "b"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if {  $side == "r"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "l"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  set pins [ get_pins -of_obj [ get_net $port ] ]
+  foreach_in i $pins { disconnect_net [get_net $port ] $i }
+  set port_net [get_nets -quiet $port ]
+
+  # If only a port is created, the related net is not created and connected to the port.  Do that here.
+  if { [sizeof_collection $port_net ] == 0 } { 
+      create_net $port 
+      connect_net $port [get_ports $port ]
+  }
+
+  connect_net [get_net $port ]  $this_io/PADIO
+  create_net ${this_io}_net
+  foreach_in i $pins { connect_net ${this_io}_net $i }
+  #DIN is input to IO_PAD
+  #DOUT is output of IO_PAD
+  #EN is the IO_PAD enable to output
+  if { [get_attribute [get_ports $port ] direction ] == "in" } {
+     #connect_net [get_nets  *Logic0* ] ${this_io}/EN 
+     connect_net [get_nets  *Logic1* ] ${this_io}/R_EN 
+     connect_net ${this_io}_net ${this_io}/DOUT
+  } else {
+     connect_net [get_nets  *Logic1* ] $this_io/EN 
+     #connect_net [get_nets  *Logic0* ] $this_io/R_EN 
+     connect_net ${this_io}_net $this_io/DIN
+  }
+}
+####################################################
+change_names -rules verilog -hierarchy
+Warning: The specified replacement character (_) is conflicting with the specified allowed or restricted character.   (UCN-4)
+1
+# Load the timing and design constraints
+source -echo -verbose ../../constraints/${top_design}.sdc
+#if { [info exists synopsys_program_name ] && ($synopsys_program_name == "icc2_shell") } {
+#    puts " Creating ICC2 MCMM "
+#    create_mode func
+#    create_corner slow
+#    create_scenario -mode func -corner slow -name func_slow
+#    current_scenario func_slow
+#    set_operating_conditions ss0p75v125c
+#    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmax.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmax
+#    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmin.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmin
+#    set_parasitic_parameters -early_spec Cmax -early_temperature 125
+#    set_parasitic_parameters -late_spec Cmax -late_temperature 125
+#set_parasitic_parameters -early_spec 1p9m_Cmax -early_temperature 125 -corner default
+#set_parasitic_parameters -late_spec 1p9m_Cmax -late_temperature 125 -corner default
+#set_scenario_status  default -active false
+#    set_scenario_status func_slow -active true -hold true -setup true
+#}
+#set clock_period 1.00
+#create_clock -name "clock" -period 1 -waveform {0.0 0.50} clock
+# 0.07 ns is fairly typical for pll jitter plus other jitter.
+#set_clock_uncertainty -setup 0.07 clock
+#set_clock_uncertainty -hold 0.01 clock
+#set_clock_transition 0.1 clock
+#set_clock_latency 0.1 clock
+#set_input_delay 0.1 [all_inputs] -clock clock
+#set_output_delay 0.05 [all_outputs] -clock clock
+set_drive 0.00001 [all_inputs ]
+1
+set_load 0.5 [all_outputs]
+1
+#group_path -name INTERNAL -from [all_clocks] -to [all_clocks ]
+group_path -name INPUTS -from [ get_ports -filter "direction==in&&full_name!~*clk*" ]
+1
+group_path -name OUTPUTS -to [ get_ports -filter "direction==out" ]
+1
+1
+# any additional non-design specific constraints
+set_max_transition 0.5 [current_design ]
+Current design is 'fanout'.
+1
+# Duplicate any non-unique modules so details can be different inside for synthesis
+set_dont_use [get_lib_cells */DELLN* ]
+1
+uniquify
+Information: Uniquified 20 instances of design 'HA'. (OPT-1056)
+1
+#compile with ultra features and with scan FFs
+#compile_ultra  -scan  -no_autoungroup
+compile
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | P-2019.03-DWBB_201903.1 |     *     |
+| Licensed DW Building Blocks        | P-2019.03-DWBB_201903.1 |           |
+============================================================================
+
+
+Warning: Operating condition ss0p75v125c set on design fanout has different process,
+voltage and temperatures parameters than the parameters at which target library 
+saed32hvt_ss0p95v125c is characterized. Delays may be inaccurate as a result. (OPT-998)
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'HA_0'
+  Processing 'fanout'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+Information: Design 'fanout' has no optimization constraints set. (OPT-108)
+
+  Beginning Mapping Optimizations  (Medium effort)
+  -------------------------------
+  Structuring 'HA_18'
+  Mapping 'HA_18'
+  Structuring 'HA_17'
+  Mapping 'HA_17'
+  Structuring 'HA_16'
+  Mapping 'HA_16'
+  Structuring 'HA_15'
+  Mapping 'HA_15'
+  Structuring 'HA_14'
+  Mapping 'HA_14'
+  Structuring 'HA_13'
+  Mapping 'HA_13'
+  Structuring 'HA_12'
+  Mapping 'HA_12'
+  Structuring 'HA_11'
+  Mapping 'HA_11'
+  Structuring 'HA_10'
+  Mapping 'HA_10'
+  Structuring 'HA_9'
+  Mapping 'HA_9'
+  Structuring 'HA_8'
+  Mapping 'HA_8'
+  Structuring 'HA_7'
+  Mapping 'HA_7'
+  Structuring 'HA_6'
+  Mapping 'HA_6'
+  Structuring 'HA_5'
+  Mapping 'HA_5'
+  Structuring 'HA_4'
+  Mapping 'HA_4'
+  Structuring 'HA_3'
+  Mapping 'HA_3'
+  Structuring 'HA_2'
+  Mapping 'HA_2'
+  Structuring 'HA_1'
+  Mapping 'HA_1'
+  Structuring 'HA_0'
+  Mapping 'HA_0'
+  Structuring 'HA_19'
+  Mapping 'HA_19'
+  Structuring 'fanout'
+  Mapping 'fanout'
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:03     135.2      0.00       0.0      66.0                          
+    0:00:03     135.2      0.00       0.0      66.0                          
+    0:00:03     135.2      0.00       0.0      66.0                          
+    0:00:03     135.2      0.00       0.0      66.0                          
+    0:00:03     135.2      0.00       0.0      66.0                          
+    0:00:03     135.2      0.00       0.0      66.0                          
+    0:00:03     135.2      0.00       0.0      66.0                          
+    0:00:03     135.2      0.00       0.0      66.0                          
+    0:00:03     135.2      0.00       0.0      66.0                          
+    0:00:03     136.7      0.00       0.0      33.3                          
+    0:00:03     138.3      0.00       0.0       1.1                          
+    0:00:03     138.3      0.00       0.0       0.8                          
+    0:00:03     138.3      0.00       0.0       0.5                          
+    0:00:03     138.3      0.00       0.0       0.3                          
+    0:00:03     138.3      0.00       0.0       0.0                          
+    0:00:03     138.3      0.00       0.0       0.0                          
+    0:00:03     138.3      0.00       0.0       0.0                          
+    0:00:03     138.3      0.00       0.0       0.0                          
+
+
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:03     138.3      0.00       0.0       0.0                          
+    0:00:03     138.3      0.00       0.0       0.0                          
+    0:00:04     138.3      0.00       0.0       0.0                          
+
+
+  Beginning Area-Recovery Phase  (cleanup)
+  -----------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:04     138.3      0.00       0.0       0.0                          
+    0:00:04     138.3      0.00       0.0       0.0                          
+    0:00:04     138.3      0.00       0.0       0.0                          
+    0:00:04     138.3      0.00       0.0       0.0                          
+    0:00:04     138.3      0.00       0.0       0.0                          
+    0:00:04     138.3      0.00       0.0       0.0                          
+    0:00:04     138.3      0.00       0.0       0.0                          
+    0:00:04     138.3      0.00       0.0       0.0                          
+    0:00:04     138.3      0.00       0.0       0.0                          
+    0:00:04     138.3      0.00       0.0       0.0                          
+    0:00:04     138.3      0.00       0.0       0.0                          
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+1
+change_names -rules verilog -hierarchy
+1
+# output reports
+set stage dc
+dc
+report_qor > ../reports/${top_design}.$stage.qor.rpt
+report_constraint -all_viol > ../reports/${top_design}.$stage.constraint.rpt
+report_timing -delay max -input -tran -cross -sig 4 -derate -net -cap  -max_path 10000 -slack_less 0 > ../reports/${top_design}.$stage.timing.max.rpt
+check_timing  > ../reports/${top_design}.$stage.check_timing.rpt
+check_design > ../reports/${top_design}.$stage.check_design.rpt
+check_mv_design  > ../reports/${top_design}.$stage.mvrc.rpt
+# output netlist
+write -hier -format verilog -output ../outputs/${top_design}.$stage.vg
+Writing verilog file '/u/pratik2/Floorplan-based-synthesis/syn/outputs/fanout.dc.vg'.
+1
+write -hier -format ddc -output ../outputs/${top_design}.$stage.ddc
+Writing ddc file '../outputs/fanout.dc.ddc'.
+1
+save_upf ../outputs/${top_design}.$stage.upf
+1
+1
+dc_shell> report_buffer_tree -from */*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Tue Mar  9 23:57:19 2021
+****************************************
+
+Driver (level 0): e1/s (**net_link**)
+   Port (level 0): se1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e1/c (**net_link**)
+   Port (level 0): ce1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e1/x (**net_link**)
+   Load (level 0): e1/U1/A2 (XOR2X1_LVT)
+   Load (level 0): e1/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e1/y (**net_link**)
+   Load (level 0): e1/U1/A1 (XOR2X1_LVT)
+   Load (level 0): e1/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e2/s (**net_link**)
+   Port (level 0): se2 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e2/c (**net_link**)
+   Port (level 0): ce2 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e2/x (**net_link**)
+   Load (level 0): e2/U1/A2 (XOR2X1_LVT)
+   Load (level 0): e2/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e2/y (**net_link**)
+   Load (level 0): e2/U1/A1 (XOR2X1_LVT)
+   Load (level 0): e2/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e3/s (**net_link**)
+   Port (level 0): se3 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e3/c (**net_link**)
+   Port (level 0): ce3 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e3/x (**net_link**)
+   Load (level 0): e3/U1/A2 (XOR2X1_LVT)
+   Load (level 0): e3/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e3/y (**net_link**)
+   Load (level 0): e3/U1/A1 (XOR2X1_LVT)
+   Load (level 0): e3/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e4/s (**net_link**)
+   Port (level 0): se4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e4/c (**net_link**)
+   Port (level 0): ce4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e4/x (**net_link**)
+   Load (level 0): e4/U1/A2 (XOR2X1_LVT)
+   Load (level 0): e4/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e4/y (**net_link**)
+   Load (level 0): e4/U1/A1 (XOR2X1_LVT)
+   Load (level 0): e4/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e5/s (**net_link**)
+   Port (level 0): se5 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e5/c (**net_link**)
+   Port (level 0): ce5 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e5/x (**net_link**)
+   Load (level 0): e5/U1/A2 (XOR2X1_LVT)
+   Load (level 0): e5/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e5/y (**net_link**)
+   Load (level 0): e5/U1/A1 (XOR2X1_LVT)
+   Load (level 0): e5/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e6/s (**net_link**)
+   Port (level 0): se6 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e6/c (**net_link**)
+   Port (level 0): ce6 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e6/x (**net_link**)
+   Load (level 0): e6/U1/A2 (XOR2X1_LVT)
+   Load (level 0): e6/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e6/y (**net_link**)
+   Load (level 0): e6/U1/A1 (XOR2X1_LVT)
+   Load (level 0): e6/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e7/s (**net_link**)
+   Port (level 0): se7 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e7/c (**net_link**)
+   Port (level 0): ce7 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e7/x (**net_link**)
+   Load (level 0): e7/U1/A2 (XOR2X1_LVT)
+   Load (level 0): e7/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e7/y (**net_link**)
+   Load (level 0): e7/U1/A1 (XOR2X1_LVT)
+   Load (level 0): e7/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e8/s (**net_link**)
+   Port (level 0): se8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e8/c (**net_link**)
+   Port (level 0): ce8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e8/x (**net_link**)
+   Load (level 0): e8/U1/A2 (XOR2X1_LVT)
+   Load (level 0): e8/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e8/y (**net_link**)
+   Load (level 0): e8/U1/A1 (XOR2X1_LVT)
+   Load (level 0): e8/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e9/s (**net_link**)
+   Port (level 0): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e9/c (**net_link**)
+   Port (level 0): ce9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e9/x (**net_link**)
+   Load (level 0): e9/U1/A2 (XOR2X1_LVT)
+   Load (level 0): e9/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e9/y (**net_link**)
+   Load (level 0): e9/U1/A1 (XOR2X1_LVT)
+   Load (level 0): e9/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e10/s (**net_link**)
+   Port (level 0): se10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Load (level 0): e10/U1/A2 (XOR2X1_LVT)
+   Load (level 0): e10/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+   Load (level 0): e10/U1/A1 (XOR2X1_LVT)
+   Load (level 0): e10/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f1/s (**net_link**)
+   Port (level 0): sf1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f1/c (**net_link**)
+   Port (level 0): cf1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f1/x (**net_link**)
+   Load (level 0): f1/U1/A2 (XOR2X1_LVT)
+   Load (level 0): f1/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f1/y (**net_link**)
+   Load (level 0): f1/U1/A1 (XOR2X1_LVT)
+   Load (level 0): f1/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f2/s (**net_link**)
+   Port (level 0): sf2 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f2/c (**net_link**)
+   Port (level 0): cf2 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f2/x (**net_link**)
+   Load (level 0): f2/U1/A2 (XOR2X1_LVT)
+   Load (level 0): f2/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f2/y (**net_link**)
+   Load (level 0): f2/U1/A1 (XOR2X1_LVT)
+   Load (level 0): f2/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f3/s (**net_link**)
+   Port (level 0): sf3 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f3/c (**net_link**)
+   Port (level 0): cf3 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f3/x (**net_link**)
+   Load (level 0): f3/U1/A2 (XOR2X1_LVT)
+   Load (level 0): f3/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f3/y (**net_link**)
+   Load (level 0): f3/U1/A1 (XOR2X1_LVT)
+   Load (level 0): f3/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f4/s (**net_link**)
+   Port (level 0): sf4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f4/c (**net_link**)
+   Port (level 0): cf4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f4/x (**net_link**)
+   Load (level 0): f4/U1/A2 (XOR2X1_LVT)
+   Load (level 0): f4/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f4/y (**net_link**)
+   Load (level 0): f4/U1/A1 (XOR2X1_LVT)
+   Load (level 0): f4/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f5/s (**net_link**)
+   Port (level 0): sf5 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f5/c (**net_link**)
+   Port (level 0): cf5 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f5/x (**net_link**)
+   Load (level 0): f5/U1/A2 (XOR2X1_LVT)
+   Load (level 0): f5/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f5/y (**net_link**)
+   Load (level 0): f5/U1/A1 (XOR2X1_LVT)
+   Load (level 0): f5/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f6/s (**net_link**)
+   Port (level 0): sf6 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f6/c (**net_link**)
+   Port (level 0): cf6 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f6/x (**net_link**)
+   Load (level 0): f6/U1/A2 (XOR2X1_LVT)
+   Load (level 0): f6/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f6/y (**net_link**)
+   Load (level 0): f6/U1/A1 (XOR2X1_LVT)
+   Load (level 0): f6/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f7/s (**net_link**)
+   Port (level 0): sf7 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f7/c (**net_link**)
+   Port (level 0): cf7 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f7/x (**net_link**)
+   Load (level 0): f7/U1/A2 (XOR2X1_LVT)
+   Load (level 0): f7/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f7/y (**net_link**)
+   Load (level 0): f7/U1/A1 (XOR2X1_LVT)
+   Load (level 0): f7/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f8/s (**net_link**)
+   Port (level 0): sf8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f8/c (**net_link**)
+   Port (level 0): cf8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f8/x (**net_link**)
+   Load (level 0): f8/U1/A2 (XOR2X1_LVT)
+   Load (level 0): f8/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f8/y (**net_link**)
+   Load (level 0): f8/U1/A1 (XOR2X1_LVT)
+   Load (level 0): f8/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f9/s (**net_link**)
+   Port (level 0): sf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f9/c (**net_link**)
+   Port (level 0): cf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f9/x (**net_link**)
+   Load (level 0): f9/U1/A2 (XOR2X1_LVT)
+   Load (level 0): f9/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f9/y (**net_link**)
+   Load (level 0): f9/U1/A1 (XOR2X1_LVT)
+   Load (level 0): f9/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f10/s (**net_link**)
+   Port (level 0): sf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/c (**net_link**)
+   Port (level 0): cf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/x (**net_link**)
+   Load (level 0): f10/U1/A2 (XOR2X1_LVT)
+   Load (level 0): f10/U2/A1 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): f10/y (**net_link**)
+   Load (level 0): f10/U1/A1 (XOR2X1_LVT)
+   Load (level 0): f10/U2/A2 (AND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): b (**in_port**)
+   Load (level 0): U5/A1 (OR2X4_LVT)
+   Load (level 0): U7/A1 (AND2X4_LVT)
+
+----------------------------------------
+
+Driver (level 0): a (**in_port**)
+   Load (level 0): U5/A2 (OR2X4_LVT)
+   Load (level 0): U7/A2 (AND2X4_LVT)
+
+----------------------------------------
+
+Driver (level 0): U5/Y (OR2X4_LVT)
+   Load (level 0): e2/y (**net_link**)
+   Load (level 0): e3/y (**net_link**)
+   Load (level 0): e4/y (**net_link**)
+   Load (level 0): e5/y (**net_link**)
+   Load (level 0): e6/y (**net_link**)
+   Load (level 0): e7/y (**net_link**)
+   Load (level 0): e8/y (**net_link**)
+   Load (level 0): e9/y (**net_link**)
+   Load (level 0): e10/y (**net_link**)
+   Load (level 0): e1/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): d (**in_port**)
+   Load (level 0): U6/A1 (OR2X4_LVT)
+   Load (level 0): U8/A1 (AND2X4_LVT)
+
+----------------------------------------
+
+Driver (level 0): c (**in_port**)
+   Load (level 0): U6/A2 (OR2X4_LVT)
+   Load (level 0): U8/A2 (AND2X4_LVT)
+
+----------------------------------------
+
+Driver (level 0): U6/Y (OR2X4_LVT)
+   Load (level 0): f1/y (**net_link**)
+   Load (level 0): f2/y (**net_link**)
+   Load (level 0): f3/y (**net_link**)
+   Load (level 0): f4/y (**net_link**)
+   Load (level 0): f5/y (**net_link**)
+   Load (level 0): f6/y (**net_link**)
+   Load (level 0): f7/y (**net_link**)
+   Load (level 0): f8/y (**net_link**)
+   Load (level 0): f9/y (**net_link**)
+   Load (level 0): f10/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): b (**in_port**)
+   Load (level 0): U5/A1 (OR2X4_LVT)
+   Load (level 0): U7/A1 (AND2X4_LVT)
+
+----------------------------------------
+
+Driver (level 0): a (**in_port**)
+   Load (level 0): U5/A2 (OR2X4_LVT)
+   Load (level 0): U7/A2 (AND2X4_LVT)
+
+----------------------------------------
+
+Driver (level 0): U7/Y (AND2X4_LVT)
+   Load (level 0): e2/x (**net_link**)
+   Load (level 0): e3/x (**net_link**)
+   Load (level 0): e4/x (**net_link**)
+   Load (level 0): e5/x (**net_link**)
+   Load (level 0): e6/x (**net_link**)
+   Load (level 0): e7/x (**net_link**)
+   Load (level 0): e8/x (**net_link**)
+   Load (level 0): e9/x (**net_link**)
+   Load (level 0): e10/x (**net_link**)
+   Load (level 0): e1/x (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): d (**in_port**)
+   Load (level 0): U6/A1 (OR2X4_LVT)
+   Load (level 0): U8/A1 (AND2X4_LVT)
+
+----------------------------------------
+
+Driver (level 0): c (**in_port**)
+   Load (level 0): U6/A2 (OR2X4_LVT)
+   Load (level 0): U8/A2 (AND2X4_LVT)
+
+----------------------------------------
+
+Driver (level 0): U8/Y (AND2X4_LVT)
+   Load (level 0): f1/x (**net_link**)
+   Load (level 0): f2/x (**net_link**)
+   Load (level 0): f3/x (**net_link**)
+   Load (level 0): f4/x (**net_link**)
+   Load (level 0): f5/x (**net_link**)
+   Load (level 0): f6/x (**net_link**)
+   Load (level 0): f7/x (**net_link**)
+   Load (level 0): f8/x (**net_link**)
+   Load (level 0): f9/x (**net_link**)
+   Load (level 0): f10/x (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell> report_buffer_tree -from U8/Y
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Tue Mar  9 23:58:37 2021
+****************************************
+
+Driver (level 0): U8/Y (AND2X4_LVT)
+   Load (level 0): f1/x (**net_link**)
+   Load (level 0): f2/x (**net_link**)
+   Load (level 0): f3/x (**net_link**)
+   Load (level 0): f4/x (**net_link**)
+   Load (level 0): f5/x (**net_link**)
+   Load (level 0): f6/x (**net_link**)
+   Load (level 0): f7/x (**net_link**)
+   Load (level 0): f8/x (**net_link**)
+   Load (level 0): f9/x (**net_link**)
+   Load (level 0): f10/x (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell> clean_buffer_tree -source_of f10/x
+Warning: Ignoring f10/x because the pin is hierarchical. (UID-1089)
+Error: Must specify one of -global, -from, -to, -net, or -source_of. (UID-1088)
+0
+dc_shell> man UID-1089
+N.  Messages                                                 Command Reference
+                                   messages
+
+NAME
+       UID-1089 (warning) Ignoring %s because the %s is %s.
+
+DESCRIPTION
+       You  receive this message when you give an inout, output or hierachical
+       pin or an inout or input port, as an argument to -source_of  option  to
+       clean_buffer_tree command.
+
+WHAT NEXT
+       If  the argument passed was incorrect, please fix it and rerun the com-
+       mand.
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell> cleani
+Error: unknown command 'cleani' (CMD-005)
+dc_shell> clean_buffer_tree -source_of f10/x
+Warning: Ignoring f10/x because the pin is hierarchical. (UID-1089)
+Error: Must specify one of -global, -from, -to, -net, or -source_of. (UID-1088)
+0
+dc_shell> man UID-1089
+N.  Messages                                                 Command Reference
+                                   messages
+
+NAME
+       UID-1089 (warning) Ignoring %s because the %s is %s.
+
+DESCRIPTION
+       You  receive this message when you give an inout, output or hierachical
+       pin or an inout or input port, as an argument to -source_of  option  to
+       clean_buffer_tree command.
+
+WHAT NEXT
+       If  the argument passed was incorrect, please fix it and rerun the com-
+       mand.
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell> cureent
+Error: unknown command 'cureent' (CMD-005)
+dc_shell> current_design
+Current design is 'fanout'.
+{fanout}
+dc_shell> exit
+
+Thank you...
+

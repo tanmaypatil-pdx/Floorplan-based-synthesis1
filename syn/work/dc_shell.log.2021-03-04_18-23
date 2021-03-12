@@ -1,0 +1,2520 @@
+Starting shell in Topographical mode...
+setting auto_restore_mw_cel_lib_setup true
+Initializing gui preferences from file  /u/pratik2/.synopsys_dv_prefs.tcl
+dc_shell> source ../scripts/dct_fanout.tcl
+set lib_dir /pkgs/synopsys/2020/32_28nm/SAED32_EDK
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK
+# Decoder ring for the libraries
+# You will need to follow another example or look in the library directories to understand.
+# lib_types is used for the dc/dct linking variables and ICC2 NDM lcoations.
+# /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm
+# /          $lib_dir                   /lib/ $lib_type /db_nldm
+# link_library, Target_library use the sub_lib_types and corner variables. 
+# For sub_lib_types and corner:
+# Example:
+#     saed32hvt_ss0p75v125c.db
+#     |sub_lib  corner    .db
+# The current flow tries to find all sub_lib and all corners in all the search paths.  Any match will be put in the library list.
+# Wild cards can be used, but be careful.  Multiple matches can occur in ways you don't want.
+# For the target library, the same method is used as the link library except only HVT and RVT lib_types are used.
+# ICC2 NDM choosing also uses the sub_lib_types so that only the required libraries and extras are not loaded.
+# adder
+set top_design fanout
+fanout
+set add_ios 1
+1
+set pad_design 1
+1
+set design_size { 580 580  } 
+ 580 580  
+set design_io_border 310
+310
+set dc_floorplanning 1
+1
+set rtl_list [list ../rtl/$top_design.v ]
+../rtl/fanout.v
+set slow_corner "ss0p75v125c ss0p95v125c_2p25v ss0p95v125c"
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set fast_corner "ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c"
+ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c
+set synth_corners $slow_corner
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set slow_metal Cmax_125
+Cmax_125
+set fast_metal Cmax_125
+Cmax_125
+set lib_types "stdcell_hvt stdcell_rvt stdcell_lvt io_std sram"
+stdcell_hvt stdcell_rvt stdcell_lvt io_std sram
+# Get just the main standard cells, srams and IOs
+set sub_lib_type "saed32?vt_ saed32sram_ saed32io_wb_"
+saed32?vt_ saed32sram_ saed32io_wb_
+#set topdir /u/$env(USER)/PSU_RTL2GDS
+set topdir [ lindex [ regexp -inline "(.*)\(syn\|pt\|apr\)" [pwd] ] 1 ]
+/u/pratik2/Floorplan-based-synthesis/
+Warning: No designs to list. (UID-275)
+Start to load technology file /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/milkyway/saed32nm_1p9m_mw.tf.
+Warning: Layer 'M1' has a pitch 0.152 that does not match the recommended wire-to-via pitch 0.13 or 0.105. (TFCHK-049)
+Warning: Layer 'M2' has a pitch 0.152 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M3' has a pitch 0.304 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M4' has a pitch 0.304 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M5' has a pitch 0.608 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M6' has a pitch 0.608 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M7' has a pitch 1.216 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M8' has a pitch 1.216 that does not match the recommended wire-to-via pitch 0.179 or 0.164. (TFCHK-049)
+Warning: Layer 'M9' has a pitch 2.432 that does not match the recommended wire-to-via pitch 1.74. (TFCHK-049)
+Warning: Layer 'MRDL' has a pitch 4.864 that does not match the recommended wire-to-via pitch 4.5. (TFCHK-049)
+Warning: Layer 'MRDL' has a pitch 4.864 that does not match the doubled pitch 2.432 or tripled pitch 3.648. (TFCHK-050)
+Warning: CapModel sections are missing. Capacitance models should be loaded with a TLU+ file later. (TFCHK-084)
+Technology file /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/milkyway/saed32nm_1p9m_mw.tf has been loaded successfully.
+== ANALYZE autoread all files ==
+
+Starting ANALYZE autoread mode...
+Warning: Defining design library 'WORK' at directory '/u/pratik2/Floorplan-based-synthesis/syn/work/WORK_autoread'. (AUTOREAD-107)
+Information: Adding '/u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v'.  (AUTOREAD-100)
+Information: Scanning file { fanout.v }. (AUTOREAD-303)
+Compiling source file /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v
+Presto compilation completed successfully.
+Autoread command completed successfully.
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/gtech.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/standard.sldb'
+  Loading link library 'saed32hvt_ss0p75v125c'
+  Loading link library 'saed32hvt_ss0p95v125c'
+  Loading link library 'saed32rvt_ss0p75v125c'
+  Loading link library 'saed32rvt_ss0p95v125c'
+  Loading link library 'saed32lvt_ss0p75v125c'
+  Loading link library 'saed32lvt_ss0p95v125c'
+  Loading link library 'saed32io_wb_ss0p95v125c_2p25v'
+  Loading link library 'saed32sram_ss0p95v125c'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Presto compilation completed successfully. (fanout)
+Elaborated 1 design.
+Current design is now 'fanout'.
+Information: Building the design 'HA'. (HDL-193)
+Presto compilation completed successfully. (HA)
+#####################################################
+proc insert_io { port side} {
+  set this_io io_${side}_${port}
+  if {  $side == "t"   } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "b"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if {  $side == "r"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "l"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  set pins [ get_pins -of_obj [ get_net $port ] ]
+  foreach_in i $pins { disconnect_net [get_net $port ] $i }
+  set port_net [get_nets -quiet $port ]
+
+  # If only a port is created, the related net is not created and connected to the port.  Do that here.
+  if { [sizeof_collection $port_net ] == 0 } { 
+      create_net $port 
+      connect_net $port [get_ports $port ]
+  }
+
+  connect_net [get_net $port ]  $this_io/PADIO
+  create_net ${this_io}_net
+  foreach_in i $pins { connect_net ${this_io}_net $i }
+  #DIN is input to IO_PAD
+  #DOUT is output of IO_PAD
+  #EN is the IO_PAD enable to output
+  if { [get_attribute [get_ports $port ] direction ] == "in" } {
+     #connect_net [get_nets  *Logic0* ] ${this_io}/EN 
+     connect_net [get_nets  *Logic1* ] ${this_io}/R_EN 
+     connect_net ${this_io}_net ${this_io}/DOUT
+  } else {
+     connect_net [get_nets  *Logic1* ] $this_io/EN 
+     #connect_net [get_nets  *Logic0* ] $this_io/R_EN 
+     connect_net ${this_io}_net $this_io/DIN
+  }
+}
+####################################################
+Warning: The specified replacement character (_) is conflicting with the specified allowed or restricted character.   (UCN-4)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/milkyway/saed32nm_hvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/milkyway/saed32nm_rvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/milkyway/saed32nm_lvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/milkyway/saed32_io_wb. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/milkyway/SRAM32NM. (PSYN-878)
+
+  Linking design 'fanout'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  fanout                      /u/pratik2/Floorplan-based-synthesis/syn/work/fanout.db
+  saed32hvt_ss0p75v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db
+  saed32hvt_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db
+  saed32rvt_ss0p75v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db
+  saed32rvt_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db
+  saed32lvt_ss0p75v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db
+  saed32lvt_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db
+  saed32io_wb_ss0p95v125c_2p25v (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db
+  saed32sram_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db
+  dw_foundation.sldb (library) /pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb
+  HA                          /u/pratik2/Floorplan-based-synthesis/syn/work/HA.db
+
+Information: No preferred routing direction is found for design layer M1. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M2. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M3. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M4. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M5. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M6. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M7. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M8. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M9. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer MRDL. Automatically deriving direction V. (DCT-035)
+#if { [info exists synopsys_program_name ] && ($synopsys_program_name == "icc2_shell") } {
+#    puts " Creating ICC2 MCMM "
+#    create_mode func
+#    create_corner slow
+#    create_scenario -mode func -corner slow -name func_slow
+#    current_scenario func_slow
+#    set_operating_conditions ss0p75v125c
+#    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmax.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmax
+#    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmin.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmin
+#    set_parasitic_parameters -early_spec Cmax -early_temperature 125
+#    set_parasitic_parameters -late_spec Cmax -late_temperature 125
+#set_parasitic_parameters -early_spec 1p9m_Cmax -early_temperature 125 -corner default
+#set_parasitic_parameters -late_spec 1p9m_Cmax -late_temperature 125 -corner default
+#set_scenario_status  default -active false
+#    set_scenario_status func_slow -active true -hold true -setup true
+#}
+#set clock_period 1.00
+#create_clock -name "clock" -period 1 -waveform {0.0 0.50} clock
+# 0.07 ns is fairly typical for pll jitter plus other jitter.
+#set_clock_uncertainty -setup 0.07 clock
+#set_clock_uncertainty -hold 0.01 clock
+#set_clock_transition 0.1 clock
+#set_clock_latency 0.1 clock
+#set_input_delay 0.1 [all_inputs] -clock clock
+#set_output_delay 0.05 [all_outputs] -clock clock
+set_drive 0.00001 [all_inputs ]
+1
+set_load 0.5 [all_outputs]
+1
+#group_path -name INTERNAL -from [all_clocks] -to [all_clocks ]
+group_path -name INPUTS -from [ get_ports -filter "direction==in&&full_name!~*clk*" ]
+1
+group_path -name OUTPUTS -to [ get_ports -filter "direction==out" ]
+1
+Current design is 'fanout'.
+Information: setting M1 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M8 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M9 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting MRDL as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M2 as min routing layer.  (PSYN-179)
+Information: setting M7 as max routing layer.  (PSYN-179)
+Information: Uniquified 20 instances of design 'HA'. (OPT-1056)
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+
+TLU+ File = /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/star_rcxt//saed32nm_1p9m_Cmax.tluplus
+TLU+ File = /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/star_rcxt//saed32nm_1p9m_Cmin.tluplus
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+Warning: Total of 882 technology library cells with the same names are found. Run '-check_only' with 'compile_ultra' to see more details. (OPT-1434)
+Information: Choosing a test methodology will restrict the optimization of sequential cells. (UIO-12)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | P-2019.03-DWBB_201903.1 |     *     |
+| Licensed DW Building Blocks        | P-2019.03-DWBB_201903.1 |     *     |
+============================================================================
+
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+
+Information: There are 20 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+  Simplifying Design 'fanout'
+
+Information: Layer M1 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M8 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M9 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MRDL is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer M1 : 0.16 0.14 (RCEX-011)
+Information: Library Derived Res for layer M1 : 2e-06 2e-06 (RCEX-011)
+Information: Library Derived Cap for layer M2 : 0.17 0.15 (RCEX-011)
+Information: Library Derived Res for layer M2 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M3 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M3 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M4 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M4 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M5 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M5 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M6 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M6 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M7 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M7 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M8 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M8 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M9 : 0.11 0.088 (RCEX-011)
+Information: Library Derived Res for layer M9 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer MRDL : 0.11 0.11 (RCEX-011)
+Information: Library Derived Res for layer MRDL : 1.8e-07 1.8e-07 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.098 0.084 (RCEX-011)
+Information: Library Derived Horizontal Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.12 0.11 (RCEX-011)
+Information: Library Derived Vertical Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 5.8e-07 5.8e-07 (RCEX-011)
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Loaded alib file './alib-52/saed32hvt_ss0p75v125c.db.alib'
+Loaded alib file './alib-52/saed32hvt_ss0p95v125c.db.alib'
+Loaded alib file './alib-52/saed32lvt_ss0p75v125c.db.alib' (placeholder)
+Loaded alib file './alib-52/saed32lvt_ss0p95v125c.db.alib' (placeholder)
+Warning: Operating condition ss0p75v125c set on design fanout has different process,
+voltage and temperatures parameters than the parameters at which target library 
+saed32hvt_ss0p95v125c is characterized. Delays may be inaccurate as a result. (OPT-998)
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'fanout'
+  Processing 'HA_0'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: Automatic shift-register identification is enabled for scan. Not all registers will be scan-replaced. (OPT-467)
+Information: Complementing port 's' in design 'HA_19'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_18'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_17'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_16'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_15'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_14'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_13'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_12'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_11'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_10'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_9'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_8'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_7'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_6'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_5'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_4'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_3'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_2'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_1'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_0'.
+         The new name of the port is 's_BAR'. (OPT-319)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+  Mapping Optimization (Phase 1)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Global Optimizations
+  ------------------------------
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Delay Optimization
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:18       9.1      0.00       0.0       2.5                           24041.1816
+    0:00:18       9.1      0.00       0.0       2.5                           24041.1816
+    0:00:18       9.1      0.00       0.0       2.5                           24041.1816
+    0:00:18       9.1      0.00       0.0       2.5                           24041.1816
+    0:00:18       9.1      0.00       0.0       2.5                           24041.1816
+    0:00:18       9.1      0.00       0.0       2.5                           24041.1816
+    0:00:18       9.1      0.00       0.0       2.5                           24041.1816
+    0:00:18       9.1      0.00       0.0       2.5                           24041.1816
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+  Loading design 'fanout'
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: Layer M1 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M8 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M9 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MRDL is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer M1 : 0.16 0.14 (RCEX-011)
+Information: Library Derived Res for layer M1 : 2e-06 2e-06 (RCEX-011)
+Information: Library Derived Cap for layer M2 : 0.17 0.15 (RCEX-011)
+Information: Library Derived Res for layer M2 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M3 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M3 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M4 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M4 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M5 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M5 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M6 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M6 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M7 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M7 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M8 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M8 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M9 : 0.11 0.088 (RCEX-011)
+Information: Library Derived Res for layer M9 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer MRDL : 0.11 0.11 (RCEX-011)
+Information: Library Derived Res for layer MRDL : 1.8e-07 1.8e-07 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.098 0.084 (RCEX-011)
+Information: Library Derived Horizontal Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.12 0.11 (RCEX-011)
+Information: Library Derived Vertical Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 5.8e-07 5.8e-07 (RCEX-011)
+
+...100% done.
+
+
+ Collecting Buffer Trees ... Found 2
+
+ Processing Buffer Trees ... 
+
+    [1]  10% ...
+    [2]  20% ...
+    [2] 100% Done ...
+
+
+Information: Automatic high-fanout synthesis deletes 4 cells. (HFS-802)
+Information: Automatic high-fanout synthesis adds 4 new cells. (PSYN-864)
+
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:28      13.2      0.00       0.0       0.0                           56423.8711
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+    0:00:28      13.2      0.00       0.0       0.0                           56423.8711
+    0:00:28      10.2      0.00       0.0       0.5                           16136.5273
+
+
+  Beginning Design Rule Fixing  (max_transition)
+  ------------------------------------
+    0:00:28      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:28      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:28      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:28      11.2      0.00       0.0       0.0                           28376.1758
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Delay Optimization HSVT Pass
+  --------------------------------------
+    0:00:33      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:33      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:33      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:33      11.2      0.00       0.0       0.0                           28376.1758
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+
+  Beginning High Effort Optimization Phase
+  ----------------------------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+
+  Beginning Timing Optimization
+  -----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+    0:00:35      11.2      0.00       0.0       0.0                           28376.1758
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+
+  High Effort Optimization Phase Complete
+  ---------------------------------------
+
+Skipping remaining steps due to timing met. Go to finish
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: In the design fanout, net 'se8' is connecting multiple ports. (UCN-1)
+Warning: In the design fanout, net 'sf4' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_19, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_0, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_1, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_2, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_3, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_4, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_5, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_6, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_7, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_8, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_9, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_10, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_11, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_12, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_13, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_14, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_15, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_16, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_17, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_18, net 'x' is connecting multiple ports. (UCN-1)
+Writing verilog file '/u/pratik2/Floorplan-based-synthesis/syn/outputs/fanout.dct.vg'.
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+Writing ddc file '../outputs/fanout.dct.ddc'.
+dc_shell-topo> gui_start
+Current design is 'fanout'.
+4.1
+Current design is 'fanout'.
+dc_shell-topo> 
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/generic.sdb'
+dc_shell-topo> gui_start
+dc_shell-topo> report_buffer_tree
+Error: Either -from or -net must be specified. (UID-256)
+0
+dc_shell-topo> report_buffer_tree -from e1/c
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 18:26:44 2021
+****************************************
+
+Driver (level 0): e1/c (**net_link**)
+   Port (level 0): ce1 (**out_port**)
+
+----------------------------------------
+
+1
+dc_shell-topo> report_buffer_tree -from e1/*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 18:27:15 2021
+****************************************
+
+Driver (level 0): e1/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e1/c (**net_link**)
+   Port (level 0): ce1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e1/x (**net_link**)
+   Port (level 0): e1/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e1/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell-topo> report_buffer_tree -from */*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 18:30:12 2021
+****************************************
+
+Driver (level 0): e1/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e1/c (**net_link**)
+   Port (level 0): ce1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e1/x (**net_link**)
+   Port (level 0): e1/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e1/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e2/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e2/c (**net_link**)
+   Port (level 0): ce2 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e2/x (**net_link**)
+   Port (level 0): e2/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e2/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e3/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e3/c (**net_link**)
+   Port (level 0): ce3 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e3/x (**net_link**)
+   Port (level 0): e3/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e3/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e4/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e4/c (**net_link**)
+   Port (level 0): ce4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e4/x (**net_link**)
+   Port (level 0): e4/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e4/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e5/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e5/c (**net_link**)
+   Port (level 0): ce5 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e5/x (**net_link**)
+   Port (level 0): e5/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e5/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e6/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e6/c (**net_link**)
+   Port (level 0): ce6 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e6/x (**net_link**)
+   Port (level 0): e6/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e6/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e7/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e7/c (**net_link**)
+   Port (level 0): ce7 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e7/x (**net_link**)
+   Port (level 0): e7/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e7/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e8/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e8/c (**net_link**)
+   Port (level 0): ce8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e8/x (**net_link**)
+   Port (level 0): e8/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e8/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e9/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e9/c (**net_link**)
+   Port (level 0): ce9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e9/x (**net_link**)
+   Port (level 0): e9/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e9/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): se9 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): e10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f1/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f1/c (**net_link**)
+   Port (level 0): cf1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f1/x (**net_link**)
+   Port (level 0): f1/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f1/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f2/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f2/c (**net_link**)
+   Port (level 0): cf2 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f2/x (**net_link**)
+   Port (level 0): f2/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f2/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f3/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f3/c (**net_link**)
+   Port (level 0): cf3 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f3/x (**net_link**)
+   Port (level 0): f3/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f3/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f4/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f4/c (**net_link**)
+   Port (level 0): cf4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f4/x (**net_link**)
+   Port (level 0): f4/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f4/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f5/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f5/c (**net_link**)
+   Port (level 0): cf5 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f5/x (**net_link**)
+   Port (level 0): f5/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f5/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f6/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f6/c (**net_link**)
+   Port (level 0): cf6 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f6/x (**net_link**)
+   Port (level 0): f6/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f6/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f7/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f7/c (**net_link**)
+   Port (level 0): cf7 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f7/x (**net_link**)
+   Port (level 0): f7/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f7/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f8/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f8/c (**net_link**)
+   Port (level 0): cf8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f8/x (**net_link**)
+   Port (level 0): f8/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f8/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f9/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f9/c (**net_link**)
+   Port (level 0): cf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f9/x (**net_link**)
+   Port (level 0): f9/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f9/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f10/s_BAR (**net_link**)
+   Driver (level 1): U7/Y (INVX2_HVT)
+       Port (level 1): sf1 (**out_port**)
+       Port (level 1): sf9 (**out_port**)
+       Port (level 1): sf8 (**out_port**)
+       Port (level 1): sf7 (**out_port**)
+       Port (level 1): sf6 (**out_port**)
+       Port (level 1): sf5 (**out_port**)
+       Port (level 1): sf2 (**out_port**)
+       Port (level 1): sf3 (**out_port**)
+       Port (level 1): sf4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/c (**net_link**)
+   Port (level 0): cf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/x (**net_link**)
+   Port (level 0): f10/s_BAR (**net_link**)
+   Port (level 0): f10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f10/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): U11/**logic_1** (**logic_1**)
+   Load (level 0): e2/y (**net_link**)
+   Load (level 0): e3/y (**net_link**)
+   Load (level 0): e4/y (**net_link**)
+   Load (level 0): e5/y (**net_link**)
+   Load (level 0): e6/y (**net_link**)
+   Load (level 0): e7/y (**net_link**)
+   Load (level 0): e8/y (**net_link**)
+   Load (level 0): e9/y (**net_link**)
+   Load (level 0): e10/y (**net_link**)
+   Load (level 0): f1/y (**net_link**)
+   Load (level 0): f2/y (**net_link**)
+   Load (level 0): f3/y (**net_link**)
+   Load (level 0): f4/y (**net_link**)
+   Load (level 0): f5/y (**net_link**)
+   Load (level 0): f6/y (**net_link**)
+   Load (level 0): f7/y (**net_link**)
+   Load (level 0): f8/y (**net_link**)
+   Load (level 0): f9/y (**net_link**)
+   Load (level 0): f10/y (**net_link**)
+   Load (level 0): e1/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): b (**in_port**)
+   Load (level 0): U6/A1 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): a (**in_port**)
+   Load (level 0): U6/A2 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): U6/Y (NAND2X1_HVT)
+   Driver (level 1): U8/Y (INVX2_HVT)
+       Load (level 1): e8/x (**net_link**)
+       Load (level 1): e6/x (**net_link**)
+       Load (level 1): e4/x (**net_link**)
+       Load (level 1): e2/x (**net_link**)
+       Load (level 1): e1/x (**net_link**)
+       Load (level 1): e3/x (**net_link**)
+       Load (level 1): e5/x (**net_link**)
+       Load (level 1): e7/x (**net_link**)
+       Load (level 1): e9/x (**net_link**)
+       Load (level 1): e10/x (**net_link**)
+   Port (level 0): se10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): d (**in_port**)
+   Load (level 0): U9/A1 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): c (**in_port**)
+   Load (level 0): U9/A2 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): U9/Y (NAND2X1_HVT)
+   Driver (level 1): U5/Y (INVX2_HVT)
+       Load (level 1): f3/x (**net_link**)
+       Load (level 1): f4/x (**net_link**)
+       Load (level 1): f5/x (**net_link**)
+       Load (level 1): f8/x (**net_link**)
+       Load (level 1): f6/x (**net_link**)
+       Load (level 1): f10/x (**net_link**)
+       Load (level 1): f9/x (**net_link**)
+       Load (level 1): f7/x (**net_link**)
+       Load (level 1): f1/x (**net_link**)
+       Load (level 1): f2/x (**net_link**)
+   Port (level 0): sf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U9/Y (NAND2X1_HVT)
+   Driver (level 1): U5/Y (INVX2_HVT)
+       Load (level 1): f3/x (**net_link**)
+       Load (level 1): f4/x (**net_link**)
+       Load (level 1): f5/x (**net_link**)
+       Load (level 1): f8/x (**net_link**)
+       Load (level 1): f6/x (**net_link**)
+       Load (level 1): f10/x (**net_link**)
+       Load (level 1): f9/x (**net_link**)
+       Load (level 1): f7/x (**net_link**)
+       Load (level 1): f1/x (**net_link**)
+       Load (level 1): f2/x (**net_link**)
+   Port (level 0): sf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U5/Y (INVX2_HVT)
+   Load (level 0): f3/x (**net_link**)
+   Load (level 0): f4/x (**net_link**)
+   Load (level 0): f5/x (**net_link**)
+   Load (level 0): f8/x (**net_link**)
+   Load (level 0): f6/x (**net_link**)
+   Load (level 0): f10/x (**net_link**)
+   Load (level 0): f9/x (**net_link**)
+   Load (level 0): f7/x (**net_link**)
+   Load (level 0): f1/x (**net_link**)
+   Load (level 0): f2/x (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): U6/Y (NAND2X1_HVT)
+   Driver (level 1): U8/Y (INVX2_HVT)
+       Load (level 1): e8/x (**net_link**)
+       Load (level 1): e6/x (**net_link**)
+       Load (level 1): e4/x (**net_link**)
+       Load (level 1): e2/x (**net_link**)
+       Load (level 1): e1/x (**net_link**)
+       Load (level 1): e3/x (**net_link**)
+       Load (level 1): e5/x (**net_link**)
+       Load (level 1): e7/x (**net_link**)
+       Load (level 1): e9/x (**net_link**)
+       Load (level 1): e10/x (**net_link**)
+   Port (level 0): se10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U8/Y (INVX2_HVT)
+   Load (level 0): e8/x (**net_link**)
+   Load (level 0): e6/x (**net_link**)
+   Load (level 0): e4/x (**net_link**)
+   Load (level 0): e2/x (**net_link**)
+   Load (level 0): e1/x (**net_link**)
+   Load (level 0): e3/x (**net_link**)
+   Load (level 0): e5/x (**net_link**)
+   Load (level 0): e7/x (**net_link**)
+   Load (level 0): e9/x (**net_link**)
+   Load (level 0): e10/x (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f10/s_BAR (**net_link**)
+   Driver (level 1): U7/Y (INVX2_HVT)
+       Port (level 1): sf1 (**out_port**)
+       Port (level 1): sf9 (**out_port**)
+       Port (level 1): sf8 (**out_port**)
+       Port (level 1): sf7 (**out_port**)
+       Port (level 1): sf6 (**out_port**)
+       Port (level 1): sf5 (**out_port**)
+       Port (level 1): sf2 (**out_port**)
+       Port (level 1): sf3 (**out_port**)
+       Port (level 1): sf4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U7/Y (INVX2_HVT)
+   Port (level 0): sf1 (**out_port**)
+   Port (level 0): sf9 (**out_port**)
+   Port (level 0): sf8 (**out_port**)
+   Port (level 0): sf7 (**out_port**)
+   Port (level 0): sf6 (**out_port**)
+   Port (level 0): sf5 (**out_port**)
+   Port (level 0): sf2 (**out_port**)
+   Port (level 0): sf3 (**out_port**)
+   Port (level 0): sf4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): se9 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U10/Y (INVX2_HVT)
+   Port (level 0): se9 (**out_port**)
+   Port (level 0): se7 (**out_port**)
+   Port (level 0): se5 (**out_port**)
+   Port (level 0): se3 (**out_port**)
+   Port (level 0): se1 (**out_port**)
+   Port (level 0): se2 (**out_port**)
+   Port (level 0): se4 (**out_port**)
+   Port (level 0): se6 (**out_port**)
+   Port (level 0): se8 (**out_port**)
+
+----------------------------------------
+
+1
+dc_shell-topo> report_buffer_tree -from e10/*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 18:32:16 2021
+****************************************
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): se9 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): e10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell-topo> clean_buffer_tree -from e1/*
+  Removing buffer tree(s) in Design 'fanout'
+  Skipping pin 'e1/s_BAR' - it is not connected to any net
+
+1
+dc_shell-topo> report_buffer_tree -from e1/*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 18:36:09 2021
+****************************************
+
+Driver (level 0): e1/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e1/c (**net_link**)
+   Port (level 0): ce1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e1/x (**net_link**)
+   Port (level 0): e1/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e1/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell-topo> man create_buffer_tree
+2.  Synopsys Commands                                        Command Reference
+                              create_buffer_tree
+
+NAME
+       create_buffer_tree
+              Creates a buffer tree for the specified driver pins and nets.
+
+SYNTAX
+       status create_buffer_tree
+               [-from pin_net_list]
+               [-incremental]
+               [-no_legalize]
+               [-on_route [-skip_detail_route]]
+               [-align_hierarchy_for_long_nets]
+
+   Data Types
+       pin_net_list     collection
+
+ARGUMENTS
+       -from pin_net_list
+              Specifies  the  driver  pins and nets for which the tool creates
+              buffer trees.  When the -from option is not specified, the  cre-
+              ate_buffer_tree  command  works on all drivers with a transitive
+              fanout of 5 or more.
+
+       -incremental
+              Sets the scope of creating the buffer  tree  for  the  specified
+              nets  rather than the entire buffer tree driven by the specified
+              nets.  When this option  is  specified,  the  create_buffer_tree
+              command  constructs a buffer tree, if needed, on each net speci-
+              fied by the -from option to reduce the high fanout of each  net,
+              but  it  does  not remove any existing buffers or inverters. So,
+              the scope of creating buffer trees is a single specified net.
+
+       -no_legalize
+              Disables placement legalization at the  end  of  buffering.   By
+              default  Design  Compiler  does not do placement legalization so
+              the option doesn't have any effect.
+
+       -on_route
+              Perform the postroute optimization flow, where it fixes DRC vio-
+              lations  by  using  the route_opt command and then the focal_opt
+              command. It focuses mainly on fixing maximum net length, so  you
+              need  to  specify  the  max_net_length  constraint  by using the
+              set_max_net_length  command,  before  using  this  option.   The
+              final database is a detail routed database.
+
+              It  is  recommended  to  use  the -align_hierarchy_for_long_nets
+              option with the -on_route option  to  ensure  that  optimization
+              occurs for long nets crossing logical hierarchies.
+
+              You  can use the -from option with this option to fix DRC viola-
+              tions for the concentrated nets. However, if you use  the  -from
+              option,  the design must be detail routed and you cannot use the
+              -skip_detail_route or -align_hierarchy_for_long_nets options.
+
+              This option is not supported in  Design  Compiler  topographical
+              mode and will be ignored.
+
+       -skip_detail_route
+              Skips  detail  routing  when  used with the -on_route option. By
+              default the -on_route option triggers full detail routing  after
+              topology-based DRC optimization.  This option can reduce runtime
+              of the on_route option by skipping the final detail route.
+
+              This option can only be used with the  -on_route  option.   This
+              option cannot be combined with the -from option.
+
+              This  option  is  not supported in Design Compiler topographical
+              mode and will be ignored.
+
+       -align_hierarchy_for_long_nets
+              Enables additional optimizations and port punching for long nets
+              that  crosses  multiple  hierarchies.   Long nets are those nets
+              that violate the maximum net length constraint for  the  design.
+              You   can   specify   max_net_length    constraint  via  command
+              set_max_net_length before using this option.  If  you  use  this
+              option  and the  design  does not have a maximum net length con-
+              straint, the command fails with an error message.
+
+              When you use this option, the tool  first  performs  high-fanout
+              net fixing and also fixing DRC violations, such as maximum tran-
+              sition and capacitance, for low fanout nets.  It  then  performs
+              preroute topology-based buffering and port punching for the nets
+              that violate the maximum net length constraint and crosses  mul-
+              tiple hierarchies. If both of these conditions are not met, this
+              additional optimization is not performed.
+
+              This option does not fix all maximum net length constraint.  You
+              have to rely on the -on_route option to fix the remaining viola-
+              tions.
+
+              This option can be used alone or with the -on_route option,  but
+              it cannot be used with the -from options.
+
+              This  option  is  not supported in Design Compiler topographical
+              mode and will be ignored.
+
+DESCRIPTION
+       The create_buffer_tree command creates a buffer tree for each specified
+       driver pin and for the driver pin of each specified net.
+
+       The  create_buffer_tree  command  generates a hierarchical buffer tree,
+       and buffers are inserted across hierarchical boundaries.   The  command
+       is  location-based. Therefore, the specified driver pin should not be a
+       hierarchical pin because a hierarchical pin does not have a location.
+
+       Use this command on a placed design only. The command requires the fol-
+       lowing libraries and information:
+
+        o  The  physical  libraries  that  correspond  to  the specified logic
+         libraries.
+
+        o The capacitance and resistance per  unit  length  derived  from  the
+         physical library or user-specified.
+
+   Multicorner-Multimode Support
+       This command uses information from all active scenarios.
+
+EXAMPLES
+       The  following  example  creates  a  buffer tree that is implemented at
+       driver a/O:
+
+         prompt> create_buffer_tree -from [get_pins a/O]
+
+       The following example creates buffer trees for driver a/O and net n1:
+
+         prompt> create_buffer_tree -from {[get_pins a/O] [get_nets n1]}
+
+SEE ALSO
+       remove_buffer_tree(2)
+       report_buffer_tree(2)
+       report_ahfs_options(2)
+       report_net_fanout(2)
+       set_ahfs_options(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> man create_buffer_tree
+2.  Synopsys Commands                                        Command Reference
+                              create_buffer_tree
+
+NAME
+       create_buffer_tree
+              Creates a buffer tree for the specified driver pins and nets.
+
+SYNTAX
+       status create_buffer_tree
+               [-from pin_net_list]
+               [-incremental]
+               [-no_legalize]
+               [-on_route [-skip_detail_route]]
+               [-align_hierarchy_for_long_nets]
+
+   Data Types
+       pin_net_list     collection
+
+ARGUMENTS
+       -from pin_net_list
+              Specifies  the  driver  pins and nets for which the tool creates
+              buffer trees.  When the -from option is not specified, the  cre-
+              ate_buffer_tree  command  works on all drivers with a transitive
+              fanout of 5 or more.
+
+       -incremental
+              Sets the scope of creating the buffer  tree  for  the  specified
+              nets  rather than the entire buffer tree driven by the specified
+              nets.  When this option  is  specified,  the  create_buffer_tree
+              command  constructs a buffer tree, if needed, on each net speci-
+              fied by the -from option to reduce the high fanout of each  net,
+              but  it  does  not remove any existing buffers or inverters. So,
+              the scope of creating buffer trees is a single specified net.
+
+       -no_legalize
+              Disables placement legalization at the  end  of  buffering.   By
+              default  Design  Compiler  does not do placement legalization so
+              the option doesn't have any effect.
+
+       -on_route
+              Perform the postroute optimization flow, where it fixes DRC vio-
+              lations  by  using  the route_opt command and then the focal_opt
+              command. It focuses mainly on fixing maximum net length, so  you
+              need  to  specify  the  max_net_length  constraint  by using the
+              set_max_net_length  command,  before  using  this  option.   The
+              final database is a detail routed database.
+
+              It  is  recommended  to  use  the -align_hierarchy_for_long_nets
+              option with the -on_route option  to  ensure  that  optimization
+              occurs for long nets crossing logical hierarchies.
+
+              You  can use the -from option with this option to fix DRC viola-
+              tions for the concentrated nets. However, if you use  the  -from
+              option,  the design must be detail routed and you cannot use the
+              -skip_detail_route or -align_hierarchy_for_long_nets options.
+
+              This option is not supported in  Design  Compiler  topographical
+              mode and will be ignored.
+
+       -skip_detail_route
+              Skips  detail  routing  when  used with the -on_route option. By
+              default the -on_route option triggers full detail routing  after
+              topology-based DRC optimization.  This option can reduce runtime
+              of the on_route option by skipping the final detail route.
+
+              This option can only be used with the  -on_route  option.   This
+              option cannot be combined with the -from option.
+
+              This  option  is  not supported in Design Compiler topographical
+              mode and will be ignored.
+
+       -align_hierarchy_for_long_nets
+              Enables additional optimizations and port punching for long nets
+              that  crosses  multiple  hierarchies.   Long nets are those nets
+              that violate the maximum net length constraint for  the  design.
+              You   can   specify   max_net_length    constraint  via  command
+              set_max_net_length before using this option.  If  you  use  this
+              option  and the  design  does not have a maximum net length con-
+              straint, the command fails with an error message.
+
+              When you use this option, the tool  first  performs  high-fanout
+              net fixing and also fixing DRC violations, such as maximum tran-
+              sition and capacitance, for low fanout nets.  It  then  performs
+              preroute topology-based buffering and port punching for the nets
+              that violate the maximum net length constraint and crosses  mul-
+              tiple hierarchies. If both of these conditions are not met, this
+              additional optimization is not performed.
+
+              This option does not fix all maximum net length constraint.  You
+              have to rely on the -on_route option to fix the remaining viola-
+              tions.
+
+              This option can be used alone or with the -on_route option,  but
+              it cannot be used with the -from options.
+
+              This  option  is  not supported in Design Compiler topographical
+              mode and will be ignored.
+
+DESCRIPTION
+       The create_buffer_tree command creates a buffer tree for each specified
+       driver pin and for the driver pin of each specified net.
+
+       The  create_buffer_tree  command  generates a hierarchical buffer tree,
+       and buffers are inserted across hierarchical boundaries.   The  command
+       is  location-based. Therefore, the specified driver pin should not be a
+       hierarchical pin because a hierarchical pin does not have a location.
+
+       Use this command on a placed design only. The command requires the fol-
+       lowing libraries and information:
+
+        o  The  physical  libraries  that  correspond  to  the specified logic
+         libraries.
+
+        o The capacitance and resistance per  unit  length  derived  from  the
+         physical library or user-specified.
+
+   Multicorner-Multimode Support
+       This command uses information from all active scenarios.
+
+EXAMPLES
+       The  following  example  creates  a  buffer tree that is implemented at
+       driver a/O:
+
+         prompt> create_buffer_tree -from [get_pins a/O]
+
+       The following example creates buffer trees for driver a/O and net n1:
+
+         prompt> create_buffer_tree -from {[get_pins a/O] [get_nets n1]}
+
+SEE ALSO
+       remove_buffer_tree(2)
+       report_buffer_tree(2)
+       report_ahfs_options(2)
+       report_net_fanout(2)
+       set_ahfs_options(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> gui_start
+Current design is 'fanout'.
+Current design is 'fanout'.
+dc_shell-topo> help suboptimal
+Information: No commands matched 'suboptimal'. (CMD-040)
+dc_shell-topo> help buffering
+Information: No commands matched 'buffering'. (CMD-040)
+dc_shell-topo> help buffer
+Information: No commands matched 'buffer'. (CMD-040)
+dc_shell-topo> man report_buffer_tree
+2.  Synopsys Commands                                        Command Reference
+                              report_buffer_tree
+
+NAME
+       report_buffer_tree
+              Reports  the  buffer tree and its level information at the given
+              driver pin.
+
+SYNTAX
+       status report_buffer_tree
+               [-from start_point_list | -net net_list]
+               [-depth max_depth]
+               [-connections]
+               [-hierarchy]
+               [-physical]
+               [-nosplit]
+
+   Data Types
+       start_point_list     list
+       net_list             list
+       max_depth            int
+
+ARGUMENTS
+       -from start_point_list
+              Specifies the starting point of the buffer tree.   The  starting
+              point  is  defined as level 0 of the tree.  The start_point_list
+              must contain only pins or  ports.   This  option  and  the  -net
+              option are mutually exclusive.
+
+       -net net_list
+              Specifies  a  net as the starting point of the buffer tree.  The
+              net_list must contain only nets.   This  option  and  the  -from
+              option are mutually exclusive.
+
+       -depth max_depth
+              Reports  only  the max_depth levels of buffers in the tree.  The
+              default is to report the buffer tree until a real load or  hier-
+              archical boundary is reached.
+
+       -connections
+              Shows  the  net  connections in the report.  By default, the net
+              connections are not shown.
+
+       -hierarchy
+              Shows the buffer tree across the  hierarchy.   By  default,  the
+              report terminates at hierarchical boundaries.
+
+       -physical
+              Displays  the  location  for  each  pin, with the coordinates in
+              microns.
+
+       -nosplit
+              Prevents line splitting, making it easier to  write  scripts  to
+              extract  information  from  the  report output.  By default, the
+              design information is listed in  fixed-width  columns.   If  the
+              information  in a given field exceeds the column width, the next
+              field begins on a new line, starting in the correct column.
+
+DESCRIPTION
+       The report_buffer_tree command reports  a  buffer  tree  at  the  given
+       driver pins or driver nets.  It reports the full name of the driver pin
+       (which includes the name of the cell), the name of  the  library  cell,
+       and the level of the driver relative to the starting point.  The start-
+       ing point is defined as level 0 of the tree.
+
+       Reporting terminates at the non-buffer  pins,  hierarchical  boundaries
+       (except when the -hierarchy option is used), or when the level reported
+       exceeds the value specified by max_depth.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The following example shows how to report a buffer tree:
+
+         prompt> report_buffer_tree -from cell1/O
+
+       The following example shows how to report a buffer tree with  net  con-
+       nections:
+
+         prompt> report_buffer_tree -connections -from cell1/O
+
+SEE ALSO
+       all_fanout(2)
+       balance_buffer(2)
+       clean_buffer_tree(2)
+       create_buffer_tree(2)
+       remove_buffer_tree(2)
+       report_constraint(2)
+       report_hierarchy(2)
+       report_net_fanout(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> man clean_buffer_tree
+2.  Synopsys Commands                                        Command Reference
+                               clean_buffer_tree
+
+NAME
+       clean_buffer_tree
+              Removes  the  buffer tree at the specified driver pin, load pin,
+              or driver net on a mapped design.
+
+SYNTAX
+       status clean_buffer_tree
+               [-from start_point_list]
+               [-to object_list]
+               [-net net_list]
+               [-source_of object_list]
+               [-hierarchy]
+               [-global]
+               [-threshold integer_in_1]
+
+   Data Types
+       start_point_list     list
+       object_list          list
+       net_list             list
+       integer_in_1         integer
+
+ARGUMENTS
+       -from start_point_list
+              Specifies the starting point of the buffer tree to  be  removed.
+              The  start_point_list  must  contain  only  pins or ports.  This
+              option can be used in conjunction with the -to and -net options.
+
+       -to object_list
+              The buffer tree removal starts at the immediate buffer source of
+              the specified pins or ports.  The object_list must contain  only
+              pins  or ports.  This option can be used in conjunction with the
+              -from and -net options.
+
+       -net net_list
+              Specifies the driver net that is  the  starting  point  for  the
+              buffer tree to be removed.  The net_list must contain only nets.
+              This option can be used in conjunction with the  -from  and  -to
+              options.
+
+       -source_of object_list
+              The  complete  buffer  tree in the fanin to the object up to the
+              object itself is removed.  The  object_list  must  contain  only
+              output  ports or input pins.  This option cannot be used in con-
+              junction with the -from, -to or -net options.
+
+       -hierarchy
+              Removes the buffer tree across the hierarchy.  By  default,  the
+              buffer  tree  removal stops when it reaches the hierarchy bound-
+              ary.
+
+       -global
+              Searches for high-fanout buffer tree root pins in the  net_list.
+              This  option is not valid with the -from, -to, and -net options.
+
+       -threshold integer_in_1
+              Specifies the  fanout  threshold  range  that  determines  which
+              buffer  trees are cleaned up.  If the number of sink pins driven
+              from the primary root pin of the buffer tree is larger than  the
+              threshold, the buffer tree circuitry is cleaned up.  This option
+              is only valid with the -global option.
+
+              Valid -threshold values are from 1 to 1,000,000.
+
+DESCRIPTION
+       The clean_buffer_tree command removes a  buffer  tree  at  a  specified
+       driver  pin,  load pin, or driver net on a mapped design.  When given a
+       driver pin or driver net, the buffer tree is removed with  this  driver
+       as  the  root.   When given a load pin, the buffer tree is removed with
+       the immediate driver of the load pin as the  root.   By  default,  this
+       command  does  not  remove  the  buffer  tree across the hierarchy.  To
+       enable buffer tree removal across boundaries,  specify  the  -hierarchy
+       option when running the command.
+
+       The  buffer  tree  removal process starts at the source and removes all
+       buffer and inverter cells in its transitive fanout cone until it  finds
+       nonbuffer  cells  or  hierarchy boundaries.  This does not apply if the
+       -hierarchy option is specified.
+
+       Buffer and inverter cells that have the dont_touch  attribute  or  that
+       are  connected  to  a  net  that  has  the dont_touch attribute are not
+       removed. Similarly, any cells that follow these cells in the transitive
+       fanout are not removed.
+
+       The clean_buffer_tree command adds an inverter driving all of the orig-
+       inal buffer tree's inverted loads after it has removed all buffers  and
+       inverters in the tree.
+
+       This  command  accepts the final implementation of buffer tree removal,
+       even if it negatively impacts the  timing  or  DRC  violations  in  the
+       design.
+
+EXAMPLES
+       The following example removes a buffer tree without crossing hierarchi-
+       cal boundaries:
+
+         prompt> clean_buffer_tree -from cell1/O
+
+       The following example removes a buffer tree that  crosses  hierarchical
+       boundaries:
+
+         prompt> clean_buffer_tree -hierarchy -from cell1/O
+
+SEE ALSO
+       all_fanout(2)
+       balance_buffer(2)
+       report_buffer_tree(2)
+       report_cell(2)
+       report_constraint(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> report_buffer_tree
+Error: Either -from or -net must be specified. (UID-256)
+0
+dc_shell-topo> report_buffer_tree -from e10/*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 19:04:21 2021
+****************************************
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): se9 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): e10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell-topo> clean_buffer_tree -from e10/*
+  Removing buffer tree(s) in Design 'fanout'
+
+1
+dc_shell-topo> clean_buffer_tree -from e10/*
+  Removing buffer tree(s) in Design 'fanout'
+
+1
+dc_shell-topo> report_buffer_tree -from e10/*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 19:04:45 2021
+****************************************
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): se9 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): e10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell-topo> clean_buffer_tree -from e10/s_BAR
+  Removing buffer tree(s) in Design 'fanout'
+
+1
+dc_shell-topo> report_buffer_tree -from e10/*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 19:06:40 2021
+****************************************
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): se9 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): e10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell-topo> report_buffer_tree -from e10/se9
+Warning: Can't find object 'e10/se9' in design 'fanout'. (UID-95)
+Error: Either -from or -net must be specified. (UID-256)
+0
+dc_shell-topo> clean_buffer_tree -from e10/se9
+Warning: Can't find object 'e10/se9' in design 'fanout'. (UID-95)
+Error: Must specify one of -global, -from, -to, -net, or -source_of. (UID-1088)
+0
+dc_shell-topo> man clean_buffer_tree
+2.  Synopsys Commands                                        Command Reference
+                               clean_buffer_tree
+
+NAME
+       clean_buffer_tree
+              Removes  the  buffer tree at the specified driver pin, load pin,
+              or driver net on a mapped design.
+
+SYNTAX
+       status clean_buffer_tree
+               [-from start_point_list]
+               [-to object_list]
+               [-net net_list]
+               [-source_of object_list]
+               [-hierarchy]
+               [-global]
+               [-threshold integer_in_1]
+
+   Data Types
+       start_point_list     list
+       object_list          list
+       net_list             list
+       integer_in_1         integer
+
+ARGUMENTS
+       -from start_point_list
+              Specifies the starting point of the buffer tree to  be  removed.
+              The  start_point_list  must  contain  only  pins or ports.  This
+              option can be used in conjunction with the -to and -net options.
+
+       -to object_list
+              The buffer tree removal starts at the immediate buffer source of
+              the specified pins or ports.  The object_list must contain  only
+              pins  or ports.  This option can be used in conjunction with the
+              -from and -net options.
+
+       -net net_list
+              Specifies the driver net that is  the  starting  point  for  the
+              buffer tree to be removed.  The net_list must contain only nets.
+              This option can be used in conjunction with the  -from  and  -to
+              options.
+
+       -source_of object_list
+              The  complete  buffer  tree in the fanin to the object up to the
+              object itself is removed.  The  object_list  must  contain  only
+              output  ports or input pins.  This option cannot be used in con-
+              junction with the -from, -to or -net options.
+
+       -hierarchy
+              Removes the buffer tree across the hierarchy.  By  default,  the
+              buffer  tree  removal stops when it reaches the hierarchy bound-
+              ary.
+
+       -global
+              Searches for high-fanout buffer tree root pins in the  net_list.
+              This  option is not valid with the -from, -to, and -net options.
+
+       -threshold integer_in_1
+              Specifies the  fanout  threshold  range  that  determines  which
+              buffer  trees are cleaned up.  If the number of sink pins driven
+              from the primary root pin of the buffer tree is larger than  the
+              threshold, the buffer tree circuitry is cleaned up.  This option
+              is only valid with the -global option.
+
+              Valid -threshold values are from 1 to 1,000,000.
+
+DESCRIPTION
+       The clean_buffer_tree command removes a  buffer  tree  at  a  specified
+       driver  pin,  load pin, or driver net on a mapped design.  When given a
+       driver pin or driver net, the buffer tree is removed with  this  driver
+       as  the  root.   When given a load pin, the buffer tree is removed with
+       the immediate driver of the load pin as the  root.   By  default,  this
+       command  does  not  remove  the  buffer  tree across the hierarchy.  To
+       enable buffer tree removal across boundaries,  specify  the  -hierarchy
+       option when running the command.
+
+       The  buffer  tree  removal process starts at the source and removes all
+       buffer and inverter cells in its transitive fanout cone until it  finds
+       nonbuffer  cells  or  hierarchy boundaries.  This does not apply if the
+       -hierarchy option is specified.
+
+       Buffer and inverter cells that have the dont_touch  attribute  or  that
+       are  connected  to  a  net  that  has  the dont_touch attribute are not
+       removed. Similarly, any cells that follow these cells in the transitive
+       fanout are not removed.
+
+       The clean_buffer_tree command adds an inverter driving all of the orig-
+       inal buffer tree's inverted loads after it has removed all buffers  and
+       inverters in the tree.
+
+       This  command  accepts the final implementation of buffer tree removal,
+       even if it negatively impacts the  timing  or  DRC  violations  in  the
+       design.
+
+EXAMPLES
+       The following example removes a buffer tree without crossing hierarchi-
+       cal boundaries:
+
+         prompt> clean_buffer_tree -from cell1/O
+
+       The following example removes a buffer tree that  crosses  hierarchical
+       boundaries:
+
+         prompt> clean_buffer_tree -hierarchy -from cell1/O
+
+SEE ALSO
+       all_fanout(2)
+       balance_buffer(2)
+       report_buffer_tree(2)
+       report_cell(2)
+       report_constraint(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell-topo> clean_buffer_tree -from e10/s_BAR -hierarchy
+  Removing buffer tree(s) in Design 'fanout'
+
+1
+dc_shell-topo> report_buffer_tree -from e10/s_BAR
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 19:09:17 2021
+****************************************
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): se9 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+
+----------------------------------------
+
+1
+dc_shell-topo> clean_buffer_tree -from e10/se9 -hierarchy
+Warning: Can't find object 'e10/se9' in design 'fanout'. (UID-95)
+Error: Must specify one of -global, -from, -to, -net, or -source_of. (UID-1088)
+0
+dc_shell-topo> report_buffer_tree -from e10/s_BAR
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 19:10:07 2021
+****************************************
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): se9 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+
+----------------------------------------
+
+1
+dc_shell-topo> report_buffer_tree -from e10/*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 19:10:27 2021
+****************************************
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): se9 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): e10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell-topo> create_buffer_tree -incremental
+  Loading design 'fanout'
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+
+
+
+
+Information: Library Manufacturing Grid(GridResolution) : 1
+Information: Time Unit from Milkyway design library: 'ns' 
+Information: Design Library and main library timing units are matched - 1.000 ns. 
+Information: Resistance Unit from Milkyway design library: 'kohm' 
+Warning: Mismatch in the main library and the Milkyway library resistance units. In the main library it is 1000.000 kohm and in the Milkyway design library it is 1.000 kohm. Check and correct the resistance units in the .tf and .db files. (PSYN-476)
+Information: Capacitance Unit from Milkyway design library: 'ff' 
+Information: Design Library and main library capacitance units are matched - 0.001 pf. 
+Information: Layer M1 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M8 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M9 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MRDL is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer M1 : 0.16 0.14 (RCEX-011)
+Information: Library Derived Res for layer M1 : 2e-06 2e-06 (RCEX-011)
+Information: Library Derived Cap for layer M2 : 0.17 0.15 (RCEX-011)
+Information: Library Derived Res for layer M2 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M3 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M3 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M4 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M4 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M5 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M5 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M6 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M6 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M7 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M7 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M8 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M8 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M9 : 0.11 0.088 (RCEX-011)
+Information: Library Derived Res for layer M9 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer MRDL : 0.11 0.11 (RCEX-011)
+Information: Library Derived Res for layer MRDL : 1.8e-07 1.8e-07 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.098 0.084 (RCEX-011)
+Information: Library Derived Horizontal Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.12 0.11 (RCEX-011)
+Information: Library Derived Vertical Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 5.8e-07 5.8e-07 (RCEX-011)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+
+  Beginning Incremental High Fanout Net Synthesis
+  -----------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:49:14      11.2      0.00       0.0       0.0                           28376.1758
+ Collecting Buffer Trees ... Found 2
+
+ Processing Buffer Trees ... 
+
+    [1]  10% ...
+    [2]  20% ...
+    [2] 100% Done ...
+
+
+Information: Automatic high-fanout synthesis deletes 4 cells. (HFS-802)
+Information: Automatic high-fanout synthesis adds 4 new cells. (PSYN-864)
+
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 33.33%, saed32cell_lvt 66.67%
+1
+Current design is 'fanout'.
+dc_shell-topo> report_buffer_tree -from e10/*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 19:14:31 2021
+****************************************
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX0_LVT)
+       Port (level 1): se9 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): e10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell-topo> remove_buffer_tree -all
+Information: Identified 2 drivers for buffer tree removal. (HFS-800)
+Information: Removed 0 buffers, 2 inverters, added 2 inverters.
+Information: Complementing port 'c' in design 'HA_12'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_14'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_16'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_18'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_19'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_17'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_15'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_13'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_11'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_10'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_7'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_6'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_5'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_2'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_4'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_0'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_1'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_3'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_9'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+Information: Complementing port 'c' in design 'HA_8'.
+         The new name of the port is 'c_BAR'. (OPT-319)
+1
+dc_shell-topo> report_buffer_tree -from e10/*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 19:27:44 2021
+****************************************
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): se8 (**out_port**)
+   Port (level 0): se6 (**out_port**)
+   Port (level 0): se4 (**out_port**)
+   Port (level 0): se2 (**out_port**)
+   Port (level 0): se1 (**out_port**)
+   Port (level 0): se3 (**out_port**)
+   Port (level 0): se5 (**out_port**)
+   Port (level 0): se7 (**out_port**)
+   Port (level 0): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c_BAR (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/c_BAR (**net_link**)
+   Driver (level 1): e10/U1/Y (INVX0_LVT)
+       Port (level 1): e10/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell-topo> report_fanout
+Error: unknown command 'report_fanout' (CMD-005)
+dc_shell-topo> report_buffer_tree_qor
+0
+dc_shell-topo> report_buffer_tree_qor -from */*
+=====================================================================================================================
+   # of : # of  : # of  : max : buf. : MT violation : MC violation : MF violation :       : Wrst : Max  : source 
+  sinks : buff. : inv.  : lvl : area :  #   : max % :  #   : max % :  #   : max % :  TNS  :  slck : sbtr :  pin   
+=====================================================================================================================
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: f6/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: e1/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: U11/**logic_1**
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: f10/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: e2/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: f9/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: f8/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: e3/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: f7/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: e7/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: e4/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: f5/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: f4/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: e5/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: f3/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: f2/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: e6/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: f1/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: e10/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: e9/y
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     0: e8/y
+       1:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     1: a
+       1:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     1: d
+       1:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     1: b
+       1:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     1: c
+       0:      2:      2:    2:     3:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: U9/Y
+skipping driver U9/Y because it has already been traversed.
+       0:      2:      2:    2:     3:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: U6/Y
+skipping driver U6/Y because it has already been traversed.
+skipping driver U8/Y because it has already been traversed.
+skipping driver U5/Y because it has already been traversed.
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e9/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e8/x
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     9: e10/s_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e10/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e8/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f1/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e9/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f2/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f2/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e10/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f3/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f3/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e6/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f1/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f4/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e7/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f5/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e7/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e5/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f6/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f6/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f4/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f7/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f7/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e6/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f5/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f8/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e4/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f9/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e5/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e3/x
+       0:      0:      0:    0:     0:     0:      0:     0:      0:     0:      0:      0:  **  :     9: f10/s_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f10/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f8/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e3/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e2/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e1/c_BAR
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f9/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e1/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e4/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: f10/x
+       0:      0:      1:    0:     0:     0:      0:     1:    1.8:     0:      0:      0:  **  :    11: e2/c_BAR
+---------------------------------------------------------------------------------------------------------------------
+       4:      4:     44:    2:     5:     0:      0:    42:    1.8:     0:      0:      0:  **  :    11: =TOTAL=
+=====================================================================================================================
+1
+dc_shell-topo> report_
+Error: ambiguous command 'report_' matched 192 commands:
+        (report_ahfs_options, report_annotated_check, report_annotated_delay ...) (CMD-006)
+dc_shell-topo> report_ahfs_options
+Report AHFS options:
+*********************************************************
+AHFS options for the design:
+  Enable port punching: OFF
+  Default Reference : 
+  Port Map File : 
+  Preserve Boundary Phase : OFF
+  No Port Punching on these hier cells : ""
+  Constant Nets allowed during AHFS optimization : OFF
+1
+dc_shell-topo> exit
+
+Thank you...
+

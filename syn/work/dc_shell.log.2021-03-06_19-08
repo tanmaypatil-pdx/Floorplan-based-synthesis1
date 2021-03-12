@@ -1,0 +1,2661 @@
+setting auto_restore_mw_cel_lib_setup true
+Initializing gui preferences from file  /u/pratik2/.synopsys_dv_prefs.tcl
+dc_shell> set top_design fanout
+fanout
+dc_shell> source ../scripts/dc.tcl
+set lib_dir /pkgs/synopsys/2020/32_28nm/SAED32_EDK
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK
+# Decoder ring for the libraries
+# You will need to follow another example or look in the library directories to understand.
+# lib_types is used for the dc/dct linking variables and ICC2 NDM lcoations.
+# /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm
+# /          $lib_dir                   /lib/ $lib_type /db_nldm
+# link_library, Target_library use the sub_lib_types and corner variables. 
+# For sub_lib_types and corner:
+# Example:
+#     saed32hvt_ss0p75v125c.db
+#     |sub_lib  corner    .db
+# The current flow tries to find all sub_lib and all corners in all the search paths.  Any match will be put in the library list.
+# Wild cards can be used, but be careful.  Multiple matches can occur in ways you don't want.
+# For the target library, the same method is used as the link library except only HVT and RVT lib_types are used.
+# ICC2 NDM choosing also uses the sub_lib_types so that only the required libraries and extras are not loaded.
+# adder
+set top_design fanout
+fanout
+set add_ios 1
+1
+set pad_design 1
+1
+set design_size { 580 580  } 
+ 580 580  
+set design_io_border 310
+310
+set dc_floorplanning 1
+1
+set rtl_list [list ../rtl/$top_design.v ]
+../rtl/fanout.v
+set slow_corner "ss0p75v125c ss0p95v125c_2p25v ss0p95v125c"
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set fast_corner "ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c"
+ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c
+set synth_corners $slow_corner
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set slow_metal Cmax_125
+Cmax_125
+set fast_metal Cmax_125
+Cmax_125
+set lib_types "stdcell_hvt stdcell_rvt stdcell_lvt io_std sram"
+stdcell_hvt stdcell_rvt stdcell_lvt io_std sram
+# Get just the main standard cells, srams and IOs
+set sub_lib_type "saed32?vt_ saed32sram_ saed32io_wb_"
+saed32?vt_ saed32sram_ saed32io_wb_
+#set topdir /u/$env(USER)/PSU_RTL2GDS
+set topdir [ lindex [ regexp -inline "(.*)\(syn\|pt\|apr\)" [pwd] ] 1 ]
+/u/pratik2/Floorplan-based-synthesis/
+Warning: No designs to list. (UID-275)
+== ANALYZE autoread all files ==
+
+Starting ANALYZE autoread mode...
+Information: Adding '/u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v'.  (AUTOREAD-100)
+Information: Scanning file { fanout.v }. (AUTOREAD-303)
+Compiling source file /u/pratik2/Floorplan-based-synthesis/syn/rtl/fanout.v
+Presto compilation completed successfully.
+Autoread command completed successfully.
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/gtech.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/standard.sldb'
+  Loading link library 'saed32hvt_ss0p75v125c'
+  Loading link library 'saed32hvt_ss0p95v125c'
+  Loading link library 'saed32rvt_ss0p75v125c'
+  Loading link library 'saed32rvt_ss0p95v125c'
+  Loading link library 'saed32lvt_ss0p75v125c'
+  Loading link library 'saed32lvt_ss0p95v125c'
+  Loading link library 'saed32io_wb_ss0p95v125c_2p25v'
+  Loading link library 'saed32sram_ss0p95v125c'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Presto compilation completed successfully. (fanout)
+Elaborated 1 design.
+Current design is now 'fanout'.
+Information: Building the design 'HA'. (HDL-193)
+Presto compilation completed successfully. (HA)
+#####################################################
+proc insert_io { port side} {
+  set this_io io_${side}_${port}
+  if {  $side == "t"   } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "b"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if {  $side == "r"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "l"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  set pins [ get_pins -of_obj [ get_net $port ] ]
+  foreach_in i $pins { disconnect_net [get_net $port ] $i }
+  set port_net [get_nets -quiet $port ]
+
+  # If only a port is created, the related net is not created and connected to the port.  Do that here.
+  if { [sizeof_collection $port_net ] == 0 } { 
+      create_net $port 
+      connect_net $port [get_ports $port ]
+  }
+
+  connect_net [get_net $port ]  $this_io/PADIO
+  create_net ${this_io}_net
+  foreach_in i $pins { connect_net ${this_io}_net $i }
+  #DIN is input to IO_PAD
+  #DOUT is output of IO_PAD
+  #EN is the IO_PAD enable to output
+  if { [get_attribute [get_ports $port ] direction ] == "in" } {
+     #connect_net [get_nets  *Logic0* ] ${this_io}/EN 
+     connect_net [get_nets  *Logic1* ] ${this_io}/R_EN 
+     connect_net ${this_io}_net ${this_io}/DOUT
+  } else {
+     connect_net [get_nets  *Logic1* ] $this_io/EN 
+     #connect_net [get_nets  *Logic0* ] $this_io/R_EN 
+     connect_net ${this_io}_net $this_io/DIN
+  }
+}
+####################################################
+Warning: The specified replacement character (_) is conflicting with the specified allowed or restricted character.   (UCN-4)
+#if { [info exists synopsys_program_name ] && ($synopsys_program_name == "icc2_shell") } {
+#    puts " Creating ICC2 MCMM "
+#    create_mode func
+#    create_corner slow
+#    create_scenario -mode func -corner slow -name func_slow
+#    current_scenario func_slow
+#    set_operating_conditions ss0p75v125c
+#    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmax.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmax
+#    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmin.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmin
+#    set_parasitic_parameters -early_spec Cmax -early_temperature 125
+#    set_parasitic_parameters -late_spec Cmax -late_temperature 125
+#set_parasitic_parameters -early_spec 1p9m_Cmax -early_temperature 125 -corner default
+#set_parasitic_parameters -late_spec 1p9m_Cmax -late_temperature 125 -corner default
+#set_scenario_status  default -active false
+#    set_scenario_status func_slow -active true -hold true -setup true
+#}
+#set clock_period 1.00
+#create_clock -name "clock" -period 1 -waveform {0.0 0.50} clock
+# 0.07 ns is fairly typical for pll jitter plus other jitter.
+#set_clock_uncertainty -setup 0.07 clock
+#set_clock_uncertainty -hold 0.01 clock
+#set_clock_transition 0.1 clock
+#set_clock_latency 0.1 clock
+#set_input_delay 0.1 [all_inputs] -clock clock
+#set_output_delay 0.05 [all_outputs] -clock clock
+set_drive 0.00001 [all_inputs ]
+1
+set_load 0.5 [all_outputs]
+1
+#group_path -name INTERNAL -from [all_clocks] -to [all_clocks ]
+group_path -name INPUTS -from [ get_ports -filter "direction==in&&full_name!~*clk*" ]
+1
+group_path -name OUTPUTS -to [ get_ports -filter "direction==out" ]
+1
+Current design is 'fanout'.
+Information: Uniquified 20 instances of design 'HA'. (OPT-1056)
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+Information: Choosing a test methodology will restrict the optimization of sequential cells. (UIO-12)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | P-2019.03-DWBB_201903.1 |     *     |
+| Licensed DW Building Blocks        | P-2019.03-DWBB_201903.1 |     *     |
+============================================================================
+
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+
+Information: There are 20 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+  Simplifying Design 'fanout'
+
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Loaded alib file './alib-52/saed32hvt_ss0p75v125c.db.alib'
+Loaded alib file './alib-52/saed32hvt_ss0p95v125c.db.alib'
+Loaded alib file './alib-52/saed32lvt_ss0p75v125c.db.alib' (placeholder)
+Loaded alib file './alib-52/saed32lvt_ss0p95v125c.db.alib' (placeholder)
+Warning: Operating condition ss0p75v125c set on design fanout has different process,
+voltage and temperatures parameters than the parameters at which target library 
+saed32hvt_ss0p95v125c is characterized. Delays may be inaccurate as a result. (OPT-998)
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'fanout'
+  Processing 'HA_0'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: Automatic shift-register identification is enabled for scan. Not all registers will be scan-replaced. (OPT-467)
+Information: Complementing port 's' in design 'HA_19'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_18'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_17'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_16'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_15'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_14'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_13'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_12'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_11'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_10'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_9'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_8'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_7'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_6'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_5'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_4'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_3'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_2'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_1'.
+         The new name of the port is 's_BAR'. (OPT-319)
+Information: Complementing port 's' in design 'HA_0'.
+         The new name of the port is 's_BAR'. (OPT-319)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+  Mapping Optimization (Phase 1)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Constant Register Removal
+  -----------------------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Global Optimizations
+  ------------------------------
+  Numerical Synthesis (Phase 1)
+  Numerical Synthesis (Phase 2)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Isolate Ports
+  -----------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Delay Optimization
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:13       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:13       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:13       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:13       9.1      0.00       0.0       2.4                           24041.1816
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning WLM Backend Optimization
+  --------------------------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Delay Optimization HSVT Pass
+  --------------------------------------
+    0:00:17       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:17       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:17       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:17       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+
+
+  Beginning Design Rule Fixing  (max_transition)
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:19       9.1      0.00       0.0       2.4                           24041.1816
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+  Global Optimization (Phase 31)
+    0:00:19      14.2      0.00       0.0       0.0                           125616.5234
+    0:00:19      14.2      0.00       0.0       0.0                           125616.5234
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+
+  Beginning Leakage Power Optimization  (max_leakage_power 0)
+  ------------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:19      14.2      0.00       0.0       0.0                           125616.5234
+  Global Optimization (Phase 32)
+  Global Optimization (Phase 33)
+  Global Optimization (Phase 34)
+  Global Optimization (Phase 35)
+  Global Optimization (Phase 36)
+  Global Optimization (Phase 37)
+  Global Optimization (Phase 38)
+  Global Optimization (Phase 39)
+  Global Optimization (Phase 40)
+  Global Optimization (Phase 41)
+  Global Optimization (Phase 42)
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:20      12.2      0.00       0.0       0.0                           42400.0234
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Delay Optimization HSVT Pass
+  --------------------------------------
+    0:00:21      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:21      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:21      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:21      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:24      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:24      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:24      12.2      0.00       0.0       0.0                           42400.0234
+    0:00:24      12.2      0.00       0.0       0.0                           42400.0234
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: In the design fanout, net 'se9' is connecting multiple ports. (UCN-1)
+Warning: In the design fanout, net 'sf9' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_19, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_0, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_1, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_2, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_3, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_4, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_5, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_6, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_7, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_8, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_9, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_10, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_11, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_12, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_13, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_14, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_15, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_16, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_17, net 'x' is connecting multiple ports. (UCN-1)
+Warning: In the design HA_18, net 'x' is connecting multiple ports. (UCN-1)
+Writing verilog file '/u/pratik2/Floorplan-based-synthesis/syn/outputs/fanout.dc.vg'.
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+Writing ddc file '../outputs/fanout.dc.ddc'.
+1
+dc_shell> report_buffer_tree
+Error: Either -from or -net must be specified. (UID-256)
+0
+dc_shell> report_buffer_tree -from */*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Sat Mar  6 19:14:03 2021
+****************************************
+
+Driver (level 0): e1/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e1/c (**net_link**)
+   Port (level 0): ce1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e1/x (**net_link**)
+   Port (level 0): e1/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e1/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e2/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e2/c (**net_link**)
+   Port (level 0): ce2 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e2/x (**net_link**)
+   Port (level 0): e2/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e2/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e3/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e3/c (**net_link**)
+   Port (level 0): ce3 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e3/x (**net_link**)
+   Port (level 0): e3/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e3/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e4/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e4/c (**net_link**)
+   Port (level 0): ce4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e4/x (**net_link**)
+   Port (level 0): e4/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e4/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e5/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e5/c (**net_link**)
+   Port (level 0): ce5 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e5/x (**net_link**)
+   Port (level 0): e5/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e5/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e6/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e6/c (**net_link**)
+   Port (level 0): ce6 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e6/x (**net_link**)
+   Port (level 0): e6/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e6/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e7/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e7/c (**net_link**)
+   Port (level 0): ce7 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e7/x (**net_link**)
+   Port (level 0): e7/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e7/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e8/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e8/c (**net_link**)
+   Port (level 0): ce8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e8/x (**net_link**)
+   Port (level 0): e8/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e8/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e9/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e9/c (**net_link**)
+   Port (level 0): ce9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e9/x (**net_link**)
+   Port (level 0): e9/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e9/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U9/Y (INVX2_HVT)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+       Port (level 1): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): e10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f1/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f1/c (**net_link**)
+   Port (level 0): cf1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f1/x (**net_link**)
+   Port (level 0): f1/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f1/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f2/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f2/c (**net_link**)
+   Port (level 0): cf2 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f2/x (**net_link**)
+   Port (level 0): f2/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f2/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f3/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f3/c (**net_link**)
+   Port (level 0): cf3 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f3/x (**net_link**)
+   Port (level 0): f3/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f3/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f4/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f4/c (**net_link**)
+   Port (level 0): cf4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f4/x (**net_link**)
+   Port (level 0): f4/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f4/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f5/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f5/c (**net_link**)
+   Port (level 0): cf5 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f5/x (**net_link**)
+   Port (level 0): f5/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f5/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f6/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f6/c (**net_link**)
+   Port (level 0): cf6 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f6/x (**net_link**)
+   Port (level 0): f6/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f6/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f7/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f7/c (**net_link**)
+   Port (level 0): cf7 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f7/x (**net_link**)
+   Port (level 0): f7/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f7/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f8/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f8/c (**net_link**)
+   Port (level 0): cf8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f8/x (**net_link**)
+   Port (level 0): f8/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f8/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f9/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f9/c (**net_link**)
+   Port (level 0): cf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f9/x (**net_link**)
+   Port (level 0): f9/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f9/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): sf1 (**out_port**)
+       Port (level 1): sf2 (**out_port**)
+       Port (level 1): sf3 (**out_port**)
+       Port (level 1): sf4 (**out_port**)
+       Port (level 1): sf5 (**out_port**)
+       Port (level 1): sf6 (**out_port**)
+       Port (level 1): sf7 (**out_port**)
+       Port (level 1): sf8 (**out_port**)
+       Port (level 1): sf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/c (**net_link**)
+   Port (level 0): cf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/x (**net_link**)
+   Port (level 0): f10/s_BAR (**net_link**)
+   Port (level 0): f10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f10/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): U8/Y (NAND2X1_HVT)
+   Driver (level 1): U5/Y (INVX4_HVT)
+       Load (level 1): f10/x (**net_link**)
+       Load (level 1): f9/x (**net_link**)
+       Load (level 1): f8/x (**net_link**)
+       Load (level 1): f7/x (**net_link**)
+       Load (level 1): f6/x (**net_link**)
+       Load (level 1): f5/x (**net_link**)
+       Load (level 1): f4/x (**net_link**)
+       Load (level 1): f3/x (**net_link**)
+       Load (level 1): f2/x (**net_link**)
+       Load (level 1): f1/x (**net_link**)
+   Port (level 0): sf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U5/Y (INVX4_HVT)
+   Load (level 0): f10/x (**net_link**)
+   Load (level 0): f9/x (**net_link**)
+   Load (level 0): f8/x (**net_link**)
+   Load (level 0): f7/x (**net_link**)
+   Load (level 0): f6/x (**net_link**)
+   Load (level 0): f5/x (**net_link**)
+   Load (level 0): f4/x (**net_link**)
+   Load (level 0): f3/x (**net_link**)
+   Load (level 0): f2/x (**net_link**)
+   Load (level 0): f1/x (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): U7/Y (NAND2X1_HVT)
+   Driver (level 1): U6/Y (INVX4_HVT)
+       Load (level 1): e1/x (**net_link**)
+       Load (level 1): e10/x (**net_link**)
+       Load (level 1): e9/x (**net_link**)
+       Load (level 1): e8/x (**net_link**)
+       Load (level 1): e7/x (**net_link**)
+       Load (level 1): e6/x (**net_link**)
+       Load (level 1): e5/x (**net_link**)
+       Load (level 1): e4/x (**net_link**)
+       Load (level 1): e3/x (**net_link**)
+       Load (level 1): e2/x (**net_link**)
+   Port (level 0): se10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U6/Y (INVX4_HVT)
+   Load (level 0): e1/x (**net_link**)
+   Load (level 0): e10/x (**net_link**)
+   Load (level 0): e9/x (**net_link**)
+   Load (level 0): e8/x (**net_link**)
+   Load (level 0): e7/x (**net_link**)
+   Load (level 0): e6/x (**net_link**)
+   Load (level 0): e5/x (**net_link**)
+   Load (level 0): e4/x (**net_link**)
+   Load (level 0): e3/x (**net_link**)
+   Load (level 0): e2/x (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): b (**in_port**)
+   Load (level 0): U7/A1 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): a (**in_port**)
+   Load (level 0): U7/A2 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): U7/Y (NAND2X1_HVT)
+   Driver (level 1): U6/Y (INVX4_HVT)
+       Load (level 1): e1/x (**net_link**)
+       Load (level 1): e10/x (**net_link**)
+       Load (level 1): e9/x (**net_link**)
+       Load (level 1): e8/x (**net_link**)
+       Load (level 1): e7/x (**net_link**)
+       Load (level 1): e6/x (**net_link**)
+       Load (level 1): e5/x (**net_link**)
+       Load (level 1): e4/x (**net_link**)
+       Load (level 1): e3/x (**net_link**)
+       Load (level 1): e2/x (**net_link**)
+   Port (level 0): se10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): d (**in_port**)
+   Load (level 0): U8/A1 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): c (**in_port**)
+   Load (level 0): U8/A2 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): U8/Y (NAND2X1_HVT)
+   Driver (level 1): U5/Y (INVX4_HVT)
+       Load (level 1): f10/x (**net_link**)
+       Load (level 1): f9/x (**net_link**)
+       Load (level 1): f8/x (**net_link**)
+       Load (level 1): f7/x (**net_link**)
+       Load (level 1): f6/x (**net_link**)
+       Load (level 1): f5/x (**net_link**)
+       Load (level 1): f4/x (**net_link**)
+       Load (level 1): f3/x (**net_link**)
+       Load (level 1): f2/x (**net_link**)
+       Load (level 1): f1/x (**net_link**)
+   Port (level 0): sf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U9/Y (INVX2_HVT)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+       Port (level 1): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U9/Y (INVX2_HVT)
+   Port (level 0): se1 (**out_port**)
+   Port (level 0): se2 (**out_port**)
+   Port (level 0): se3 (**out_port**)
+   Port (level 0): se4 (**out_port**)
+   Port (level 0): se5 (**out_port**)
+   Port (level 0): se6 (**out_port**)
+   Port (level 0): se7 (**out_port**)
+   Port (level 0): se8 (**out_port**)
+   Port (level 0): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): sf1 (**out_port**)
+       Port (level 1): sf2 (**out_port**)
+       Port (level 1): sf3 (**out_port**)
+       Port (level 1): sf4 (**out_port**)
+       Port (level 1): sf5 (**out_port**)
+       Port (level 1): sf6 (**out_port**)
+       Port (level 1): sf7 (**out_port**)
+       Port (level 1): sf8 (**out_port**)
+       Port (level 1): sf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U10/Y (INVX2_HVT)
+   Port (level 0): sf1 (**out_port**)
+   Port (level 0): sf2 (**out_port**)
+   Port (level 0): sf3 (**out_port**)
+   Port (level 0): sf4 (**out_port**)
+   Port (level 0): sf5 (**out_port**)
+   Port (level 0): sf6 (**out_port**)
+   Port (level 0): sf7 (**out_port**)
+   Port (level 0): sf8 (**out_port**)
+   Port (level 0): sf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U11/**logic_1** (**logic_1**)
+   Load (level 0): e2/y (**net_link**)
+   Load (level 0): e3/y (**net_link**)
+   Load (level 0): e4/y (**net_link**)
+   Load (level 0): e5/y (**net_link**)
+   Load (level 0): e6/y (**net_link**)
+   Load (level 0): e7/y (**net_link**)
+   Load (level 0): e8/y (**net_link**)
+   Load (level 0): e9/y (**net_link**)
+   Load (level 0): e10/y (**net_link**)
+   Load (level 0): f1/y (**net_link**)
+   Load (level 0): f2/y (**net_link**)
+   Load (level 0): f3/y (**net_link**)
+   Load (level 0): f4/y (**net_link**)
+   Load (level 0): f5/y (**net_link**)
+   Load (level 0): f6/y (**net_link**)
+   Load (level 0): f7/y (**net_link**)
+   Load (level 0): f8/y (**net_link**)
+   Load (level 0): f9/y (**net_link**)
+   Load (level 0): f10/y (**net_link**)
+   Load (level 0): e1/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell> clean_buffer_tree -from */*
+  Removing buffer tree(s) in Design 'fanout'
+  Skipping pin 'e1/s_BAR' - it is not connected to any net
+  Skipping pin 'e2/s_BAR' - it is not connected to any net
+  Skipping pin 'e3/s_BAR' - it is not connected to any net
+  Skipping pin 'e4/s_BAR' - it is not connected to any net
+  Skipping pin 'e5/s_BAR' - it is not connected to any net
+  Skipping pin 'e6/s_BAR' - it is not connected to any net
+  Skipping pin 'e7/s_BAR' - it is not connected to any net
+  Skipping pin 'e8/s_BAR' - it is not connected to any net
+  Skipping pin 'e9/s_BAR' - it is not connected to any net
+  Skipping pin 'f1/s_BAR' - it is not connected to any net
+  Skipping pin 'f2/s_BAR' - it is not connected to any net
+  Skipping pin 'f3/s_BAR' - it is not connected to any net
+  Skipping pin 'f4/s_BAR' - it is not connected to any net
+  Skipping pin 'f5/s_BAR' - it is not connected to any net
+  Skipping pin 'f6/s_BAR' - it is not connected to any net
+  Skipping pin 'f7/s_BAR' - it is not connected to any net
+  Skipping pin 'f8/s_BAR' - it is not connected to any net
+  Skipping pin 'f9/s_BAR' - it is not connected to any net
+
+1
+dc_shell> report_buffer_tree -from */*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Sat Mar  6 19:16:09 2021
+****************************************
+
+Driver (level 0): e1/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e1/c (**net_link**)
+   Port (level 0): ce1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e1/x (**net_link**)
+   Port (level 0): e1/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e1/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e2/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e2/c (**net_link**)
+   Port (level 0): ce2 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e2/x (**net_link**)
+   Port (level 0): e2/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e2/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e3/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e3/c (**net_link**)
+   Port (level 0): ce3 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e3/x (**net_link**)
+   Port (level 0): e3/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e3/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e4/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e4/c (**net_link**)
+   Port (level 0): ce4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e4/x (**net_link**)
+   Port (level 0): e4/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e4/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e5/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e5/c (**net_link**)
+   Port (level 0): ce5 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e5/x (**net_link**)
+   Port (level 0): e5/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e5/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e6/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e6/c (**net_link**)
+   Port (level 0): ce6 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e6/x (**net_link**)
+   Port (level 0): e6/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e6/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e7/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e7/c (**net_link**)
+   Port (level 0): ce7 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e7/x (**net_link**)
+   Port (level 0): e7/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e7/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e8/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e8/c (**net_link**)
+   Port (level 0): ce8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e8/x (**net_link**)
+   Port (level 0): e8/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e8/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e9/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e9/c (**net_link**)
+   Port (level 0): ce9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e9/x (**net_link**)
+   Port (level 0): e9/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e9/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U9/Y (INVX2_HVT)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+       Port (level 1): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): e10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f1/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f1/c (**net_link**)
+   Port (level 0): cf1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f1/x (**net_link**)
+   Port (level 0): f1/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f1/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f2/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f2/c (**net_link**)
+   Port (level 0): cf2 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f2/x (**net_link**)
+   Port (level 0): f2/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f2/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f3/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f3/c (**net_link**)
+   Port (level 0): cf3 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f3/x (**net_link**)
+   Port (level 0): f3/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f3/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f4/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f4/c (**net_link**)
+   Port (level 0): cf4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f4/x (**net_link**)
+   Port (level 0): f4/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f4/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f5/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f5/c (**net_link**)
+   Port (level 0): cf5 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f5/x (**net_link**)
+   Port (level 0): f5/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f5/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f6/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f6/c (**net_link**)
+   Port (level 0): cf6 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f6/x (**net_link**)
+   Port (level 0): f6/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f6/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f7/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f7/c (**net_link**)
+   Port (level 0): cf7 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f7/x (**net_link**)
+   Port (level 0): f7/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f7/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f8/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f8/c (**net_link**)
+   Port (level 0): cf8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f8/x (**net_link**)
+   Port (level 0): f8/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f8/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f9/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f9/c (**net_link**)
+   Port (level 0): cf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f9/x (**net_link**)
+   Port (level 0): f9/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f9/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): sf1 (**out_port**)
+       Port (level 1): sf2 (**out_port**)
+       Port (level 1): sf3 (**out_port**)
+       Port (level 1): sf4 (**out_port**)
+       Port (level 1): sf5 (**out_port**)
+       Port (level 1): sf6 (**out_port**)
+       Port (level 1): sf7 (**out_port**)
+       Port (level 1): sf8 (**out_port**)
+       Port (level 1): sf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/c (**net_link**)
+   Port (level 0): cf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/x (**net_link**)
+   Port (level 0): f10/s_BAR (**net_link**)
+   Port (level 0): f10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f10/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): U8/Y (NAND2X1_HVT)
+   Driver (level 1): U5/Y (INVX4_HVT)
+       Load (level 1): f10/x (**net_link**)
+       Load (level 1): f9/x (**net_link**)
+       Load (level 1): f8/x (**net_link**)
+       Load (level 1): f7/x (**net_link**)
+       Load (level 1): f6/x (**net_link**)
+       Load (level 1): f5/x (**net_link**)
+       Load (level 1): f4/x (**net_link**)
+       Load (level 1): f3/x (**net_link**)
+       Load (level 1): f2/x (**net_link**)
+       Load (level 1): f1/x (**net_link**)
+   Port (level 0): sf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U5/Y (INVX4_HVT)
+   Load (level 0): f10/x (**net_link**)
+   Load (level 0): f9/x (**net_link**)
+   Load (level 0): f8/x (**net_link**)
+   Load (level 0): f7/x (**net_link**)
+   Load (level 0): f6/x (**net_link**)
+   Load (level 0): f5/x (**net_link**)
+   Load (level 0): f4/x (**net_link**)
+   Load (level 0): f3/x (**net_link**)
+   Load (level 0): f2/x (**net_link**)
+   Load (level 0): f1/x (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): U7/Y (NAND2X1_HVT)
+   Driver (level 1): U6/Y (INVX4_HVT)
+       Load (level 1): e1/x (**net_link**)
+       Load (level 1): e10/x (**net_link**)
+       Load (level 1): e9/x (**net_link**)
+       Load (level 1): e8/x (**net_link**)
+       Load (level 1): e7/x (**net_link**)
+       Load (level 1): e6/x (**net_link**)
+       Load (level 1): e5/x (**net_link**)
+       Load (level 1): e4/x (**net_link**)
+       Load (level 1): e3/x (**net_link**)
+       Load (level 1): e2/x (**net_link**)
+   Port (level 0): se10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U6/Y (INVX4_HVT)
+   Load (level 0): e1/x (**net_link**)
+   Load (level 0): e10/x (**net_link**)
+   Load (level 0): e9/x (**net_link**)
+   Load (level 0): e8/x (**net_link**)
+   Load (level 0): e7/x (**net_link**)
+   Load (level 0): e6/x (**net_link**)
+   Load (level 0): e5/x (**net_link**)
+   Load (level 0): e4/x (**net_link**)
+   Load (level 0): e3/x (**net_link**)
+   Load (level 0): e2/x (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): b (**in_port**)
+   Load (level 0): U7/A1 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): a (**in_port**)
+   Load (level 0): U7/A2 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): U7/Y (NAND2X1_HVT)
+   Driver (level 1): U6/Y (INVX4_HVT)
+       Load (level 1): e1/x (**net_link**)
+       Load (level 1): e10/x (**net_link**)
+       Load (level 1): e9/x (**net_link**)
+       Load (level 1): e8/x (**net_link**)
+       Load (level 1): e7/x (**net_link**)
+       Load (level 1): e6/x (**net_link**)
+       Load (level 1): e5/x (**net_link**)
+       Load (level 1): e4/x (**net_link**)
+       Load (level 1): e3/x (**net_link**)
+       Load (level 1): e2/x (**net_link**)
+   Port (level 0): se10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): d (**in_port**)
+   Load (level 0): U8/A1 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): c (**in_port**)
+   Load (level 0): U8/A2 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): U8/Y (NAND2X1_HVT)
+   Driver (level 1): U5/Y (INVX4_HVT)
+       Load (level 1): f10/x (**net_link**)
+       Load (level 1): f9/x (**net_link**)
+       Load (level 1): f8/x (**net_link**)
+       Load (level 1): f7/x (**net_link**)
+       Load (level 1): f6/x (**net_link**)
+       Load (level 1): f5/x (**net_link**)
+       Load (level 1): f4/x (**net_link**)
+       Load (level 1): f3/x (**net_link**)
+       Load (level 1): f2/x (**net_link**)
+       Load (level 1): f1/x (**net_link**)
+   Port (level 0): sf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U9/Y (INVX2_HVT)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+       Port (level 1): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U9/Y (INVX2_HVT)
+   Port (level 0): se1 (**out_port**)
+   Port (level 0): se2 (**out_port**)
+   Port (level 0): se3 (**out_port**)
+   Port (level 0): se4 (**out_port**)
+   Port (level 0): se5 (**out_port**)
+   Port (level 0): se6 (**out_port**)
+   Port (level 0): se7 (**out_port**)
+   Port (level 0): se8 (**out_port**)
+   Port (level 0): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): sf1 (**out_port**)
+       Port (level 1): sf2 (**out_port**)
+       Port (level 1): sf3 (**out_port**)
+       Port (level 1): sf4 (**out_port**)
+       Port (level 1): sf5 (**out_port**)
+       Port (level 1): sf6 (**out_port**)
+       Port (level 1): sf7 (**out_port**)
+       Port (level 1): sf8 (**out_port**)
+       Port (level 1): sf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U10/Y (INVX2_HVT)
+   Port (level 0): sf1 (**out_port**)
+   Port (level 0): sf2 (**out_port**)
+   Port (level 0): sf3 (**out_port**)
+   Port (level 0): sf4 (**out_port**)
+   Port (level 0): sf5 (**out_port**)
+   Port (level 0): sf6 (**out_port**)
+   Port (level 0): sf7 (**out_port**)
+   Port (level 0): sf8 (**out_port**)
+   Port (level 0): sf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U11/**logic_1** (**logic_1**)
+   Load (level 0): e2/y (**net_link**)
+   Load (level 0): e3/y (**net_link**)
+   Load (level 0): e4/y (**net_link**)
+   Load (level 0): e5/y (**net_link**)
+   Load (level 0): e6/y (**net_link**)
+   Load (level 0): e7/y (**net_link**)
+   Load (level 0): e8/y (**net_link**)
+   Load (level 0): e9/y (**net_link**)
+   Load (level 0): e10/y (**net_link**)
+   Load (level 0): f1/y (**net_link**)
+   Load (level 0): f2/y (**net_link**)
+   Load (level 0): f3/y (**net_link**)
+   Load (level 0): f4/y (**net_link**)
+   Load (level 0): f5/y (**net_link**)
+   Load (level 0): f6/y (**net_link**)
+   Load (level 0): f7/y (**net_link**)
+   Load (level 0): f8/y (**net_link**)
+   Load (level 0): f9/y (**net_link**)
+   Load (level 0): f10/y (**net_link**)
+   Load (level 0): e1/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell> clean_buffer_tree -source_of e2/x
+Warning: Ignoring e2/x because the pin is hierarchical. (UID-1089)
+Error: Must specify one of -global, -from, -to, -net, or -source_of. (UID-1088)
+0
+dc_shell> clean_buffer_tree -source_of e2/x -hierarchy
+Warning: Ignoring e2/x because the pin is hierarchical. (UID-1089)
+Error: Must specify one of -global, -from, -to, -net, or -source_of. (UID-1088)
+0
+dc_shell> clean_buffer_tree -source_of e2/x -hierarchy
+Warning: Ignoring e2/x because the pin is hierarchical. (UID-1089)
+Error: Must specify one of -global, -from, -to, -net, or -source_of. (UID-1088)
+0
+dc_shell> clean_buffer_tree -source_of e2/x -from e2/x -hierarchy
+Warning: Ignoring e2/x because the pin is hierarchical. (UID-1089)
+Error: Clean_buffer_tree terminated abnormally. (OPT-1106)
+0
+dc_shell> clean_buffer_tree -source_of e2/x -from e2/x -hierarchy -net e2/x
+Warning: Ignoring e2/x because the pin is hierarchical. (UID-1089)
+  Removing buffer tree(s) in Design 'fanout'
+
+1
+dc_shell> clean_buffer_tree -source_of */* -from */* -hierarchy -net */*
+Warning: Ignoring e1/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e1/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e1/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e1/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e2/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e2/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e2/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e2/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e3/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e3/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e3/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e3/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e4/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e4/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e4/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e4/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e5/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e5/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e5/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e5/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e6/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e6/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e6/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e6/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e7/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e7/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e7/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e7/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e8/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e8/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e8/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e8/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e9/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e9/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e9/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e9/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e10/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e10/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e10/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring e10/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f1/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f1/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f1/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f1/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f2/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f2/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f2/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f2/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f3/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f3/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f3/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f3/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f4/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f4/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f4/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f4/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f5/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f5/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f5/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f5/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f6/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f6/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f6/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f6/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f7/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f7/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f7/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f7/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f8/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f8/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f8/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f8/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f9/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f9/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f9/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f9/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f10/s_BAR because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f10/c because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f10/x because the pin is hierarchical. (UID-1089)
+Warning: Ignoring f10/y because the pin is hierarchical. (UID-1089)
+Warning: Ignoring U5/Y because the pin is output. (UID-1089)
+Warning: Ignoring U6/Y because the pin is output. (UID-1089)
+Warning: Ignoring U7/Y because the pin is output. (UID-1089)
+Warning: Ignoring U8/Y because the pin is output. (UID-1089)
+Warning: Ignoring U9/Y because the pin is output. (UID-1089)
+Warning: Ignoring U10/Y because the pin is output. (UID-1089)
+Warning: Ignoring U11/**logic_1** because the pin is output. (UID-1089)
+Warning: '-from' option is ignored when '-source_of' argument is present. (UID-451)
+Warning: '-net' option is ignored when '-source_of' argument is present. (UID-451)
+  Removing buffer tree(s) in Design 'fanout'
+
+1
+dc_shell> clean_buffer_tree -from */* -hierarchy -net */*
+  Removing buffer tree(s) in Design 'fanout'
+  Skipping pin 'e1/s_BAR' - it is not connected to any net
+  Skipping pin 'e2/s_BAR' - it is not connected to any net
+  Skipping pin 'e3/s_BAR' - it is not connected to any net
+  Skipping pin 'e4/s_BAR' - it is not connected to any net
+  Skipping pin 'e5/s_BAR' - it is not connected to any net
+  Skipping pin 'e6/s_BAR' - it is not connected to any net
+  Skipping pin 'e7/s_BAR' - it is not connected to any net
+  Skipping pin 'e8/s_BAR' - it is not connected to any net
+  Skipping pin 'e9/s_BAR' - it is not connected to any net
+  Skipping pin 'f1/s_BAR' - it is not connected to any net
+  Skipping pin 'f2/s_BAR' - it is not connected to any net
+  Skipping pin 'f3/s_BAR' - it is not connected to any net
+  Skipping pin 'f4/s_BAR' - it is not connected to any net
+  Skipping pin 'f5/s_BAR' - it is not connected to any net
+  Skipping pin 'f6/s_BAR' - it is not connected to any net
+  Skipping pin 'f7/s_BAR' - it is not connected to any net
+  Skipping pin 'f8/s_BAR' - it is not connected to any net
+  Skipping pin 'f9/s_BAR' - it is not connected to any net
+  Skipping pin 'e1/y' - it is not connected to any net
+  Skipping pin 'f10/y' - it is not connected to any net
+  Skipping pin 'f9/y' - it is not connected to any net
+  Skipping pin 'f8/y' - it is not connected to any net
+  Skipping pin 'f7/y' - it is not connected to any net
+  Skipping pin 'f6/y' - it is not connected to any net
+  Skipping pin 'f5/y' - it is not connected to any net
+  Skipping pin 'f4/y' - it is not connected to any net
+  Skipping pin 'f3/y' - it is not connected to any net
+  Skipping pin 'f2/y' - it is not connected to any net
+  Skipping pin 'f1/y' - it is not connected to any net
+  Skipping pin 'e10/y' - it is not connected to any net
+  Skipping pin 'e9/y' - it is not connected to any net
+  Skipping pin 'e8/y' - it is not connected to any net
+  Skipping pin 'e7/y' - it is not connected to any net
+  Skipping pin 'e6/y' - it is not connected to any net
+  Skipping pin 'e5/y' - it is not connected to any net
+  Skipping pin 'e4/y' - it is not connected to any net
+  Skipping pin 'e3/y' - it is not connected to any net
+  Skipping pin 'e2/y' - it is not connected to any net
+
+1
+dc_shell> report_buffer_tree -from *
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Sat Mar  6 19:28:30 2021
+****************************************
+
+Driver (level 0): a (**in_port**)
+   Load (level 0): U7/A2 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): b (**in_port**)
+   Load (level 0): U7/A1 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): c (**in_port**)
+   Load (level 0): U8/A2 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): d (**in_port**)
+   Load (level 0): U8/A1 (NAND2X1_HVT)
+
+----------------------------------------
+
+1
+dc_shell> report_buffer_tree -from */*
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Sat Mar  6 19:28:38 2021
+****************************************
+
+Driver (level 0): e1/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e1/c (**net_link**)
+   Port (level 0): ce1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e1/x (**net_link**)
+   Port (level 0): e1/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e1/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e2/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e2/c (**net_link**)
+   Port (level 0): ce2 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e2/x (**net_link**)
+   Port (level 0): e2/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e2/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e3/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e3/c (**net_link**)
+   Port (level 0): ce3 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e3/x (**net_link**)
+   Port (level 0): e3/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e3/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e4/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e4/c (**net_link**)
+   Port (level 0): ce4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e4/x (**net_link**)
+   Port (level 0): e4/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e4/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e5/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e5/c (**net_link**)
+   Port (level 0): ce5 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e5/x (**net_link**)
+   Port (level 0): e5/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e5/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e6/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e6/c (**net_link**)
+   Port (level 0): ce6 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e6/x (**net_link**)
+   Port (level 0): e6/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e6/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e7/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e7/c (**net_link**)
+   Port (level 0): ce7 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e7/x (**net_link**)
+   Port (level 0): e7/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e7/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e8/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e8/c (**net_link**)
+   Port (level 0): ce8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e8/x (**net_link**)
+   Port (level 0): e8/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e8/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e9/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e9/c (**net_link**)
+   Port (level 0): ce9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e9/x (**net_link**)
+   Port (level 0): e9/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e9/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U9/Y (INVX2_HVT)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+       Port (level 1): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/c (**net_link**)
+   Port (level 0): ce10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/x (**net_link**)
+   Port (level 0): e10/s_BAR (**net_link**)
+   Port (level 0): e10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): e10/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f1/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f1/c (**net_link**)
+   Port (level 0): cf1 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f1/x (**net_link**)
+   Port (level 0): f1/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f1/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f2/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f2/c (**net_link**)
+   Port (level 0): cf2 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f2/x (**net_link**)
+   Port (level 0): f2/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f2/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f3/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f3/c (**net_link**)
+   Port (level 0): cf3 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f3/x (**net_link**)
+   Port (level 0): f3/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f3/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f4/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f4/c (**net_link**)
+   Port (level 0): cf4 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f4/x (**net_link**)
+   Port (level 0): f4/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f4/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f5/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f5/c (**net_link**)
+   Port (level 0): cf5 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f5/x (**net_link**)
+   Port (level 0): f5/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f5/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f6/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f6/c (**net_link**)
+   Port (level 0): cf6 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f6/x (**net_link**)
+   Port (level 0): f6/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f6/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f7/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f7/c (**net_link**)
+   Port (level 0): cf7 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f7/x (**net_link**)
+   Port (level 0): f7/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f7/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f8/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f8/c (**net_link**)
+   Port (level 0): cf8 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f8/x (**net_link**)
+   Port (level 0): f8/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f8/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f9/s_BAR (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f9/c (**net_link**)
+   Port (level 0): cf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f9/x (**net_link**)
+   Port (level 0): f9/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f9/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): sf1 (**out_port**)
+       Port (level 1): sf2 (**out_port**)
+       Port (level 1): sf3 (**out_port**)
+       Port (level 1): sf4 (**out_port**)
+       Port (level 1): sf5 (**out_port**)
+       Port (level 1): sf6 (**out_port**)
+       Port (level 1): sf7 (**out_port**)
+       Port (level 1): sf8 (**out_port**)
+       Port (level 1): sf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/c (**net_link**)
+   Port (level 0): cf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/x (**net_link**)
+   Port (level 0): f10/s_BAR (**net_link**)
+   Port (level 0): f10/c (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): f10/y (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): U8/Y (NAND2X1_HVT)
+   Driver (level 1): U5/Y (INVX4_HVT)
+       Load (level 1): f10/x (**net_link**)
+       Load (level 1): f9/x (**net_link**)
+       Load (level 1): f8/x (**net_link**)
+       Load (level 1): f7/x (**net_link**)
+       Load (level 1): f6/x (**net_link**)
+       Load (level 1): f5/x (**net_link**)
+       Load (level 1): f4/x (**net_link**)
+       Load (level 1): f3/x (**net_link**)
+       Load (level 1): f2/x (**net_link**)
+       Load (level 1): f1/x (**net_link**)
+   Port (level 0): sf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U5/Y (INVX4_HVT)
+   Load (level 0): f10/x (**net_link**)
+   Load (level 0): f9/x (**net_link**)
+   Load (level 0): f8/x (**net_link**)
+   Load (level 0): f7/x (**net_link**)
+   Load (level 0): f6/x (**net_link**)
+   Load (level 0): f5/x (**net_link**)
+   Load (level 0): f4/x (**net_link**)
+   Load (level 0): f3/x (**net_link**)
+   Load (level 0): f2/x (**net_link**)
+   Load (level 0): f1/x (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): U7/Y (NAND2X1_HVT)
+   Driver (level 1): U6/Y (INVX4_HVT)
+       Load (level 1): e1/x (**net_link**)
+       Load (level 1): e10/x (**net_link**)
+       Load (level 1): e9/x (**net_link**)
+       Load (level 1): e8/x (**net_link**)
+       Load (level 1): e7/x (**net_link**)
+       Load (level 1): e6/x (**net_link**)
+       Load (level 1): e5/x (**net_link**)
+       Load (level 1): e4/x (**net_link**)
+       Load (level 1): e3/x (**net_link**)
+       Load (level 1): e2/x (**net_link**)
+   Port (level 0): se10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U6/Y (INVX4_HVT)
+   Load (level 0): e1/x (**net_link**)
+   Load (level 0): e10/x (**net_link**)
+   Load (level 0): e9/x (**net_link**)
+   Load (level 0): e8/x (**net_link**)
+   Load (level 0): e7/x (**net_link**)
+   Load (level 0): e6/x (**net_link**)
+   Load (level 0): e5/x (**net_link**)
+   Load (level 0): e4/x (**net_link**)
+   Load (level 0): e3/x (**net_link**)
+   Load (level 0): e2/x (**net_link**)
+
+----------------------------------------
+
+Driver (level 0): b (**in_port**)
+   Load (level 0): U7/A1 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): a (**in_port**)
+   Load (level 0): U7/A2 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): U7/Y (NAND2X1_HVT)
+   Driver (level 1): U6/Y (INVX4_HVT)
+       Load (level 1): e1/x (**net_link**)
+       Load (level 1): e10/x (**net_link**)
+       Load (level 1): e9/x (**net_link**)
+       Load (level 1): e8/x (**net_link**)
+       Load (level 1): e7/x (**net_link**)
+       Load (level 1): e6/x (**net_link**)
+       Load (level 1): e5/x (**net_link**)
+       Load (level 1): e4/x (**net_link**)
+       Load (level 1): e3/x (**net_link**)
+       Load (level 1): e2/x (**net_link**)
+   Port (level 0): se10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): d (**in_port**)
+   Load (level 0): U8/A1 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): c (**in_port**)
+   Load (level 0): U8/A2 (NAND2X1_HVT)
+
+----------------------------------------
+
+Driver (level 0): U8/Y (NAND2X1_HVT)
+   Driver (level 1): U5/Y (INVX4_HVT)
+       Load (level 1): f10/x (**net_link**)
+       Load (level 1): f9/x (**net_link**)
+       Load (level 1): f8/x (**net_link**)
+       Load (level 1): f7/x (**net_link**)
+       Load (level 1): f6/x (**net_link**)
+       Load (level 1): f5/x (**net_link**)
+       Load (level 1): f4/x (**net_link**)
+       Load (level 1): f3/x (**net_link**)
+       Load (level 1): f2/x (**net_link**)
+       Load (level 1): f1/x (**net_link**)
+   Port (level 0): sf10 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): e10/s_BAR (**net_link**)
+   Driver (level 1): U9/Y (INVX2_HVT)
+       Port (level 1): se1 (**out_port**)
+       Port (level 1): se2 (**out_port**)
+       Port (level 1): se3 (**out_port**)
+       Port (level 1): se4 (**out_port**)
+       Port (level 1): se5 (**out_port**)
+       Port (level 1): se6 (**out_port**)
+       Port (level 1): se7 (**out_port**)
+       Port (level 1): se8 (**out_port**)
+       Port (level 1): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U9/Y (INVX2_HVT)
+   Port (level 0): se1 (**out_port**)
+   Port (level 0): se2 (**out_port**)
+   Port (level 0): se3 (**out_port**)
+   Port (level 0): se4 (**out_port**)
+   Port (level 0): se5 (**out_port**)
+   Port (level 0): se6 (**out_port**)
+   Port (level 0): se7 (**out_port**)
+   Port (level 0): se8 (**out_port**)
+   Port (level 0): se9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): f10/s_BAR (**net_link**)
+   Driver (level 1): U10/Y (INVX2_HVT)
+       Port (level 1): sf1 (**out_port**)
+       Port (level 1): sf2 (**out_port**)
+       Port (level 1): sf3 (**out_port**)
+       Port (level 1): sf4 (**out_port**)
+       Port (level 1): sf5 (**out_port**)
+       Port (level 1): sf6 (**out_port**)
+       Port (level 1): sf7 (**out_port**)
+       Port (level 1): sf8 (**out_port**)
+       Port (level 1): sf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U10/Y (INVX2_HVT)
+   Port (level 0): sf1 (**out_port**)
+   Port (level 0): sf2 (**out_port**)
+   Port (level 0): sf3 (**out_port**)
+   Port (level 0): sf4 (**out_port**)
+   Port (level 0): sf5 (**out_port**)
+   Port (level 0): sf6 (**out_port**)
+   Port (level 0): sf7 (**out_port**)
+   Port (level 0): sf8 (**out_port**)
+   Port (level 0): sf9 (**out_port**)
+
+----------------------------------------
+
+Driver (level 0): U11/**logic_1** (**logic_1**)
+   Load (level 0): e2/y (**net_link**)
+   Load (level 0): e3/y (**net_link**)
+   Load (level 0): e4/y (**net_link**)
+   Load (level 0): e5/y (**net_link**)
+   Load (level 0): e6/y (**net_link**)
+   Load (level 0): e7/y (**net_link**)
+   Load (level 0): e8/y (**net_link**)
+   Load (level 0): e9/y (**net_link**)
+   Load (level 0): e10/y (**net_link**)
+   Load (level 0): f1/y (**net_link**)
+   Load (level 0): f2/y (**net_link**)
+   Load (level 0): f3/y (**net_link**)
+   Load (level 0): f4/y (**net_link**)
+   Load (level 0): f5/y (**net_link**)
+   Load (level 0): f6/y (**net_link**)
+   Load (level 0): f7/y (**net_link**)
+   Load (level 0): f8/y (**net_link**)
+   Load (level 0): f9/y (**net_link**)
+   Load (level 0): f10/y (**net_link**)
+   Load (level 0): e1/y (**net_link**)
+
+----------------------------------------
+
+1
+dc_shell> clean_buffer_tree -source_of e2/x
+Warning: Ignoring e2/x because the pin is hierarchical. (UID-1089)
+Error: Must specify one of -global, -from, -to, -net, or -source_of. (UID-1088)
+0
+dc_shell> clean_buffer_tree -source_of e1/x
+Warning: Ignoring e1/x because the pin is hierarchical. (UID-1089)
+Error: Must specify one of -global, -from, -to, -net, or -source_of. (UID-1088)
+0
+dc_shell> clean_buffer_tree -source_of U5/Y
+Warning: Ignoring U5/Y because the pin is output. (UID-1089)
+Error: Must specify one of -global, -from, -to, -net, or -source_of. (UID-1088)
+0
+dc_shell> clean_buffer_tree -source_of U5/Y -net
+Error: value not specified for option '-net' (CMD-008)
+dc_shell> report_buffer_tree -from U7/Y
+ 
+****************************************
+Report : buffer tree
+Design : fanout
+Version: P-2019.03-SP1-1
+Date   : Sat Mar  6 19:35:02 2021
+****************************************
+
+Driver (level 0): U7/Y (NAND2X1_HVT)
+   Driver (level 1): U6/Y (INVX4_HVT)
+       Load (level 1): e1/x (**net_link**)
+       Load (level 1): e10/x (**net_link**)
+       Load (level 1): e9/x (**net_link**)
+       Load (level 1): e8/x (**net_link**)
+       Load (level 1): e7/x (**net_link**)
+       Load (level 1): e6/x (**net_link**)
+       Load (level 1): e5/x (**net_link**)
+       Load (level 1): e4/x (**net_link**)
+       Load (level 1): e3/x (**net_link**)
+       Load (level 1): e2/x (**net_link**)
+   Port (level 0): se10 (**out_port**)
+
+----------------------------------------
+
+1
+dc_shell> clean_buffer_tree -source_of e1/x
+Warning: Ignoring e1/x because the pin is hierarchical. (UID-1089)
+Error: Must specify one of -global, -from, -to, -net, or -source_of. (UID-1088)
+0
+dc_shell> clean_buffer_tree -source_of e10/x
+Warning: Ignoring e10/x because the pin is hierarchical. (UID-1089)
+Error: Must specify one of -global, -from, -to, -net, or -source_of. (UID-1088)
+0
+dc_shell> man UID-1089
+N.  Messages                                                 Command Reference
+                                   messages
+
+NAME
+       UID-1089 (warning) Ignoring %s because the %s is %s.
+
+DESCRIPTION
+       You  receive this message when you give an inout, output or hierachical
+       pin or an inout or input port, as an argument to -source_of  option  to
+       clean_buffer_tree command.
+
+WHAT NEXT
+       If  the argument passed was incorrect, please fix it and rerun the com-
+       mand.
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell> gui_start
+Current design is 'fanout'.
+4.1
+Current design is 'fanout'.
+dc_shell> man clean_buffer_tree
+2.  Synopsys Commands                                        Command Reference
+                               clean_buffer_tree
+
+NAME
+       clean_buffer_tree
+              Removes  the  buffer tree at the specified driver pin, load pin,
+              or driver net on a mapped design.
+
+SYNTAX
+       status clean_buffer_tree
+               [-from start_point_list]
+               [-to object_list]
+               [-net net_list]
+               [-source_of object_list]
+               [-hierarchy]
+               [-global]
+               [-threshold integer_in_1]
+
+   Data Types
+       start_point_list     list
+       object_list          list
+       net_list             list
+       integer_in_1         integer
+
+ARGUMENTS
+       -from start_point_list
+              Specifies the starting point of the buffer tree to  be  removed.
+              The  start_point_list  must  contain  only  pins or ports.  This
+              option can be used in conjunction with the -to and -net options.
+
+       -to object_list
+              The buffer tree removal starts at the immediate buffer source of
+              the specified pins or ports.  The object_list must contain  only
+              pins  or ports.  This option can be used in conjunction with the
+              -from and -net options.
+
+       -net net_list
+              Specifies the driver net that is  the  starting  point  for  the
+              buffer tree to be removed.  The net_list must contain only nets.
+              This option can be used in conjunction with the  -from  and  -to
+              options.
+
+       -source_of object_list
+              The  complete  buffer  tree in the fanin to the object up to the
+              object itself is removed.  The  object_list  must  contain  only
+              output  ports or input pins.  This option cannot be used in con-
+              junction with the -from, -to or -net options.
+
+       -hierarchy
+              Removes the buffer tree across the hierarchy.  By  default,  the
+              buffer  tree  removal stops when it reaches the hierarchy bound-
+              ary.
+
+       -global
+              Searches for high-fanout buffer tree root pins in the  net_list.
+              This  option is not valid with the -from, -to, and -net options.
+
+       -threshold integer_in_1
+              Specifies the  fanout  threshold  range  that  determines  which
+              buffer  trees are cleaned up.  If the number of sink pins driven
+              from the primary root pin of the buffer tree is larger than  the
+              threshold, the buffer tree circuitry is cleaned up.  This option
+              is only valid with the -global option.
+
+              Valid -threshold values are from 1 to 1,000,000.
+
+DESCRIPTION
+       The clean_buffer_tree command removes a  buffer  tree  at  a  specified
+       driver  pin,  load pin, or driver net on a mapped design.  When given a
+       driver pin or driver net, the buffer tree is removed with  this  driver
+       as  the  root.   When given a load pin, the buffer tree is removed with
+       the immediate driver of the load pin as the  root.   By  default,  this
+       command  does  not  remove  the  buffer  tree across the hierarchy.  To
+       enable buffer tree removal across boundaries,  specify  the  -hierarchy
+       option when running the command.
+
+       The  buffer  tree  removal process starts at the source and removes all
+       buffer and inverter cells in its transitive fanout cone until it  finds
+       nonbuffer  cells  or  hierarchy boundaries.  This does not apply if the
+       -hierarchy option is specified.
+
+       Buffer and inverter cells that have the dont_touch  attribute  or  that
+       are  connected  to  a  net  that  has  the dont_touch attribute are not
+       removed. Similarly, any cells that follow these cells in the transitive
+       fanout are not removed.
+
+       The clean_buffer_tree command adds an inverter driving all of the orig-
+       inal buffer tree's inverted loads after it has removed all buffers  and
+       inverters in the tree.
+
+       This  command  accepts the final implementation of buffer tree removal,
+       even if it negatively impacts the  timing  or  DRC  violations  in  the
+       design.
+
+EXAMPLES
+       The following example removes a buffer tree without crossing hierarchi-
+       cal boundaries:
+
+         prompt> clean_buffer_tree -from cell1/O
+
+       The following example removes a buffer tree that  crosses  hierarchical
+       boundaries:
+
+         prompt> clean_buffer_tree -hierarchy -from cell1/O
+
+SEE ALSO
+       all_fanout(2)
+       balance_buffer(2)
+       report_buffer_tree(2)
+       report_cell(2)
+       report_constraint(2)
+
+                         Version P-2019.03-SP1-1
+            Copyright (c) 2019 Synopsys, Inc. All rights reserved.
+dc_shell> 
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/generic.sdb'

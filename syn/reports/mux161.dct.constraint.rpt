@@ -1,0 +1,59 @@
+ 
+****************************************
+Report : constraint
+        -all_violators
+Design : mux161
+Version: P-2019.03-SP1-1
+Date   : Thu Mar 11 20:12:41 2021
+****************************************
+
+
+   max_transition
+
+                             Required        Actual
+   Net                      Transition     Transition        Slack
+   -----------------------------------------------------------------
+   n33                          0.50           0.93          -0.43  (VIOLATED)
+       PIN :   U37/A4           0.50           0.93          -0.43  (VIOLATED)
+       PIN :   U36/Y            0.50           0.93          -0.43  (VIOLATED)
+   n35                          0.50           0.92          -0.42  (VIOLATED)
+       PIN :   U37/A2           0.50           0.92          -0.42  (VIOLATED)
+       PIN :   U29/Y            0.50           0.92          -0.42  (VIOLATED)
+   n27                          0.50           0.64          -0.14  (VIOLATED)
+       PIN :   U35/A2           0.50           0.64          -0.14  (VIOLATED)
+       PIN :   U34/Y            0.50           0.64          -0.14  (VIOLATED)
+   n28                          0.50           0.63          -0.13  (VIOLATED)
+       PIN :   U35/A1           0.50           0.63          -0.13  (VIOLATED)
+       PIN :   U33/Y            0.50           0.63          -0.13  (VIOLATED)
+   n20                          0.50           0.63          -0.13  (VIOLATED)
+       PIN :   U28/A2           0.50           0.63          -0.13  (VIOLATED)
+       PIN :   U27/Y            0.50           0.63          -0.13  (VIOLATED)
+   n21                          0.50           0.63          -0.13  (VIOLATED)
+       PIN :   U28/A1           0.50           0.63          -0.13  (VIOLATED)
+       PIN :   U26/Y            0.50           0.63          -0.13  (VIOLATED)
+   n31                          0.50           0.63          -0.13  (VIOLATED)
+       PIN :   U36/A4           0.50           0.63          -0.13  (VIOLATED)
+       PIN :   U32/Y            0.50           0.63          -0.13  (VIOLATED)
+   n23                          0.50           0.63          -0.13  (VIOLATED)
+       PIN :   U29/A4           0.50           0.63          -0.13  (VIOLATED)
+       PIN :   U24/Y            0.50           0.63          -0.13  (VIOLATED)
+   n24                          0.50           0.62          -0.12  (VIOLATED)
+       PIN :   U29/A2           0.50           0.62          -0.12  (VIOLATED)
+       PIN :   U22/Y            0.50           0.62          -0.12  (VIOLATED)
+   n32                          0.50           0.62          -0.12  (VIOLATED)
+       PIN :   U36/A2           0.50           0.62          -0.12  (VIOLATED)
+       PIN :   U31/Y            0.50           0.62          -0.12  (VIOLATED)
+   out                          0.50           0.50           0.00  (VIOLATED: increase significant digits)
+
+   -----------------------------------------------------------------
+   Total                      11                 -1.90  
+
+   max_leakage_power
+
+                             Required        Actual
+   Design                   Leakage Power  Leakage Power     Slack
+   -----------------------------------------------------------------
+   mux161                       0.00       54883.39       -54883.39 (VIOLATED)
+
+
+1

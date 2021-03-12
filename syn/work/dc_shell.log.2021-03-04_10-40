@@ -1,0 +1,2326 @@
+Starting shell in Topographical mode...
+setting auto_restore_mw_cel_lib_setup true
+Initializing gui preferences from file  /u/pratik2/.synopsys_dv_prefs.tcl
+dc_shell> source -echo -verbose ../scripts/dct.tcl
+set top_design adder
+adder
+source -echo -verbose ../../$top_design.design_config.tcl
+set lib_dir /pkgs/synopsys/2020/32_28nm/SAED32_EDK
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK
+# Decoder ring for the libraries
+# You will need to follow another example or look in the library directories to understand.
+# lib_types is used for the dc/dct linking variables and ICC2 NDM lcoations.
+# /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm
+# /          $lib_dir                   /lib/ $lib_type /db_nldm
+# link_library, Target_library use the sub_lib_types and corner variables. 
+# For sub_lib_types and corner:
+# Example:
+#     saed32hvt_ss0p75v125c.db
+#     |sub_lib  corner    .db
+# The current flow tries to find all sub_lib and all corners in all the search paths.  Any match will be put in the library list.
+# Wild cards can be used, but be careful.  Multiple matches can occur in ways you don't want.
+# For the target library, the same method is used as the link library except only HVT and RVT lib_types are used.
+# ICC2 NDM choosing also uses the sub_lib_types so that only the required libraries and extras are not loaded.
+# adder
+set top_design adder
+adder
+set add_ios 1
+1
+set pad_design 1
+1
+set design_size { 580 580  } 
+ 580 580  
+set design_io_border 310
+310
+set dc_floorplanning 1
+1
+set rtl_list [list ../rtl/$top_design.v ]
+../rtl/adder.v
+set slow_corner "ss0p75v125c ss0p95v125c_2p25v ss0p95v125c"
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set fast_corner "ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c"
+ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c
+set synth_corners $slow_corner
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set slow_metal Cmax_125
+Cmax_125
+set fast_metal Cmax_125
+Cmax_125
+set lib_types "stdcell_hvt stdcell_rvt stdcell_lvt io_std sram"
+stdcell_hvt stdcell_rvt stdcell_lvt io_std sram
+# Get just the main standard cells, srams and IOs
+set sub_lib_type "saed32?vt_ saed32sram_ saed32io_wb_"
+saed32?vt_ saed32sram_ saed32io_wb_
+#set topdir /u/$env(USER)/PSU_RTL2GDS
+set topdir [ lindex [ regexp -inline "(.*)\(syn\|pt\|apr\)" [pwd] ] 1 ]
+/u/pratik2/Floorplan-based-synthesis/
+/u/pratik2/Floorplan-based-synthesis/
+# List all current designs
+set this_design [ list_designs ]
+Warning: No designs to list. (UID-275)
+0
+# If there are existing designs reset/remove them
+if { $this_design != 0 } {
+  # To reset the earlier designs
+  reset_design
+  remove_design -designs
+}
+source ../scripts/dc-get-timlibs.tcl
+source ../scripts/dct-getcreate-mwlib.tcl
+Start to load technology file /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/milkyway/saed32nm_1p9m_mw.tf.
+Warning: Layer 'M1' has a pitch 0.152 that does not match the recommended wire-to-via pitch 0.13 or 0.105. (TFCHK-049)
+Warning: Layer 'M2' has a pitch 0.152 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M3' has a pitch 0.304 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M4' has a pitch 0.304 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M5' has a pitch 0.608 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M6' has a pitch 0.608 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M7' has a pitch 1.216 that does not match the recommended wire-to-via pitch 0.139. (TFCHK-049)
+Warning: Layer 'M8' has a pitch 1.216 that does not match the recommended wire-to-via pitch 0.179 or 0.164. (TFCHK-049)
+Warning: Layer 'M9' has a pitch 2.432 that does not match the recommended wire-to-via pitch 1.74. (TFCHK-049)
+Warning: Layer 'MRDL' has a pitch 4.864 that does not match the recommended wire-to-via pitch 4.5. (TFCHK-049)
+Warning: Layer 'MRDL' has a pitch 4.864 that does not match the doubled pitch 2.432 or tripled pitch 3.648. (TFCHK-050)
+Warning: CapModel sections are missing. Capacitance models should be loaded with a TLU+ file later. (TFCHK-084)
+Technology file /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/milkyway/saed32nm_1p9m_mw.tf has been loaded successfully.
+{adder.mw}
+# Analyzing the files for the design
+analyze $rtl_list -autoread -define SYNTHESIS
+== ANALYZE autoread all files ==
+
+Starting ANALYZE autoread mode...
+Warning: Defining design library 'WORK' at directory '/u/pratik2/Floorplan-based-synthesis/syn/work/WORK_autoread'. (AUTOREAD-107)
+Information: Adding '/u/pratik2/Floorplan-based-synthesis/syn/rtl/adder.v'.  (AUTOREAD-100)
+Information: Scanning file { adder.v }. (AUTOREAD-303)
+Compiling source file /u/pratik2/Floorplan-based-synthesis/syn/rtl/adder.v
+Presto compilation completed successfully.
+Autoread command completed successfully.
+1
+# Elaborate the design
+elaborate ${top_design}
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/gtech.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/standard.sldb'
+  Loading link library 'saed32hvt_ss0p75v125c'
+  Loading link library 'saed32hvt_ss0p95v125c'
+  Loading link library 'saed32rvt_ss0p75v125c'
+  Loading link library 'saed32rvt_ss0p95v125c'
+  Loading link library 'saed32lvt_ss0p75v125c'
+  Loading link library 'saed32lvt_ss0p95v125c'
+  Loading link library 'saed32io_wb_ss0p95v125c_2p25v'
+  Loading link library 'saed32sram_ss0p95v125c'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Presto compilation completed successfully. (adder)
+Elaborated 1 design.
+Current design is now 'adder'.
+Information: Building the design 'dff'. (HDL-193)
+
+Inferred memory devices in process
+        in routine dff line 73 in file
+                '/u/pratik2/Floorplan-based-synthesis/syn/rtl/adder.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|        q_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (dff)
+1
+if { [ info exists add_ios ] && $add_ios } {
+   source -echo -verbose ../scripts/add_ios.tcl
+   # Source the design dependent code that will put IOs on different sides
+   source ../../$top_design.add_ios.tcl
+}
+#####################################################
+proc insert_io { port side} {
+  set this_io io_${side}_${port}
+  if {  $side == "t"   } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "b"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if {  $side == "r"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  if { $side == "l"  } {
+   if { [get_attribute [get_ports $port ] direction ] == "in" } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/I1025_NS
+   } else {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/D8I1025_NS
+   }
+  }
+  set pins [ get_pins -of_obj [ get_net $port ] ]
+  foreach_in i $pins { disconnect_net [get_net $port ] $i }
+  set port_net [get_nets -quiet $port ]
+
+  # If only a port is created, the related net is not created and connected to the port.  Do that here.
+  if { [sizeof_collection $port_net ] == 0 } { 
+      create_net $port 
+      connect_net $port [get_ports $port ]
+  }
+
+  connect_net [get_net $port ]  $this_io/PADIO
+  create_net ${this_io}_net
+  foreach_in i $pins { connect_net ${this_io}_net $i }
+  #DIN is input to IO_PAD
+  #DOUT is output of IO_PAD
+  #EN is the IO_PAD enable to output
+  if { [get_attribute [get_ports $port ] direction ] == "in" } {
+     #connect_net [get_nets  *Logic0* ] ${this_io}/EN 
+     connect_net [get_nets  *Logic1* ] ${this_io}/R_EN 
+     connect_net ${this_io}_net ${this_io}/DOUT
+  } else {
+     connect_net [get_nets  *Logic1* ] $this_io/EN 
+     #connect_net [get_nets  *Logic0* ] $this_io/R_EN 
+     connect_net ${this_io}_net $this_io/DIN
+  }
+}
+####################################################
+change_names -rules verilog -hierarchy
+Warning: The specified replacement character (_) is conflicting with the specified allowed or restricted character.   (UCN-4)
+1
+# Comment the line below if no DEF is available.  Generic floorplan will be created.
+extract_physical_constraints ../../apr/outputs/${top_design}.floorplan.def.gz
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/milkyway/saed32nm_hvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/milkyway/saed32nm_rvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/milkyway/saed32nm_lvt_1p9m. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/milkyway/saed32_io_wb. (PSYN-878)
+Information: linking reference library : /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/milkyway/SRAM32NM. (PSYN-878)
+
+  Linking design 'adder'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  adder                       /u/pratik2/Floorplan-based-synthesis/syn/work/adder.db
+  saed32hvt_ss0p75v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db
+  saed32hvt_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db
+  saed32rvt_ss0p75v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db
+  saed32rvt_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db
+  saed32lvt_ss0p75v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db
+  saed32lvt_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db
+  saed32io_wb_ss0p95v125c_2p25v (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db
+  saed32sram_ss0p95v125c (library) /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db
+  dw_foundation.sldb (library) /pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb
+  dff                         /u/pratik2/Floorplan-based-synthesis/syn/work/dff.db
+
+Information: No preferred routing direction is found for design layer M1. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M2. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M3. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M4. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M5. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M6. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M7. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer M8. Automatically deriving direction V. (DCT-035)
+Information: No preferred routing direction is found for design layer M9. Automatically deriving direction H. (DCT-035)
+Information: No preferred routing direction is found for design layer MRDL. Automatically deriving direction V. (DCT-035)
+Information: Reading input def file '/u/pratik2/Floorplan-based-synthesis/apr/outputs/adder.floorplan.def.gz'. (DEFR-56)
+Warning: NAMECASESENSITIVITY always assumed to be ON. (DDEFR-005)
+Information: Parsing ROWS statement (DDEFR-038)
+Information: Parsing TRACKS statement (DDEFR-038)
+Information: Parsing VIAS section (DDEFR-038)
+Information: Completed VIAS section (DDEFR-040)
+Information: Parsing PINS section (DDEFR-038)
+Information: Completed PINS section (DDEFR-040)
+Information: Parsing SPECIALNETS section (DDEFR-038)
+Information: Completed SPECIALNETS section (DDEFR-040)
+Information: Parsing NETS section (DDEFR-038)
+Information: Completed NETS section (DDEFR-040)
+1
+set_attribute [all_macro_cells] is_fixed true
+source -echo -verbose ../../constraints/${top_design}.sdc
+if { [info exists synopsys_program_name ] && ($synopsys_program_name == "icc2_shell") } {
+    puts " Creating ICC2 MCMM "
+    create_mode func
+    create_corner slow
+    create_scenario -mode func -corner slow -name func_slow
+    current_scenario func_slow
+    set_operating_conditions ss0p75v125c
+    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmax.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmax
+    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmin.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmin
+    set_parasitic_parameters -early_spec Cmax -early_temperature 125
+    set_parasitic_parameters -late_spec Cmax -late_temperature 125
+    #set_parasitic_parameters -early_spec 1p9m_Cmax -early_temperature 125 -corner default
+    #set_parasitic_parameters -late_spec 1p9m_Cmax -late_temperature 125 -corner default
+
+    #set_scenario_status  default -active false
+    set_scenario_status func_slow -active true -hold true -setup true
+}
+set clock_period 1.00
+1.00
+create_clock -name "clock" -period 1 -waveform {0.0 0.50} clock
+1
+# 0.07 ns is fairly typical for pll jitter plus other jitter.
+set_clock_uncertainty -setup 0.07 clock
+1
+set_clock_uncertainty -hold 0.01 clock
+1
+set_clock_transition 0.1 clock
+1
+set_clock_latency 0.1 clock
+1
+set_input_delay 0.1 [all_inputs] -clock clock
+1
+set_output_delay 0.05 [all_outputs] -clock clock
+1
+set_drive 0.00001 [all_inputs ]
+1
+set_load 0.5 [all_outputs]
+1
+#group_path -name INTERNAL -from [all_clocks] -to [all_clocks ]
+group_path -name INPUTS -from [ get_ports -filter "direction==in&&full_name!~*clk*" ]
+1
+group_path -name OUTPUTS -to [ get_ports -filter "direction==out" ]
+1
+1
+# Constrain the overall data path of the design.
+# 50% or so of the clock period is good.
+set_max_transition 0.5 [current_design ]
+Current design is 'adder'.
+1
+set_ignored_layers -min_routing_layer M2 -max_routing_layer M7
+Information: setting M1 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M8 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M9 as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting MRDL as ignored_layer due to min_max layer setting. (PSYN-178)
+Information: setting M2 as min routing layer.  (PSYN-179)
+Information: setting M7 as max routing layer.  (PSYN-179)
+1
+set_dont_use [get_lib_cells */DELLN* ]
+1
+uniquify
+Information: Uniquified 5 instances of design 'dff'. (OPT-1056)
+1
+#create_placement_blockage -name def_obstuction_hard -bbox { 130 39 244 197 }
+#create_placement_blockage -name def_obstuction_soft -bbox { 475 250 730 350 } -type soft
+#create_placement_blockage -name def_obstuction_partial -bbox { 535 465 740 600 } -type partial -blocked_percentage 70
+#create_wiring_keepouts -name def_wiring_keepouts -layer M4 -coordinate { 285 770 550 870 }
+#create_bounds -coordinate {771 735 790 870} -name mb_soft -color cyan dff_a
+compile_ultra  -scan -no_autoungroup
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+
+TLU+ File = /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/star_rcxt//saed32nm_1p9m_Cmax.tluplus
+TLU+ File = /pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/star_rcxt//saed32nm_1p9m_Cmin.tluplus
+
+--------- Sanity Check on TLUPlus Files -------------
+1. Checking the conducting layer names in ITF and mapping file ... 
+[ Passed! ]
+2. Checking the via layer names in ITF and mapping file ... 
+[ Passed! ]
+3. Checking the consistency of Min Width and Min Spacing between MW-tech and ITF ... 
+[ Passed! ]
+----------------- Check Ends ------------------
+Warning: Total of 882 technology library cells with the same names are found. Run '-check_only' with 'compile_ultra' to see more details. (OPT-1434)
+
+Information: Choosing a test methodology will restrict the optimization of sequential cells. (UIO-12)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | P-2019.03-DWBB_201903.1 |     *     |
+| Licensed DW Building Blocks        | P-2019.03-DWBB_201903.1 |     *     |
+============================================================================
+
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+  Simplifying Design 'adder'
+
+Information: Layer M1 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M8 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M9 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MRDL is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer M1 : 0.16 0.14 (RCEX-011)
+Information: Library Derived Res for layer M1 : 2e-06 2e-06 (RCEX-011)
+Information: Library Derived Cap for layer M2 : 0.17 0.15 (RCEX-011)
+Information: Library Derived Res for layer M2 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M3 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M3 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M4 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M4 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M5 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M5 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M6 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M6 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M7 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M7 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M8 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M8 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M9 : 0.11 0.088 (RCEX-011)
+Information: Library Derived Res for layer M9 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer MRDL : 0.11 0.11 (RCEX-011)
+Information: Library Derived Res for layer MRDL : 1.8e-07 1.8e-07 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.098 0.084 (RCEX-011)
+Information: Library Derived Horizontal Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.12 0.11 (RCEX-011)
+Information: Library Derived Vertical Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 5.8e-07 5.8e-07 (RCEX-011)
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Loaded alib file './alib-52/saed32hvt_ss0p75v125c.db.alib'
+Loaded alib file './alib-52/saed32hvt_ss0p95v125c.db.alib'
+Loaded alib file './alib-52/saed32lvt_ss0p75v125c.db.alib' (placeholder)
+Loaded alib file './alib-52/saed32lvt_ss0p95v125c.db.alib' (placeholder)
+Warning: Operating condition ss0p75v125c set on design adder has different process,
+voltage and temperatures parameters than the parameters at which target library 
+saed32hvt_ss0p95v125c is characterized. Delays may be inaccurate as a result. (OPT-998)
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'adder'
+  Processing 'dff_0'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: Automatic shift-register identification is enabled for scan. Not all registers will be scan-replaced. (OPT-467)
+Information: Complementing port 'q' in design 'dff_4'.
+         The new name of the port is 'q_BAR'. (OPT-319)
+Information: Complementing port 'q' in design 'dff_2'.
+         The new name of the port is 'q_BAR'. (OPT-319)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 100.00%, saed32cell_lvt 0.00%
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+  Mapping Optimization (Phase 1)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+
+  Beginning Global Optimizations
+  ------------------------------
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+
+  Beginning Delay Optimization
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+    0:00:17      67.3      0.00       0.0       0.0                           4037875.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 13.33%, saed32cell_lvt 86.67%
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+  Loading design 'adder'
+Information: The library cell 'PMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_HVT' in the library 'saed32hvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: Layer M1 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M8 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer M9 is ignored for resistance and capacitance computation. (RCEX-019)
+Information: Layer MRDL is ignored for resistance and capacitance computation. (RCEX-019)
+****************************************************************
+Information: TLUPlus based RC computation is enabled. (RCEX-141)
+****************************************************************
+Information: The distance unit in Capacitance and Resistance is 1 micron. (RCEX-007)
+Information: The RC model used is TLU+. (RCEX-015)
+Information: Library Derived Cap for layer M1 : 0.16 0.14 (RCEX-011)
+Information: Library Derived Res for layer M1 : 2e-06 2e-06 (RCEX-011)
+Information: Library Derived Cap for layer M2 : 0.17 0.15 (RCEX-011)
+Information: Library Derived Res for layer M2 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M3 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M3 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M4 : 0.11 0.096 (RCEX-011)
+Information: Library Derived Res for layer M4 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M5 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M5 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M6 : 0.094 0.079 (RCEX-011)
+Information: Library Derived Res for layer M6 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M7 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M7 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M8 : 0.092 0.076 (RCEX-011)
+Information: Library Derived Res for layer M8 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer M9 : 0.11 0.088 (RCEX-011)
+Information: Library Derived Res for layer M9 : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Cap for layer MRDL : 0.11 0.11 (RCEX-011)
+Information: Library Derived Res for layer MRDL : 1.8e-07 1.8e-07 (RCEX-011)
+Information: Library Derived Horizontal Cap : 0.098 0.084 (RCEX-011)
+Information: Library Derived Horizontal Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Library Derived Vertical Cap : 0.12 0.11 (RCEX-011)
+Information: Library Derived Vertical Res : 1.8e-06 1.8e-06 (RCEX-011)
+Information: Using derived R and C coefficients. (RCEX-008)
+Information: Using region-based R and C coefficients. (RCEX-013)
+Information: Library Derived Via Res : 5.8e-07 5.8e-07 (RCEX-011)
+Information: 55823 net shapes were created from physical constraints. (DCT-021)
+
+...50%...100% done.
+
+
+ Collecting Buffer Trees ... Found 9
+
+ Processing Buffer Trees ... 
+
+    [1]  10% ...
+    [2]  20% ...
+    [3]  30% ...
+    [4]  40% ...
+    [5]  50% ...
+    [6]  60% ...
+    [7]  70% ...
+    [8]  80% ...
+Information: Complementing port 'reset' in design 'dff_3'.
+         The new name of the port is 'reset_BAR'. (OPT-319)
+Information: Complementing port 'reset' in design 'dff_2'.
+         The new name of the port is 'reset_BAR'. (OPT-319)
+Information: Complementing port 'reset' in design 'dff_1'.
+         The new name of the port is 'reset_BAR'. (OPT-319)
+Information: Complementing port 'reset' in design 'dff_0'.
+         The new name of the port is 'reset_BAR'. (OPT-319)
+Information: Complementing port 'reset' in design 'dff_4'.
+         The new name of the port is 'reset_BAR'. (OPT-319)
+    [9]  90% ...
+    [9] 100% Done ...
+
+
+Information: Automatic high-fanout synthesis deletes 7 cells. (HFS-802)
+Information: Automatic high-fanout synthesis adds 3 new cells. (PSYN-864)
+
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 36.36%, saed32cell_lvt 63.64%
+
+
+  Beginning Timing Optimizations
+  ------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:30      73.2      1.44       2.4     148.8                           6788243.0000
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+    0:00:30      73.2      1.44       2.4     148.8                           6788243.0000
+    0:00:30      66.6      1.44       2.4     150.5                           4627620.5000
+
+
+  Beginning Design Rule Fixing  (max_transition)  (max_capacitance)
+  ------------------------------------
+    0:00:30     131.9      0.63       1.1       0.0                           18717530.0000
+    0:00:30     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:30     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:30     109.0      0.00       0.0      17.5                           14706521.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 27.78%, saed32cell_lvt 72.22%
+
+  Beginning Delay Optimization HSVT Pass
+  --------------------------------------
+    0:00:31     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:31     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:32     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:32     109.0      0.00       0.0      17.5                           14706521.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 27.78%, saed32cell_lvt 72.22%
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34     109.0      0.00       0.0      17.5                           14706521.0000
+    0:00:34      93.3      0.00       0.0      17.5                           8576680.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 37.50%, saed32cell_lvt 62.50%
+
+
+  Beginning High Effort Optimization Phase
+  ----------------------------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 37.50%, saed32cell_lvt 62.50%
+
+
+  Beginning Timing Optimization
+  -----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:34      93.3      0.00       0.0      17.5                           8576680.0000
+    0:00:34      93.3      0.00       0.0      17.5                           8576680.0000
+    0:00:34      93.3      0.00       0.0      17.5                           8576680.0000
+    0:00:34      93.3      0.00       0.0      17.5                           8576680.0000
+    0:00:34      93.3      0.00       0.0      17.5                           8576680.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 37.50%, saed32cell_lvt 62.50%
+
+
+  High Effort Optimization Phase Complete
+  ---------------------------------------
+
+Skipping remaining steps due to timing met. Go to finish
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_hvt 37.50%, saed32cell_lvt 62.50%
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/db_nldm/saed32io_wb_ss0p95v125c_2p25v.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/db_nldm/saed32sram_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p95v125c.db'
+Loading db file '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p95v125c.db'
+  Loading target library 'saed32hvt_ss0p95v125c'
+  Loading target library 'saed32lvt_ss0p95v125c'
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+1
+change_names -rules verilog -hierarchy
+1
+set stage dct
+dct
+report_qor > ../reports/${top_design}.$stage.qor.rpt
+report_constraint -all_viol > ../reports/${top_design}.$stage.constraint.rpt
+report_timing -delay max -input -tran -cross -sig 4 -derate -net -cap  -max_path 10000 -slack_less 0 > ../reports/${top_design}.$stage.timing.max.rpt
+check_timing  > ../reports/${top_design}.$stage.check_timing.rpt
+check_design > ../reports/${top_design}.$stage.check_design.rpt
+check_mv_design  > ../reports/${top_design}.$stage.mvrc.rpt
+write -hier -format verilog -output ../outputs/${top_design}.$stage.vg
+Writing verilog file '/u/pratik2/Floorplan-based-synthesis/syn/outputs/adder.dct.vg'.
+1
+write -hier -format ddc -output ../outputs/${top_design}.$stage.ddc
+Writing ddc file '../outputs/adder.dct.ddc'.
+1
+write_def -blockages -macro -pins -output ../outputs/${top_design}.$stage.def
+Information: 55823 net shapes were created from physical constraints. (DCT-021)
+Information: Writing PINS section (DDEFW-014)
+Information: Completed PINS section  (DDEFW-016)
+1
+save_upf ../outputs/${top_design}.$stage.upf
+1
+write_def -scanchain -output ../outputs/${top_design}.$stage.scan.def
+Warning: Design Compiler topographical mode does not support option '-scanchain' in the command 'write_def', and the option is ignored. (DCT-081)
+Information: 55823 net shapes were created from physical constraints. (DCT-021)
+Information: Writing VIAS section (DDEFW-014)
+Information: Completed VIAS section  (DDEFW-016)
+Information: Writing COMPONENTS section (DDEFW-014)
+Information: Completed COMPONENTS section  (DDEFW-016)
+Information: Writing PINS section (DDEFW-014)
+Information: Completed PINS section  (DDEFW-016)
+Information: Writing SPECIALNETS section (DDEFW-014)
+Information: Completed SPECIALNETS section  (DDEFW-016)
+Information: Writing NETS section (DDEFW-014)
+Information: Completed NETS section  (DDEFW-016)
+1
+1
+dc_shell-topo> read_floorplan
+Error: Required argument 'file_name' was not found (CMD-007)
+dc_shell-topo> read_floorplan ../outputs/adder.dct.def
+Error: unknown command 'VERSION' (CMD-005)
+Error: unknown command 'DIVIDERCHAR' (CMD-005)
+Error: unknown command 'BUSBITCHARS' (CMD-005)
+Error: unknown command 'DESIGN' (CMD-005)
+Error: unknown command 'TECHNOLOGY' (CMD-005)
+Error: unknown command 'UNITS' (CMD-005)
+Error: unknown command 'DIEAREA' (CMD-005)
+Error: unknown command 'PINS' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command 'END' (CMD-005)
+Error: unknown command 'END' (CMD-005)
+Error: Failed to apply physical constraints. (DCT-010)
+0
+dc_shell-topo> read_floorplan ../outputs/adder.dct.ddc
+Error: unknown command 'cjj' (CMD-005)
+Error: unknown command 'Î>¸¦RZMRbSUíÈÌd«JnŠèŸ»ßË¡:·ïíIÅ§·î' (CMD-005)
+Error: unknown command 'šÎº×Õ' (CMD-005)
+Error: unknown command 'I½L/¿‰.èLe—‹Ü)§„ŸÄEm•o£Rç“ı3pa  3—ân˜6' (CMD-005)
+Error: unknown command '+ü±øET' (CMD-005)
+Error: unknown command 's>©’¹Ş…K÷”ErÊ¦ñaÏğ/oºZ?' (CMD-005)
+Error: unknown command '-Rçªk÷ŞàâİôbTĞgI(şŠğå›“qÑ' (CMD-005)
+Error: unknown command 'j`P' (CMD-005)
+Error: unknown command 'ıùwR½d/ÃÊši°Ã‚K­*^ñçl»¤·]®MÄmÿ' (CMD-005)
+Error: unknown command 'è±Y–“"Oõ€Äì‰¥®ªöBÉ' (CMD-005)
+Error: unknown command 'Ââ†|6­2Š‡û' (CMD-005)
+Error: unknown command 'Ø9ìÉpLr9—dŞö¸¬6?)©İé«69Ï»' (CMD-005)
+Error: unknown command 'åj/û©ÉÆ=' (CMD-005)
+Error: unknown command 'èÍ³G' (CMD-005)
+Error: unknown command 'bäË*È‹U'«' (CMD-005)
+Error: unknown command 'cÆ*h5«' (CMD-005)
+Error: unknown command 'ò`äÊ*È…U«' (CMD-005)
+Error: unknown command 'Rc¤Î*È€U‡U1«' (CMD-005)
+Error: unknown command '’c¤À*HU' (CMD-005)
+Error: unknown command 'Òb¤Ã*H’UĞdVA’¬‚&³' (CMD-005)
+Error: unknown command '’a¤Æ*h5«' (CMD-005)
+Error: unknown command 'êet˜UĞ' (CMD-005)
+Error: unknown command 'RgVA¾¬‚V°' (CMD-005)
+Error: unknown command 'òg´’UPÒbäÀ*(˜UP(« u¬‚"YE²' (CMD-005)
+Error: unknown command '2bdÈ*ÈˆU«' (CMD-005)
+Error: unknown command 'eúÿ¢' (CMD-005)
+Error: unknown command 're´„UĞ"VA6¬‚,YmfÔÈ*è« &VAçX5±' (CMD-005)
+Error: unknown command '¢ÿR)« ù¬‚¢Xct‚U/« Šÿ‚’XıbÉ*(êÿCAsÿKA7ÿKAÜís·ÿoİşß¾' (CMD-005)
+Error: unknown command 'ñÍ=9óàV˜îu6FdÌ¼±U×ñà@:Î„¦ÂîÆ5<oJÂ2‰«Ÿœ€·' (CMD-005)
+Error: unknown command 'm__`Ë¨çx©_•Öuğ:V‹)5ĞzP¸O' (CMD-005)
+Error: unknown command '„üNÃ5ñ¾—@UĞçÕü' (CMD-005)
+Error: unknown command 'êDÆcºûXhÉBîÏ(ˆÎ‘ÀOW1,.ŒTCA˜~øC4·ü' (CMD-005)
+Error: unknown command 'q4Œ!V™aDüòiÒ©âGêbÜÉ¾Y{É#r-a9'oNŞAnHj’£#Æ*"FBÿà4*_p…Å·9ëœ' (CMD-005)
+Error: unknown command '^¡L3½”¨æ•ñ4®Â‘Ê·£§‡£ö' (CMD-005)
+Error: unknown command 'È÷' (CMD-005)
+Error: unknown command 'rd' (CMD-005)
+Error: unknown command 'j`' (CMD-005)
+Error: unknown command ':ÄÔÁdÏTÇdÁÔÅÆ4‚)èSĞ{¦ Z¦' (CMD-005)
+Error: unknown command 'ªe' (CMD-005)
+Error: unknown command '*d' (CMD-005)
+Error: unknown command 'c' (CMD-005)
+Error: unknown command 'ZÉdÌ¤Æ4Š)h@è¦1e' (CMD-005)
+Error: unknown command '`' (CMD-005)
+Error: unknown command 'úÀtŸ)H†)hS˜‚t˜‚F3ıb' (CMD-005)
+Error: unknown command 'Rb' (CMD-005)
+Error: unknown command 'âg' (CMD-005)
+Error: unknown command 'šÁ¤üß(h×RĞx¦' (CMD-005)
+Error: unknown command 'êe' (CMD-005)
+Error: unknown command ':Ã´‰)HŸ)ˆ)è!SS4SP+SP6S' (CMD-005)
+Error: unknown command 'òc' (CMD-005)
+Error: unknown command 'Rg' (CMD-005)
+Error: unknown command '²f' (CMD-005)
+Error: unknown command ':Ì$Ït›)È–)¨)¨)È•)H)()h' (CMD-005)
+Error: unknown command 'Òg' (CMD-005)
+Error: unknown command 'Ja' (CMD-005)
+Error: unknown command '2f' (CMD-005)
+Error: unknown command 'ºÉdÀ”Âdó¯‚Öÿ'ñ¶ÏÛşßºı' (CMD-005)
+Error: unknown command '¢‰L2¦÷`üì.–í.C—b)†İ¼ƒq‹Š¡×ZîhrUóaP‡yës±¶÷ş' (CMD-005)
+Error: unknown command 'ÍatÃC8|€ÛÒ÷ñ:·+`3P„ğ»à›V†•Õ%P8z' (CMD-005)
+Error: unknown command '›‹gh‚_OOcÑ?AØ#' (CMD-005)
+Error: unknown command '¡Ex¿Æ3{ıàr¯u}‘øÊ¿Â¼°XÚ±©îh9&WìÖ' (CMD-005)
+Error: unknown command '‚pë±Y˜²8clP²›?¶VúáëØØìä‹õ' (CMD-005)
+Error: unknown command '²2B¿Ïèy¤?º.ÔG¡U?,‘ÖÃÃ:˜Ó³¸6nÖÂˆÚ>èŸ©“½ÔÑMC' (CMD-005)
+Error: unknown command '3ÇuÁä’ØuÇ/h²ù' (CMD-005)
+Error: unknown command 'ÀÉÒyõd6¬ê¾ı@#Âê*½áØOÈì1"†Œ…iŞ®0z×HtAå½ZUàöP' (CMD-005)
+Error: unknown command 'Šn€ÒÇ¡Ã·($' (CMD-005)
+Error: unknown command 'A_*' (CMD-005)
+Error: unknown command 'Ò$U‘‚ÂHA­¤ Å¤ Ï¤ PRP)¨•´˜ô™J' (CMD-005)
+Error: unknown command 'Ò%Õ’‚F“‚ªIAÎ¤ JRP5)È™TA' (CMD-005)
+Error: unknown command 'BRP9)h!)H”C' (CMD-005)
+Error: unknown command 'êK' (CMD-005)
+Error: unknown command 'Ê&i‘‚ôHA9¤' (CMD-005)
+Error: unknown command 'ZJ' (CMD-005)
+Error: unknown command 'úJ' (CMD-005)
+Error: unknown command 'ZL' (CMD-005)
+Error: unknown command 'úB' (CMD-005)
+Error: unknown command 'ª&9“‚.‘‚F‚*HA‹HAıIA' (CMD-005)
+Error: unknown command '¶•x' (CMD-005)
+Error: unknown command '¬=qîó±X«3OXÀFìªb‹‡»' (CMD-005)
+Error: unknown command 'zL' (CMD-005)
+Error: unknown command 'J!¹’‚N’‚"HA)¤' (CMD-005)
+Error: unknown command '‹E?˜ëaî¸¾xí:A­¦‚ş ‚¼© h*(€' (CMD-005)
+Error: unknown command 'úJ9SAÇ© 5Tt' (CMD-005)
+Error: unknown command 'Ò£' (CMD-005)
+Error: unknown command '*è*¨Jİ¢‚nSAo¨' (CMD-005)
+Error: unknown command '* ‚ıRPS*h*dA§‚ÊQA_©' (CMD-005)
+Error: unknown command 'Ò£‚nSAa¿´' (CMD-005)
+Error: unknown command 'Ê ‚¦RATT…' (CMD-005)
+Error: unknown command 'Š¤‚zSAs© TĞZ*È' (CMD-005)
+Error: unknown command 'ò¢‚"¨ TP.Ô„' (CMD-005)
+Error: unknown command 'J ‚ô© µÿ¦ $*èdG…QAå“TP0TJõ§‚ÆSA…TĞ*È™' (CMD-005)
+Error: unknown command 'º@ ‚^SA¨ åTP4' (CMD-005)
+Error: unknown command '²¥‚J©' (CMD-005)
+Error: unknown command '†‘¨í4Ï' (CMD-005)
+Error: unknown command 'R’•üìJÔµ^Jø' (CMD-005)
+Error: unknown command 'Ò¢‚,¨ †TĞ>*h:”AÅPAÇ©' (CMD-005)
+Error: unknown command 'TP1Ô˜' (CMD-005)
+Error: unknown command '2¥‚ÚRAñTĞ>*¨äC½§‚ÚPA)¨<Ô‘' (CMD-005)
+Error: unknown command 'ºO]¥‚†QAÛ¨ iÿ¦' (CMD-005)
+Error: unknown command '2¡‚Š¨ fTP4´‰' (CMD-005)
+Error: unknown command 'Ê¥‚nRAû¨ oTP.”F™QAÕ¨ TP'*è*T' (CMD-005)
+Error: unknown command 'ZC½¡‚¬¨' (CMD-005)
+Error: unknown command '*¨Ô†' (CMD-005)
+Error: unknown command '*¤‚‚¨' (CMD-005)
+Error: unknown command 'êH§‚ò¨ sT/ô' (CMD-005)
+Error: unknown command 'êGµ¦‚PA/© ƒTĞ' (CMD-005)
+Error: unknown command 'âtŒ,²„Qf34Ş¡ãÌ±ãN|ß×í5ÂWSüáÓ' (CMD-005)
+Error: unknown command '2§‚J¨ "*È•' (CMD-005)
+Error: unknown command 'EEPA¨' (CMD-005)
+Error: unknown command 'ZA•PA© ¹TP*GEPAk© §TĞ>*h4†' (CMD-005)
+Error: unknown command ':DÕ¤‚¾PATĞ*Èƒ' (CMD-005)
+Error: unknown command 'r ‚&SAW¨ ¥TĞ_T4…' (CMD-005)
+Error: unknown command '* ‚öSAW¨ jTÔ' (CMD-005)
+Error: unknown command 'jJ…SA5¨ h*è0”I§‚êQA•¨ KTP"Ô' (CMD-005)
+Error: unknown command 'ÚHU,o' (CMD-005)
+Error: unknown command ':Lı ‚l¨ YT#4–' (CMD-005)
+Error: unknown command 'ÚKm ‚~RANTĞG*(' (CMD-005)
+Error: unknown command 'Ô€' (CMD-005)
+Error: unknown command 'ò¦‚ÖPAß¨ ÓTt‘' (CMD-005)
+Error: unknown command 'jJRAÕ¨' (CMD-005)
+Error: unknown command 'ÚOéPAc©' (CMD-005)
+Error: unknown command '*h4' (CMD-005)
+Error: unknown command '*¿ô' (CMD-005)
+Error: unknown command 'r¦‚æSATĞQ*È™' (CMD-005)
+Error: unknown command 'úö›‚NSA+ÿFA·~)è2TJmı¥ ıTP' (CMD-005)
+Error: unknown command '¤‚®PA©TĞ*¨á?P=4€' (CMD-005)
+Error: unknown command '² ‚FSA-© `*¿ô' (CMD-005)
+Error: unknown command '¤‚ºSA•© 0*è´…' (CMD-005)
+Error: unknown command '2ìRPas2vÜOÂıË‰pm’ˆ‘c'b¬eb<ÒÚƒb>uÎÆcË§Ñ¨é7' (CMD-005)
+Error: unknown command 'û•‘Hë‹ùÃ±½q' (CMD-005)
+Error: unknown command '6Q¦××QÆ¿,§l0¾ê¾Ì%7/ÖåÆòÖ.]uV·¯n¿,o_MMMM­¬—°Š' (CMD-005)
+Error: unknown command 'â_§‚t¨ ®Ttd4œöÄ¨Q±˜¶m.' (CMD-005)
+Error: unknown command 'tŠ' (CMD-005)
+Error: unknown command 'ºIEPAÓ©' (CMD-005)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command 'ZJ)TP*(‘' (CMD-005)
+Error: unknown command '²¦‚,¨ 2*èäG¡‚ÖPA¶TP4…' (CMD-005)
+Error: unknown command '*¥‚zRA»© .TP9äJ]¢‚²© —TĞ)*h%äBM¥‚Â© d*¨š' (CMD-005)
+Error: unknown command 'ú™‚&PA¨' (CMD-005)
+Error: unknown command 'BÍ ‚„' (CMD-005)
+Error: unknown command 'ºS«' (CMD-005)
+Error: unknown command '¤‚' (CMD-005)
+Error: unknown command 'jÔá¿©' (CMD-005)
+Error: unknown command 'gb>/İz:’¿˜Š%”OòÁÉõœ„8LÀK½ñ8<.Í¾€mÔX¸ƒ±£qÎyNÎÁŸ¢±X' (CMD-005)
+Error: unknown command 'ÉBqîÒPñxPåWïÖ/~g®$ú9tïw£ß' (CMD-005)
+Error: unknown command ':C§‚ÆPA' (CMD-005)
+Error: unknown command 'ZFÅQA' (CMD-005)
+Error: unknown command 'r¦‚ì© ÕTĞA*(‚' (CMD-005)
+Error: unknown command '¢‚SA+¨ ' (CMD-005)
+Error: unknown command '*¨”' (CMD-005)
+Error: unknown command 'Ú@¦‚ZPAg?SĞ>*(•' (CMD-005)
+Error: unknown command '*è,4ƒ' (CMD-005)
+Error: unknown command 'ôTŞ¹Éa¹#W' (CMD-005)
+Error: unknown command '¦‚üƒ‚ş×' (CMD-005)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command 'Š£‚Ş~öº' (CMD-005)
+Error: unknown command 'ª ‚ÆQA#j¤ù' (CMD-005)
+Error: unknown command 'R·¯n¿®n_MMMM­®—a>Y¼„Ùãà›‹B‹X”Ø…ÁÉÑp(‰ËßÇ' (CMD-005)
+Error: unknown command '¨SŠè>J—O' (CMD-005)
+Error: unknown command 'êIM£‚ÿƒ‚¨ ÿAA¥Ÿ)h,”C=¤‚SAg© šß¾–TPô' (CMD-005)
+Error: unknown command 'ZFiPA#¨ ¨' (CMD-005)
+Error: unknown command 'jE¥SA.TĞ*è*B ‚4© 0*èw*hT­‚Œ¨ …TP3*h”KÙRA>TTH¥QAg© ÍT+TH]¥‚JÿAAµ' (CMD-005)
+Error: unknown command 'èø·R>a›' (CMD-005)
+Error: unknown command 'šGm¦‚2¨ ³TP´‚' (CMD-005)
+Error: unknown command 'ÚI¥‚¢¨' (CMD-005)
+Error: unknown command 'Ô€' (CMD-005)
+Error: unknown command 'r£‚"© •TĞE*è>dD' (CMD-005)
+Error: unknown command 'R·¯n¿®n_MMMM­®§ÛoôyTĞ$*(—' (CMD-005)
+Error: unknown command 'ºH' (CMD-005)
+Error: unknown command 'ºJ' (CMD-005)
+Error: unknown command 'Š ‚PA'© ‹TĞ·TĞk*èt‘' (CMD-005)
+Error: unknown command '@¥PAS¨ cTĞ**è!4†' (CMD-005)
+Error: unknown command 'šBySA—¨ p*(’' (CMD-005)
+Error: unknown command 'EåRA¨ iTĞ|*èdC9QA¨ n6XDõ¡‚Â© ¿¨' (CMD-005)
+Error: unknown command '@ÙRAû©' (CMD-005)
+Error: unknown command 'ò¢‚~£‚@SATPÔ…' (CMD-005)
+Error: unknown command '¨ ï©' (CMD-005)
+Error: unknown command 'ºJİ£‚Ê¨ MTĞ.*(ƒ' (CMD-005)
+Error: unknown command 'ò¦‚RAs¨ uT4—' (CMD-005)
+Error: unknown command 'Ê¦‚†ımø' (CMD-005)
+Error: unknown command 'Ò¥‚ºQAQTĞ**èR­‚' (CMD-005)
+Error: unknown command 'zDÙRAk”L=ş-£‚PAşAAW>S4†' (CMD-005)
+Error: unknown command 'ğäµ?èúãaNOtn' (CMD-005)
+Error: unknown command 'Š£‚B¨ ' (CMD-005)
+Error: unknown command 'ÚLm ‚^RA%TPTMilƒ*(„' (CMD-005)
+Error: unknown command 'êEıN]¦‚¶RA÷¨ GT' (CMD-005)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command 'Ê ‚4nê ’' (CMD-005)
+Error: unknown command 'Ò¤‚–SAk© ‡TĞE*è<T@]¥‚&PA_RAÓ©' (CMD-005)
+Error: unknown command 'ª¤‚J¨' (CMD-005)
+Error: unknown command '¢‚†SA%TP4‡' (CMD-005)
+Error: unknown command 'šA½¤‚ŞRAUTĞ*ÈŠ' (CMD-005)
+Error: unknown command 'ª¦‚RAATP' (CMD-005)
+Error: unknown command '”?¼' (CMD-005)
+Error: unknown command 'ò¦‚züMA.TP' (CMD-005)
+Error: unknown command '²¤‚šSA–T9dHéSAT' (CMD-005)
+Error: unknown command '2¥‚Ì¨' (CMD-005)
+Error: unknown command '²¡‚¬¨' (CMD-005)
+Error: unknown command '²¥‚l¨' (CMD-005)
+Error: unknown command '2¤‚Ö*HŸ' (CMD-005)
+Error: unknown command 'j@iRAÚµ' (CMD-005)
+Error: unknown command '*£‚J© J*¨”' (CMD-005)
+Error: unknown command 'J¡‚2© ' (CMD-005)
+Error: unknown command 'J¡‚Ò© 4*(‹' (CMD-005)
+Error: unknown command 'Ê¤‚’© d*(ƒ' (CMD-005)
+Error: unknown command 'Ê ‚Ò© TĞN*(…' (CMD-005)
+Error: unknown command 'J¢‚R¨ *h' (CMD-005)
+Error: unknown command 'ÚFm¡‚¨ $*(•' (CMD-005)
+Error: unknown command 'Š§‚â© åTĞ' (CMD-005)
+Error: unknown command '*h5´š' (CMD-005)
+Error: unknown command 'ZMm ‚VSAK© eTĞR*h' (CMD-005)
+Error: unknown command 'Š£‚â¨ •TĞ' (CMD-005)
+Error: unknown command '*h%´’' (CMD-005)
+Error: unknown command 'ZE-¥‚–PAK¨' (CMD-005)
+Error: unknown command '² ‚' (CMD-005)
+Error: unknown command '*èô' (CMD-005)
+Error: unknown command '*§‚*¨ êÜÑ¦‚4© —¢Mí¦‚© ' (CMD-005)
+Error: unknown command 'r£‚ºPA© ÎTdM™QA¦T' (CMD-005)
+Error: unknown command '²¤‚ô©' (CMD-005)
+Error: unknown command 'jDéRAÚTĞ§V]E“' (CMD-005)
+Error: unknown command 'šB…PAáTĞ:*è2t‘' (CMD-005)
+Error: unknown command ':H9RAnTPô' (CMD-005)
+Error: unknown command '¡‚ì©' (CMD-005)
+Error: unknown command '*¤‚ò¨' (CMD-005)
+Error: unknown command ':F­¡‚6PA½¨ ' (CMD-005)
+Error: unknown command ':IıL½¦‚2¨ ï¨ *h´' (CMD-005)
+Error: unknown command 'ºNİ ‚Ü© CTĞa*Èš' (CMD-005)
+Error: unknown command '²¢‚ò¨ ÓTĞ*È‚' (CMD-005)
+Error: unknown command '2¥‚Ì¨ ËTĞE*è$4' (CMD-005)
+Error: unknown command 'r¦‚© 6TP!ôäO­¤‚t¨ ' (CMD-005)
+Error: unknown command '*¨‚' (CMD-005)
+Error: unknown command 'Š¢‚¨' (CMD-005)
+Error: unknown command 'jA™PA3¨ YTĞ*È„' (CMD-005)
+Error: unknown command '2¢‚PAkô' (CMD-005)
+Error: unknown command 'J¥‚' (CMD-005)
+Error: unknown command ':BePAó© áTĞH*Èœ' (CMD-005)
+Error: unknown command '2£‚¬¨ µ' (CMD-005)
+Error: unknown command 'ú7e×*¨' (CMD-005)
+Error: unknown command 'R·¯n¿®n_MMMM­®·BaOëE´GÀ¹3¡ø²¸?'„' (CMD-005)
+Error: unknown command '¯IÕU±pşE2ÏŠyÉiYìqJÌşAAáTÇß4‡' (CMD-005)
+Error: unknown command 'ÚOYÕ¾ƒ¾ş7' (CMD-005)
+Error: unknown command 'úüÔŒ' (CMD-005)
+Error: unknown command 'õ™‚Œjô_ï şƒ‚^RAÏkt˜' (CMD-005)
+Error: unknown command 'ú¾VAÑTĞh*¨9dNµ¢‚b¨ Ñµï íÿ¦ Yµ' (CMD-005)
+Error: unknown command 'jLeQA›© *ÈŠ' (CMD-005)
+Error: unknown command '²¥‚ò¨ j*¨”' (CMD-005)
+Error: unknown command '÷F®puíûaÒ' (CMD-005)
+Error: unknown command 'šGRAîTĞ^*hô' (CMD-005)
+Error: unknown command 'Jü›‚úÕ*èîg' (CMD-005)
+Error: unknown command 'ò¨UĞ*h-B9RAzTP.4ƒ' (CMD-005)
+Error: unknown command ' ‚l¨ ÇTP4' (CMD-005)
+Error: unknown command 'êS« ‹TĞf*h”KUPAñT#t' (CMD-005)
+Error: unknown command '±~/‹+–ŠgÛ¯%íáWÒÄc±ì?_bÍƒ/§É/“¥Ñ·ãdíùÑÒãÑë%Ù†CenÇòqHˆò’UˆfCÈ™oYµÒK|xHÅÔ.sÍIÜ¦' (CMD-005)
+Error: unknown command 'ºISA•TĞD*È½VA#© <*h>I]¡‚ô¨ 1TP>äI=£‚¢¨' (CMD-005)
+Error: unknown command 'r£‚RATĞY*hT@åSA:TĞ$*È’' (CMD-005)
+Error: unknown command 'Š£‚:SAITPÔ' (CMD-005)
+Error: unknown command 'jM­¢‚ºSA¦TĞ*è´‘' (CMD-005)
+Error: unknown command 'Ò¤‚Ò© õTP*¤‚ò¨ ÎTĞ*è<äLí¢‚æQA™TĞ]*è44' (CMD-005)
+Error: unknown command '* ‚®RAÚTĞC*¨7TN' (CMD-005)
+Error: unknown command 'ªjøQÂ¨ ƒTĞd*(‚' (CMD-005)
+Error: unknown command 'R¨ ¦TĞ$*È›' (CMD-005)
+Error: unknown command 'jJSA©T!TN£‚Ì© b*h-4‡' (CMD-005)
+Error: unknown command '²¢‚j~½.1TP/*h4š' (CMD-005)
+Error: unknown command '¦‚öSA© ùTP8”A' (CMD-005)
+Error: unknown command '*§‚†PA'¨ ÍTPtš' (CMD-005)
+Error: unknown command 'J¤‚ª¨ ƒTäIYPAéTĞ*è:tš' (CMD-005)
+Error: unknown command 'ZB= ‚|©' (CMD-005)
+Error: unknown command 'Ò£‚ÎSAõ© o¨ >T”IM£‚ŞQA?PAK© j]ÈI*h9äE•QAQTPg*HŸ' (CMD-005)
+Error: unknown command 'Ú@SAï¨ ƒTĞ|*èi­‚© öTĞy*è54' (CMD-005)
+Error: unknown command 'Ò¦‚' (CMD-005)
+Error: unknown command 'Ê¡‚' (CMD-005)
+Error: unknown command 'ò¦‚öPACÿƒ‚Ôí«Û¯«ÛWSSSS«ë]ş:Wxé½‚0èj' (CMD-005)
+Error: unknown command 'ë‚Š¢Nˆ˜ï‚°½±,Ï/¯:!1Üš' (CMD-005)
+Error: unknown command 'úI%RAK¨ –TĞ*h' (CMD-005)
+Error: unknown command ':J¦‚šSAÆÿ ' (CMD-005)
+Error: unknown command 'Ò¦‚PAƒ© wTP' (CMD-005)
+Error: unknown command 'r¦‚' (CMD-005)
+Error: unknown command '™>ÖF—¯,ŸŞZI†½•Ãª`)mŞ˜ËöYfc*¦ULåÓ' (CMD-005)
+Error: unknown command 'ZHµ¤‚FRAvTĞ>*èäH¥ı' (CMD-005)
+Error: unknown command 'ò%POÚµÖ•®¹å%÷›¶Tª-1ã´DÇ¯œìh^‚~Ç‹q©G-' (CMD-005)
+Error: unknown command 'Op•úkIó1.âo^S<Û' (CMD-005)
+Error: unknown command 'R¨ áTĞ&*è5´š' (CMD-005)
+Error: unknown command 'zEí§‚öSA!T!´' (CMD-005)
+Error: unknown command 'Š¦‚&PAITĞ*h3´—' (CMD-005)
+Error: unknown command 'ò¢‚ªPAõ©' (CMD-005)
+Error: unknown command ':Håş‹‚Ôí«Û/«ÛWSSSS+ëİ«§‘¼zTPc*h(¤PA‘TP'*(Ÿ' (CMD-005)
+Error: unknown command '²¡‚â¨ óTĞf*(„' (CMD-005)
+Error: unknown command '²§‚jQA“© öTĞ]*È•' (CMD-005)
+Error: unknown command '¢‚zRAîTP´€' (CMD-005)
+Error: unknown command 'Š¡‚<©' (CMD-005)
+Error: unknown command ' ‚¼©' (CMD-005)
+Error: unknown command 'J¤‚zRAÍ© p*(‚' (CMD-005)
+Error: unknown command 'r¥‚¨ OTP1äG9SAñT94”' (CMD-005)
+Error: unknown command 'ÚL5¡‚,© ÑTĞd*È„' (CMD-005)
+Error: unknown command 'êI¦‚®PAÏ© h*h4‹' (CMD-005)
+Error: unknown command 'êDm¥‚úRA' (CMD-005)
+Error: unknown command 'ú¯ß€(g¾IT%ô' (CMD-005)
+Error: unknown command '£‚|¨' (CMD-005)
+Error: unknown command 'Ê¤‚ÿMAÆ¥' (CMD-005)
+Error: unknown command 'êş‹‚öQAoKßA?ÿíô´²ôtßÿ  ÕTĞ¦_T•' (CMD-005)
+Error: unknown command 'jH)TP&T' (CMD-005)
+Error: unknown command '2£‚j–*èÿ¼ƒ¡‚ò© >ÿ ' (CMD-005)
+Error: unknown command 'Òêé%]© "*h#TÎİSîQA™TĞA*Hw¼»DSAı© ƒTĞO*¨/t„' (CMD-005)
+Error: unknown command 'O…SAC©' (CMD-005)
+Error: unknown command 'ªCyQATĞ*¨˜' (CMD-005)
+Error: unknown command 'J¡‚Ò¨ T´œ' (CMD-005)
+Error: unknown command '*(' (CMD-005)
+Error: unknown command 'ò¡‚L©' (CMD-005)
+Error: unknown command 'r§‚®PAË© ,*(ˆ' (CMD-005)
+Error: unknown command 'ò§‚zQAÛ¨ *¨dC9SAQAw©' (CMD-005)
+Error: unknown command 'ÚL' (CMD-005)
+Error: unknown command 'šF™QAí©' (CMD-005)
+Error: unknown command 'Ò2ƒ#TĞs*¨€' (CMD-005)
+Error: unknown command 'šJ5¡‚J¨ ÕTĞ*È' (CMD-005)
+Error: unknown command 'úD-£‚L¨' (CMD-005)
+Error: unknown command 'ZCí¥‚¨ TĞr*è94ÿ?((œ' (CMD-005)
+Error: unknown command 'êó' (CMD-005)
+Error: unknown command 'ò¡‚¦QA5©' (CMD-005)
+Error: unknown command 'šE½øµ¡‚vQA© L*(›' (CMD-005)
+Error: unknown command 'ò¡‚öPA?ÿhO*¨NYPA¦TPw*(›' (CMD-005)
+Error: unknown command '4Š' (CMD-005)
+Error: unknown command ':F™RAo© Óÿƒ‚:PAC¨ ' (CMD-005)
+Error: unknown command '•3“×)ñ‹V)õ7,U”Ësó+”9ºÃ”|¥—òG¨(»Ò=”°¿Â”9Õ«(Çf(£ßhŞÔüîuN“·qƒfVôXÍËv' (CMD-005)
+Error: unknown command '²w]ÃòºWáÔí2"“.BÓîroŸÇÆ^‰ø8ò&z…küiäíˆÃÈJ±È' (CMD-005)
+Error: unknown command '=pãğ' (CMD-005)
+Error: unknown command 'ZE­§‚>QAí© ^TP' (CMD-005)
+Error: unknown command '_ª)õäsw71K©+6ïëÈÍµ%"ÏU7u•8ÿZâhá"O' (CMD-005)
+Error: unknown command 'R·¯n¿¬n_MMMM­¬çø›§ÔàeQAë© &TP4—' (CMD-005)
+Error: unknown command '²¡‚>PA©' (CMD-005)
+Error: unknown command '´œ' (CMD-005)
+Error: unknown command 'zB§‚ì¨ t*È…' (CMD-005)
+Error: unknown command 'êC9RATĞp*¨14”' (CMD-005)
+Error: unknown command 'ªBÍ ‚öRAC© T*è' (CMD-005)
+Error: unknown command 'J¥‚<© â3±£‚¨ 4*H‡' (CMD-005)
+Error: unknown command 'ZBõ¢‚&RA·© 5TĞf*È€' (CMD-005)
+Error: unknown command 'ò¥‚ªQAÇ©' (CMD-005)
+Error: unknown command 't”' (CMD-005)
+Error: unknown command 'šFESA†Tô' (CMD-005)
+Error: unknown command ')UĞèRUş' (CMD-005)
+Error: unknown command 'R·¯n¿¬n_MMMM­¬÷ÀÙS2xëzH§×î' (CMD-005)
+Error: unknown command '|' (CMD-005)
+Error: unknown command 'ºL' (CMD-005)
+Error: unknown command 'GU ‚^SA¶TĞt*(‡' (CMD-005)
+Error: unknown command '2¤‚B© VT+4–' (CMD-005)
+Error: unknown command 'ÚK-§‚Â© ½TP1ô' (CMD-005)
+Error: unknown command ':@=¡‚¨' (CMD-005)
+Error: unknown command 'Oİ¤‚VPA¨' (CMD-005)
+Error: unknown command 'Ê¡‚vSA' (CMD-005)
+Error: unknown command '$¢§Oú„Åã­ãY´™z6:§°éÈI¼íƒ9oc±ïQäºFÉƒˆºy&' (CMD-005)
+Error: unknown command '© zSP2T—' (CMD-005)
+Error: unknown command 'zı‹‚ÚşM¤‚Ì~QĞj*èdYª <*È…' (CMD-005)
+Error: unknown command '§‚© 6TPN- ‚úRATP´‘' (CMD-005)
+Error: unknown command 'Ê¢‚²¨ ETP<Ôœ' (CMD-005)
+Error: unknown command '*¡‚†SA»¨ †TĞU*èË/' (CMD-005)
+Error: unknown command 'zFùSAk© õTĞa*è/*(™' (CMD-005)
+Error: unknown command 'r£‚Ò© ,*È•' (CMD-005)
+Error: unknown command 'Z@-ı_*Èéo' (CMD-005)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command 'J¦‚Ü¨ cTP%*¨+Ô“' (CMD-005)
+Error: unknown command 'zEùQAÖTĞz*èF- ‚ŞQAETĞv*h´' (CMD-005)
+Error: unknown command 'ò¤‚ü¨ IT' (CMD-005)
+Error: unknown command ':CåPATĞ~*¨54' (CMD-005)
+Error: unknown command '*è0dM9RAM¨ õTPõQPW*h)T‰' (CMD-005)
+Error: unknown command 'ú¯wĞ*T' (CMD-005)
+Error: unknown command '2§‚Â¨ h*è&äö/' (CMD-005)
+Error: unknown command 'éˆ_yIß¤-†—µäøårrhåOÔn^‚ƒ¯Š‘¾¦Çş,Dİ1ßpÄº' (CMD-005)
+Error: unknown command 'úNÅQAÙT94š' (CMD-005)
+Error: unknown command 'úJm¦‚SA—¨ ÕÿAA© ÍTĞ*h+4’' (CMD-005)
+Error: unknown command '*¢‚V+(' (CMD-005)
+Error: unknown command 'ªEİ ‚îSAµ© *È”' (CMD-005)
+Error: unknown command '¨ OTP*¨'¤<7/© ÏTĞ*è$dú‹‚SA-¨ ' (CMD-005)
+Error: unknown command 'T!4¸ZA!TĞ¬_”CM£‚æQA' (CMD-005)
+Error: unknown command '2¦‚²¨' (CMD-005)
+Error: unknown command 'ÚNùRA+¨ ™T' (CMD-005)
+Error: unknown command 'ø=ı‚¬© )Õ' (CMD-005)
+Error: unknown command 'úF]ş´Š' (CMD-005)
+Error: unknown command '2£‚ò© TĞ€ß(Èˆ' (CMD-005)
+Error: unknown command 'r¡‚ô© TôWµ‚ìª4…' (CMD-005)
+Error: unknown command 'Š¡‚´©' (CMD-005)
+Error: unknown command 'wvæwq³' (CMD-005)
+Error: unknown command '²¢‚†RAË© J*h"t”' (CMD-005)
+Error: unknown command 'J ‚ÚPAET' (CMD-005)
+Error: unknown command 'R¢‚b¨' (CMD-005)
+Error: unknown command ':G­¡‚úSA•TĞW*è' (CMD-005)
+Error: unknown command 'úNQAŞT:Ô¯ZAÛ© ÃÿPPNåRAÊT-4˜' (CMD-005)
+Error: unknown command 'ÚH5§‚Ô© ×¿Q6´¤ZA–TÔ„' (CMD-005)
+Error: unknown command 'êJIšRÚDMÉ' (CMD-005)
+Error: unknown command 'jK½¤‚¶SA›© ' (CMD-005)
+Error: unknown command '*è´“' (CMD-005)
+Error: unknown command 'šDí¤‚vPA“¨ æTĞ*h¤Km ‚Â© "*h=Ôˆ' (CMD-005)
+Error: unknown command 'N…PAk©' (CMD-005)
+Error: unknown command 'ºOITĞ¨_¤J©QA‡© *(ï7' (CMD-005)
+Error: unknown command '*¢‚QA~T…€,*(‹' (CMD-005)
+Error: unknown command 'êNı¤‚jQA>TĞ*hÙ/' (CMD-005)
+Error: unknown command 'úû´6dJ-§‚Œ©' (CMD-005)
+Error: unknown command 'Z@eQA½¨ Ÿ‡Ã“' (CMD-005)
+Error: unknown command 'ò ‚ª¨ 9¿¼ƒv¡‚PAæTĞ6*¨%ô' (CMD-005)
+Error: unknown command '·Â' (CMD-005)
+Error: unknown command '_Ûb•Ç$Ñ û(qĞÖT˜h‹yå]Å…Àöb ss‘Õ@lÖÕİ-•…íà§' (CMD-005)
+Error: unknown command 'İ' (CMD-005)
+Error: unknown command 'tC¨gEÆG' (CMD-005)
+Error: unknown command 'I' (CMD-005)
+Error: unknown command 'RPAúTĞ' (CMD-005)
+Error: unknown command '@í§‚~PAÊTPVµ‚Ò© !TP*È‰' (CMD-005)
+Error: unknown command '*¢‚J¨ gT?ô' (CMD-005)
+Error: unknown command 'ª ‚¨ TPzKÍ©VĞ#*(”' (CMD-005)
+Error: unknown command '²§‚PAk¨ TP+*h5Fu¡‚úSA‘TP' (CMD-005)
+Error: unknown command 'rûEA–TPK*hoµ‚ÚÿFATPıß(Hƒ' (CMD-005)
+Error: unknown command 'jÿRA'ªÔ„' (CMD-005)
+Error: unknown command 'úI­¢‚PATĞ*È”' (CMD-005)
+Error: unknown command '’¨ .TĞ5*(†' (CMD-005)
+Error: unknown command 'Š¤‚†PAşT' (CMD-005)
+Error: unknown command 'zÂ­ /TPäNM¦‚¶SA' (CMD-005)
+Error: unknown command 'ÚGM¢‚Â¨ íT5JÍ ‚¶PAÇ¨ ¥TP$´' (CMD-005)
+Error: unknown command 'ZNERAs©' (CMD-005)
+Error: unknown command ' ‚ÖRA:TP' (CMD-005)
+Error: unknown command 'Z@ıııPı' (CMD-005)
+Error: unknown command 'ºÏ' (CMD-005)
+Error: unknown command 'Ê`E³‚¾³‚YA½XAçYA2¬ Ã¬ VP+è+(ôšÔÀ' (CMD-005)
+Error: unknown command ':Ê' (CMD-005)
+Error: unknown command 'Ì' (CMD-005)
+Error: unknown command 'Êd%ÿTĞ¬ ' (CMD-005)
+Error: unknown command 'ZÊ' (CMD-005)
+Error: unknown command 'ÊfÙ±‚"YA«XA¬ VP%+(ˆTÄ' (CMD-005)
+Error: unknown command '*a' (CMD-005)
+Error: unknown command 'ºÊ' (CMD-005)
+Error: unknown command ':Ë' (CMD-005)
+Error: unknown command 'ª`İcaå°‚º²‚ş`Ù±‚ŠYAi¬ å¬ é¬ RVP+H–äÁ' (CMD-005)
+Error: unknown command '²b' (CMD-005)
+Error: unknown command 'ºÊ' (CMD-005)
+Error: unknown command 'Ã' (CMD-005)
+Error: unknown command '2`Mc²‚RXAÁ¬ …?”Ï' (CMD-005)
+Error: unknown command 'ŠgıÁ' (CMD-005)
+Error: unknown command 'šÄ' (CMD-005)
+Error: unknown command '*be°‚YAù¬ V+ÈƒdÉ' (CMD-005)
+Error: unknown command 'Ê`…³‚–±‚.ş¹°‚zÿ…‚”XA7YA…¬ ı¤¡¬ ¬ w¡ K¬ M¬ E¬' (CMD-005)
+Error: unknown command 'òaa=c…²‚' (CMD-005)
+Error: unknown command 'êòSA&¬ ' (CMD-005)
+Error: unknown command '·/n¿¥n_LLLL¬¥·»k-vòsÿ' (CMD-005)
+Error: unknown command '”˜ˆH5k4¼·ÂÙqpuÑ9€N+‚…Í(4›Âdú0´®' (CMD-005)
+Error: unknown command 'jf­b)²‚XAi¬' (CMD-005)
+Error: unknown command '2a)²‚YAª¬ «¬' (CMD-005)
+Error: unknown command 'ª`½g¥°‚bYAU¬ ÷¬ |V±‚¦²‚šXAÉ¬ Ó¬ dVP5+¨‰¤ñSA¬ ö¬ ‹¬' (CMD-005)
+Error: unknown command '*a9±‚*XAGYAgXAßŞ×ÑhV' (CMD-005)
+Error: unknown command '+è!+ÈŠ´›t—$Ã' (CMD-005)
+Error: unknown command 'ºÂ' (CMD-005)
+Error: unknown command '’cÅ±‚¦³‚²XAj¬' (CMD-005)
+Error: unknown command 'šÈ' (CMD-005)
+Error: unknown command 'Šü© Õ¬' (CMD-005)
+Error: unknown command 'rbıÎ' (CMD-005)
+Error: unknown command '*f' (CMD-005)
+Error: unknown command '*dY²‚êYA²¬ ' (CMD-005)
+Error: unknown command 'RaIXA¬' (CMD-005)
+Error: unknown command 'êÄ' (CMD-005)
+Error: unknown command '’gmd9±‚ú±‚YAé¬ a¬ î¬ Õ¬ ¬' (CMD-005)
+Error: unknown command 'ªöş÷Ï' (CMD-005)
+Error: unknown command 'ZË' (CMD-005)
+Error: unknown command 'ÚÂ' (CMD-005)
+Error: unknown command 'ºÈ' (CMD-005)
+Error: unknown command 'êÅ' (CMD-005)
+Error: unknown command ':À' (CMD-005)
+Error: unknown command 'ÊfE²‚ÔYAÚ¬ ' (CMD-005)
+Error: unknown command 'êÌ' (CMD-005)
+Error: unknown command 'Òû' (CMD-005)
+Error: unknown command 'úÈ' (CMD-005)
+Error: unknown command 'Å' (CMD-005)
+Error: unknown command 'RgÅ³‚Ô*(•”ô‹‚Î°‚' (CMD-005)
+Error: unknown command ':Ì' (CMD-005)
+Error: unknown command 'šÄ' (CMD-005)
+Error: unknown command 'Reå°‚ö±‚F²‚^²‚‚YAR¬ dVXAÆ¬ Í¬ ¥¬ ‘¬ ^¬ W¬ ÷¬ TVĞ:Å' (CMD-005)
+Error: unknown command '*aÅ±‚tXA' (CMD-005)
+Error: unknown command 'Ç' (CMD-005)
+Error: unknown command 'úÀ' (CMD-005)
+Error: unknown command 'Jg•²‚¤ö9S.+h++è+¨+ÈdÍ' (CMD-005)
+Error: unknown command '*bi±‚œXA²¬ ı¬ w¬ ¬ %¬ ƒ¬ V+¨’ÔÄ' (CMD-005)
+Error: unknown command 'Ú¬¶ç' (CMD-005)
+Error: unknown command 'ıNç»>' (CMD-005)
+Error: unknown command 'fMdıEAÓYA¥¬ õ¿(¨´‰¤Ë' (CMD-005)
+Error: unknown command 'ÚÅ' (CMD-005)
+Error: unknown command 'Jd' (CMD-005)
+Error: unknown command 'YAÑ¬' (CMD-005)
+Error: unknown command '2`y°‚Xz‚Íß(¨ùO' (CMD-005)
+Error: unknown command 'Ç' (CMD-005)
+Error: unknown command 'êÏ' (CMD-005)
+Error: unknown command '’°‚°‚´YA‘¬' (CMD-005)
+Error: unknown command '’ei°‚2YA“XA_XA½XA†¬ »¬ «¬ |V.+H‹Ô“4’4TÎ' (CMD-005)
+Error: unknown command '*bõf' (CMD-005)
+Error: unknown command '2dé²‚ŒYA¬' (CMD-005)
+Error: unknown command 'ô' (CMD-005)
+Error: unknown command 'úHERA½© #TĞ*¨=Ô‚' (CMD-005)
+Error: unknown command 'êAySAË© •TP.Ô' (CMD-005)
+Error: unknown command 'ºM]¤‚b¨ |*È‚' (CMD-005)
+Error: unknown command 'ªCÕ¥‚’©' (CMD-005)
+Error: unknown command '¨' (CMD-005)
+Error: unknown command 'º@ÅRAÕ© L*HŸ' (CMD-005)
+Error: unknown command 'Ò£‚Ô´Jm*h' (CMD-005)
+Error: unknown command 'dFİ ‚Ò¨ *h0t“' (CMD-005)
+Error: unknown command 'Ê¡‚¾RAŞTÔˆ' (CMD-005)
+Error: unknown command '²¡‚¬© 'TĞJ*¨ˆ' (CMD-005)
+Error: unknown command ':MRA9TP*Èƒ' (CMD-005)
+Error: unknown command 'ºDµ¦‚QA¨ T*(™' (CMD-005)
+Error: unknown command '2¦‚¨ ATô' (CMD-005)
+Error: unknown command '*¥‚â©' (CMD-005)
+Error: unknown command 'êB¥‚¢© L*(š' (CMD-005)
+Error: unknown command 'ªA-¢‚ZQATĞ0*hŠ¤‚ÎSA­© ùTĞL*häC=¡‚Ê¨ kT=dE¢‚&PAÆTô' (CMD-005)
+Error: unknown command '*¦‚RAÎT5äJ­ ‚<© 3TĞ9*ÈŠ' (CMD-005)
+Error: unknown command 'j@Í£‚¨ *T' (CMD-005)
+Error: unknown command ':NYPA?© ›TĞ*(“' (CMD-005)
+Error: unknown command 'ºA ‚®SAë¨ B*(' (CMD-005)
+Error: unknown command 'º@µ¡‚<© ®TĞD*(†' (CMD-005)
+Error: unknown command '¤‚|©' (CMD-005)
+Error: unknown command 'r¡‚¢¨' (CMD-005)
+Error: unknown command 'ªC©¨ :TĞ*èÚC' (CMD-005)
+Error: unknown command 'Š¤‚"© !T!GéRAîTP' (CMD-005)
+Error: unknown command 'ªOùRA© ' (CMD-005)
+Error: unknown command ':Iõ¡‚>QAyTdB])WP§¿)Èÿ©' (CMD-005)
+Error: unknown command 'GR86ÎºC¹(İ˜ƒ>{¡ïË§¨=4%aèÙtÃ˜õ>”Fó×‰ür}ÎÁ1ı' (CMD-005)
+Error: unknown command 'ÛŠçêJI¼êvJ„ÊÒ#X•Tâ­²µµU÷ÒQ5»âì' (CMD-005)
+Error: unknown command '±wV®Aİë ±½¬A—½«±4>çOB+bz/XàşpT_ŒqıâKùˆ¡‚®QAß© µTP]*(œ' (CMD-005)
+Error: unknown command '²¤‚SA/© QTP(Ô”' (CMD-005)
+Error: unknown command 'úëk' (CMD-005)
+Error: unknown command 'jJ¥QAK¨ *èÔQP*h%Ô±A•© ITĞ•ß¤Kÿ7' (CMD-005)
+Error: unknown command 'r ‚ÚRA×© *èt“' (CMD-005)
+Error: unknown command 'Bu£‚© ÁTĞN*h3t' (CMD-005)
+Error: unknown command 'šó›‚FSA1TĞõÿ…‚bËôìo' (CMD-005)
+Error: unknown command 'r£‚êÿ/ô' (CMD-005)
+Error: unknown command 'J§‚RË´‚' (CMD-005)
+Error: unknown command 'ZH¡‚© ~TP”Kİ¥‚¶SA© ÿBAo¨ `*Èƒ' (CMD-005)
+Error: unknown command '§‚‚© #T+Ô' (CMD-005)
+Error: unknown command ':Bõ ‚ÚSAÕ© 2*ÈŠ' (CMD-005)
+Error: unknown command '2¥‚QAÖTĞ*h5T' (CMD-005)
+Error: unknown command 'Š¥‚ü©' (CMD-005)
+Error: unknown command 'ZG¥–+hk¹‚vQAaT-Ô—' (CMD-005)
+Error: unknown command 'Z@¡‚ŞRAqTPô×¦´…' (CMD-005)
+Error: unknown command 'jNPA«© æTĞd*(Ÿ' (CMD-005)
+Error: unknown command 'jBéSA½© |*HŸ' (CMD-005)
+Error: unknown command 'ÚE=¤‚²¨ ãTP=*èäOùQAnTĞd*(ˆ' (CMD-005)
+Error: unknown command 'ò¤‚jPA' (CMD-005)
+Error: unknown command 'ºD=§‚¨' (CMD-005)
+Error: unknown command 'jAePAı¨ Óå' (CMD-005)
+Error: unknown command '2¢‚ê•+¨' (CMD-005)
+Error: unknown command 'Š¡‚´¨' (CMD-005)
+Error: unknown command 'È«F§7Ddv,­×Ÿ÷¯Å·Â"E-MèV½#Âoİéé7EíœëÂiL¢h¿æ’¸İì¢p§‚QAµ¨' (CMD-005)
+Error: unknown command '2§‚ÆQA±TĞ*È‡' (CMD-005)
+Error: unknown command 'ÚFİ£‚B© ÅTĞ>*¨˜' (CMD-005)
+Error: unknown command '2¤‚@Í¦‚¦SAß© cTP!Ôƒ' (CMD-005)
+Error: unknown command '*H' (CMD-005)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command ':Mµ ‚t© :£ ŸßAã*äù_PrûÊíWÖÛW¦L™2e•qşÂŸ~üqÛ&¼gÑiÕa#voJÅƒïpş]' (CMD-005)
+Error: unknown command 'Ìo®G~ßõ¨¶-‡¬CØ¡$‘£î‰^“€’…ÔÏˆµp>‡†ÍâPüm' (CMD-005)
+Error: unknown command 'CÂ·åˆvXoÿPÂŸHı8„@ÿV0J?¡jéRxİ' (CMD-005)
+Error: unknown command 'ÚGeQAS¨ ' (CMD-005)
+Error: unknown command 'ZOéPA>TôÇÿ€‚RA±TĞ$*È' (CMD-005)
+Error: unknown command '2¤‚ô¨ "*¨˜' (CMD-005)
+Error: unknown command 'zK¤‚"©' (CMD-005)
+Error: unknown command 'šBYSA½¨' (CMD-005)
+Error: unknown command ':AÅPAõ© ÇTP1´•' (CMD-005)
+Error: unknown command 'jE•PAÇ© «TĞV*¨€' (CMD-005)
+Error: unknown command 'J¦‚PA©TĞr*hÚ@…SA¯+4ˆ' (CMD-005)
+Error: unknown command 'J¦‚ÖPATäHÕ¥‚RA' (CMD-005)
+Error: unknown command 'ZFµ ‚Ì© |*(' (CMD-005)
+Error: unknown command '²¥‚fPA‚' (CMD-005)
+Error: unknown command '*¥‚VPATPW*(' (CMD-005)
+Error: unknown command 'jAùRAÅTt•' (CMD-005)
+Error: unknown command 'šN­¥‚QA¹TĞ*è9¤N¥PAİ© T' (CMD-005)
+Error: unknown command 'r¢‚²¨ /TP”JSA© šTP*èÄÿ‚šü¤ ä' (CMD-005)
+Error: unknown command 'ö°Q—“‘·oNX®ÃÖÈ$Œ_™E' (CMD-005)
+Error: unknown command 'áO"‘?/ó3"àup%.m‡_Ÿp¦¬€æÖ0¨Ç/ÇìG¡Èí' (CMD-005)
+Error: unknown command '|»ìRn_¹ıÊzûÊ”)S¦¬²¯¤ÁÆRAG© 3TĞv*È“' (CMD-005)
+Error: unknown command 'O ‚ºSA·¨ TĞv*¨”' (CMD-005)
+Error: unknown command ':B¦‚Úş¤ p*h%t„' (CMD-005)
+Error: unknown command 'ò¥‚¦SAW¨ ÅTPTƒ' (CMD-005)
+Error: unknown command 'Ò ‚æRA¨ éTĞu*È‘' (CMD-005)
+Error: unknown command '2¢‚ÎQAç¨ ‰Tt' (CMD-005)
+Error: unknown command 'ZAÅPAí¨ wTĞ*èW*Èœ' (CMD-005)
+Error: unknown command 'r§‚Â¨' (CMD-005)
+Error: unknown command 'Ò¡‚' (CMD-005)
+Error: unknown command 'jE½¦‚,¨ ¶TĞ*(€' (CMD-005)
+Error: unknown command 'jIQA¿SAO© cTô' (CMD-005)
+Error: unknown command 'ºAm¦‚ü©' (CMD-005)
+Error: unknown command 'úJ¥‚ÎRA·© :TP.´ì/' (CMD-005)
+Error: unknown command '²­PĞ2*H' (CMD-005)
+Error: unknown command 'zB½ ‚.RA?ÔG' (CMD-005)
+Error: unknown command 'ZE¥SA*¨#Ô¤BAç*ô' (CMD-005)
+Error: unknown command 'ÚN9PA§© TĞ9*h4äJ§‚RA© …TĞ‹¢' (CMD-005)
+Error: unknown command 'u ‚RA/şEİ¥‚PA¹TĞ^*èL…‚–ı¤' (CMD-005)
+Error: unknown command '’© –?)¨t' (CMD-005)
+Error: unknown command 'ºB£‚zPA“¨ Tdú/*èóO' (CMD-005)
+Error: unknown command '/„à¹K0öî‚ûË¥p¿ˆïçpdTÆ' (CMD-005)
+Error: unknown command 'r£‚NQA]© ³TĞP*È‡' (CMD-005)
+Error: unknown command ':F=£‚RAÓ¨ 7TP' (CMD-005)
+Error: unknown command 'J…SAK©' (CMD-005)
+Error: unknown command 'Ê¦‚"© TĞz*h=”Nm§‚‚¨' (CMD-005)
+Error: unknown command '*ıSJAg¨ ‹¿)(' (CMD-005)
+Error: unknown command 'K-¦‚ò¨ *h)t’' (CMD-005)
+Error: unknown command ':K£‚SA¨ T3dH™PAu© ZTĞ6*H—' (CMD-005)
+Error: unknown command ':@¢‚ì¨ ÍTdFU ‚^RA–TP*H—' (CMD-005)
+Error: unknown command ':CÍ£‚–RAyTĞ*h”BYQA«©' (CMD-005)
+Error: unknown command '2£‚PAZTĞj*(' (CMD-005)
+Error: unknown command 'Š¡‚l©' (CMD-005)
+Error: unknown command '*¤‚¦QA© (*H#Â' (CMD-005)
+Error: unknown command 'º@U£‚>QAK¨ *häI-úMAv%' (CMD-005)
+Error: unknown command 'êA…QA]¨ nTP¹R' (CMD-005)
+Error: unknown command 'Ê£‚VQA¯© ¿¨ ¹%' (CMD-005)
+Error: unknown command 'Hí£‚6QA+© ,*è=MM¦‚&SAºTĞA*h´—' (CMD-005)
+Error: unknown command 'ºPJAuşAAóK´†' (CMD-005)
+Error: unknown command 'ÚHUş”LM)¥ B*h=dDí-QP,4™' (CMD-005)
+Error: unknown command 'Ò§‚bJ)(€' (CMD-005)
+Error: unknown command '½Ö7›wÀÚ~íaEYSA¨ A­pèDKXPA",P' (CMD-005)
+Error: unknown command '¤‚¬© «TP*è' (CMD-005)
+Error: unknown command 'šOùPA.TĞI*h%ô' (CMD-005)
+Error: unknown command 'zCÅı¦' (CMD-005)
+Error: unknown command 'ZZ¢' (CMD-005)
+Error: unknown command 'ZNİ ‚R© )¥4–' (CMD-005)
+Error: unknown command 'A' (CMD-005)
+Error: unknown command '¥‚2© P*¨”BEü¢ şTĞ*h*4‘' (CMD-005)
+Error: unknown command 'Ò ‚¨ ™T%S¦ TĞ:M…•)h´ƒ' (CMD-005)
+Error: unknown command '7¶¶Dª#8µ€ß¤æ8x²´¬íp<¬)LÚ B‹&8ºÂ«6ÂdW+<Šµ„…YhéZ' (CMD-005)
+Error: unknown command 'šOUØvT²¨ ¥TP8´' (CMD-005)
+Error: unknown command 'šJÙQA?¨' (CMD-005)
+Error: unknown command 'zE¥QA³©' (CMD-005)
+Error: unknown command 'zK¥SAs© ãTĞ6*hó‹‚´¨ ‡TôµLAõÊ”ó¤n_İ~yİ¾ššššZyïAô4ğ.QATPg*(‡' (CMD-005)
+Error: unknown command 'zBm¡‚ÚRA…TP4—' (CMD-005)
+Error: unknown command 'jG]¢‚¾SA' (CMD-005)
+Error: unknown command 'ZI™QA£¨' (CMD-005)
+Error: unknown command 'Â¦ ‘e' (CMD-005)
+Error: unknown command 'jN§‚æRAÃ©' (CMD-005)
+Error: unknown command 'J¡‚SA7©' (CMD-005)
+Error: unknown command 'r¥‚¶SAo¨ ' (CMD-005)
+Error: unknown command 'ªLİ¡‚&SAO¨ CTĞ`*¨)ô' (CMD-005)
+Error: unknown command ':Cu¥‚>RA¡TĞb*h!ô' (CMD-005)
+Error: unknown command 'jEM¤‚ò¨ (*È‡' (CMD-005)
+Error: unknown command '© TP1t™' (CMD-005)
+Error: unknown command '¢‚œ¨' (CMD-005)
+Error: unknown command 'ÚM¥RA¶TĞ=*¨€' (CMD-005)
+Error: unknown command 'ºGYSAùT' (CMD-005)
+Error: unknown command 'êF¥QA©TP' (CMD-005)
+Error: unknown command 'tœ' (CMD-005)
+Error: unknown command ':NYSA' (CMD-005)
+Error: unknown command 'šGYSAM© óTPEÙSAÎTĞ*¨4‘' (CMD-005)
+Error: unknown command 'Ê¡‚FPAm© TP2´‰' (CMD-005)
+Error: unknown command 'ÚOí§‚Â¨' (CMD-005)
+Error: unknown command 'zB%QAETP*(' (CMD-005)
+Error: unknown command 'ZIM§‚œ©' (CMD-005)
+Error: unknown command 'LyQA~TĞh*Èœ' (CMD-005)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command '¢‚© 0*È‹' (CMD-005)
+Error: unknown command 'r§‚b¨ TPo*è*Ôˆ' (CMD-005)
+Error: unknown command 'úDQA©' (CMD-005)
+Error: unknown command 'Ò*h”Mí¢‚NPAºk·)Ë© x*h²ött›' (CMD-005)
+Error: unknown command 'Hì¤æ’³¿™m*WKÄ6"@¦' (CMD-005)
+Error: unknown command 's|4º:)ÁêöÕíWäí«©©©©Uô¶ü' (CMD-005)
+Error: unknown command '§‚æRAÑTPïïdE-Õ*(' (CMD-005)
+Error: unknown command 'ºBYSA©' (CMD-005)
+Error: unknown command 'Ê£‚ºQAŸ¨ R*H' (CMD-005)
+Error: unknown command 'K' (CMD-005)
+Error: unknown command 'ZDµÒ*h:t„' (CMD-005)
+Error: unknown command '*¨=4›' (CMD-005)
+Error: unknown command 'Š¦‚ÖRA«´' (CMD-005)
+Error: unknown command 'OÕ£‚b© KZ™PAU©' (CMD-005)
+Error: unknown command '* ‚†QATP.ô' (CMD-005)
+Error: unknown command 'zIõ¥‚úQA·¨' (CMD-005)
+Error: unknown command '@…QAÇ© ³T?dLM¡‚ÿ=Ó*¨14‰' (CMD-005)
+Error: unknown command 'Ê¤‚"¨ l*È' (CMD-005)
+Error: unknown command '2 ‚VSAñTP”NùSA+© x*h(C¥SA^TP"tƒ' (CMD-005)
+Error: unknown command 'ò×*hâw' (CMD-005)
+Error: unknown command '²£‚ôÿ‚â© UTP84' (CMD-005)
+Error: unknown command ':NySAITĞm*h4ˆ' (CMD-005)
+Error: unknown command 'ÒÍú¹TĞX*(„' (CMD-005)
+Error: unknown command 'jIµ ‚SA½©' (CMD-005)
+Error: unknown command 'êO…QATĞ8*h,Ô‚' (CMD-005)
+Error: unknown command 'Ê¡‚úQA¨ TĞ*ÈŸ' (CMD-005)
+Error: unknown command 'jDU¢‚êRA>TĞ<*¨˜' (CMD-005)
+Error: unknown command '*¤‚šQA©' (CMD-005)
+Error: unknown command 'ò§‚úQAAT^Z²ò·ö´ı7' (CMD-005)
+Error: unknown command 'ªM5 ‚>jôÏ' (CMD-005)
+Error: unknown command 'Z+¥æÒ«J-¤õÁfâcİL:„5•æ¿7‘p÷«%!K=$õdMIMw—£jˆ77Iã*Ök' (CMD-005)
+Error: unknown command ':@9PA9TĞv*¨5´' (CMD-005)
+Error: unknown command '2¥‚>QA:TĞP*(‡' (CMD-005)
+Error: unknown command 'R¨ Aß(è¢UĞ1*¨VA©' (CMD-005)
+Error: unknown command 'ò¦‚¬© ß)è®VA' (CMD-005)
+Error: unknown command '*§‚6QAã¨ yZRA¨ ‹Z ‚ºSAo© ^TP44”' (CMD-005)
+Error: unknown command 'ò¡‚&QAÏ¨ 9TĞp*(' (CMD-005)
+Error: unknown command 'ÚCí¡‚QA~TPdEµ¢‚fQAETĞ*èäG­¤‚SA©' (CMD-005)
+Error: unknown command 'ÊÔ*èÛwP+*è:ô' (CMD-005)
+Error: unknown command 'jKÙQA·© ¦ZMş7ï 1TÇ7' (CMD-005)
+Error: unknown command 'º@Ò*(”' (CMD-005)
+Error: unknown command 'zGõşï /¨ *è÷ïŞA“©' (CMD-005)
+Error: unknown command ':EEPAÙTP”GSAÆT†' (CMD-005)
+Error: unknown command 'š@M¤‚nRABéPAM© eTĞ*H' (CMD-005)
+Error: unknown command 'Ò¥‚FQAÖT' (CMD-005)
+Error: unknown command '2¥‚Â¨ (*h”AÕ§‚<¨ ÍTĞ@¹PAı© †TP#*h0äGRAí© l*h<Ô‰' (CMD-005)
+Error: unknown command 'ºNQA' (CMD-005)
+Error: unknown command 'ºA£‚öQAû© =TĞŸTP:äIySA' (CMD-005)
+Error: unknown command 'ú’–†D*¨KÅQA_Öî…5dGùQA/© B*èTFu§‚6PAåş' (CMD-005)
+Error: unknown command 'êBÙSAç© ÅTP'*¨' (CMD-005)
+Error: unknown command 'ÔŒ' (CMD-005)
+Error: unknown command '¢‚šPA»© TĞ*h' (CMD-005)
+Error: unknown command '²§‚ô¨ sTĞ$*Èœ' (CMD-005)
+Error: unknown command 'ºNåSA~TP44' (CMD-005)
+Error: unknown command 'ºNm¦‚ºPA¨ 2*ÈŠ' (CMD-005)
+Error: unknown command 'ÚN5¡‚ì¨ *hÔ“' (CMD-005)
+Error: unknown command 'Òhd¥Uùÿ¥‚Fÿ' (CMD-005)
+Error: unknown command 'êØ…Ÿ¶cÀúdô´Ø' (CMD-005)
+Error: unknown command ':LÕ¡‚îQA³¨' (CMD-005)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command 'ºEYQA¹TP6”BA« øÿRAÏµ' (CMD-005)
+Error: unknown command 'CÍ ‚>PAaTP*è<”@ ‚¶SA£© 3TT‡' (CMD-005)
+Error: unknown command 'zD§‚â© <*h.Ô…' (CMD-005)
+Error: unknown command ':DEQAÁTĞV*(‡' (CMD-005)
+Error: unknown command 'jBM ‚–SA¨ ' (CMD-005)
+Error: unknown command 'ºM%SAÍ¨ TĞz*ÈŸ' (CMD-005)
+Error: unknown command '2 ‚FRAfT!t”' (CMD-005)
+Error: unknown command 'šH' (CMD-005)
+Error: unknown command 'zI¥RA© ­TĞ*è&´‘' (CMD-005)
+Error: unknown command 'T™' (CMD-005)
+Error: unknown command '2£‚¾ŞñÂy*ÈX« ¿© TĞ' (CMD-005)
+Error: unknown command '¥‚ì¨ ­T#¤BEQAQT.¤ôx…8F' (CMD-005)
+Error: unknown command '2ú ' (CMD-005)
+Error: unknown command 'ŒßÃ†åı™¸Úéb÷e' (CMD-005)
+Error: unknown command 'R¤‚,¨ ' (CMD-005)
+Error: unknown command 'C™SATĞ*H' (CMD-005)
+Error: unknown command 'Ò¥‚~Áß±±TP4´' (CMD-005)
+Error: unknown command 'ZE=¦‚|©' (CMD-005)
+Error: unknown command 'Z@É© d*(‘' (CMD-005)
+Error: unknown command 'R ‚6RAC¨' (CMD-005)
+Error: unknown command 'ª¢‚&RAÆTĞ*HN½ü/´Œ' (CMD-005)
+Error: unknown command 'R¢‚Ô© ÆTPK*è%dIM¦‚Œ© ÛT'äIyQAı© ÜZ' (CMD-005)
+Error: unknown command 'ºõ‡‚Ì© yµô' (CMD-005)
+Error: unknown command 'êC]£‚NPA'¨' (CMD-005)
+Error: unknown command 'êC­§‚¦RA“¨ *è:¤H-¦‚SA¦TÔ•' (CMD-005)
+Error: unknown command 'ÚF%RA¡TĞ*è.¤BUPA¨ 9TP8´‰' (CMD-005)
+Error: unknown command '*¢‚nQA)TP&tœ' (CMD-005)
+Error: unknown command 'zM½¢‚6SAŸ¨ /TĞ*È•' (CMD-005)
+Error: unknown command 'r ‚NSA«¨' (CMD-005)
+Error: unknown command 'ò¤‚^QA÷© şTPW*è!¤MYPA³© T*h9äFåSA&T.4' (CMD-005)
+Error: unknown command 'J¥‚¼©' (CMD-005)
+Error: unknown command '*è!dA=¦‚,¨' (CMD-005)
+Error: unknown command 'ªO¥‚QAï¨' (CMD-005)
+Error: unknown command 'êBERAúT¤÷7yRAZÿé—*¨´' (CMD-005)
+Error: unknown command 'šA=¡‚PA¥' (CMD-005)
+Error: unknown command 'šJM£‚¦RAETdM5¤‚PA¨ áTĞ*È†' (CMD-005)
+Error: unknown command 'ºIéSAÚTĞ2 ‚ªRAÕ¨ ÕTĞ*(ˆ' (CMD-005)
+Error: unknown command 'šD' (CMD-005)
+Error: unknown command 'Ê¡‚SAŞT#T' (CMD-005)
+Error: unknown command 'êK½¥‚ŞRATĞY*¨' (CMD-005)
+Error: unknown command '*¤‚öSA3SP]*¨4‹' (CMD-005)
+Error: unknown command 'šõ/¤n_İ~Yİ¾ššššZYìïŸ]~' (CMD-005)
+Error: unknown command 'ÎUKÆ×“pjJŠÏ®@ÖDÔHLÀ©3Ë‘W~9~Ô_†ŸÏ–¢Í_qğBr/A½±Øg´ÚË¡pg' (CMD-005)
+Error: unknown command 'ºNİ¤‚.RAß© CT5t‘' (CMD-005)
+Error: unknown command 'zDUl°' (CMD-005)
+Error: unknown command 'Ò§‚ŞRA™T!ô' (CMD-005)
+Error: unknown command 'Ê¦‚úQA?¨ 3TĞ*h6t' (CMD-005)
+Error: unknown command 'ò¢‚<© ³TP-*è1t—' (CMD-005)
+Error: unknown command 'Ê+UPg*È‡' (CMD-005)
+Error: unknown command ':AéQA‘TPNYSA© +T'¤O ‚PA‡¨ şTP:4…' (CMD-005)
+Error: unknown command 'zMePA‡¨ l*(š' (CMD-005)
+Error: unknown command 'úLM¡‚Â¨ *¨dOMú(ht' (CMD-005)
+Error: unknown command 'ÚM%RA' (CMD-005)
+Error: unknown command 'zB=£‚´© UTP4î¤KM¡‚zRAŞTP*È' (CMD-005)
+Error: unknown command 'êHu ‚SA¨ b*èt—' (CMD-005)
+Error: unknown command 'êOÅRA© “TP>t' (CMD-005)
+Error: unknown command '2£‚4¨ ]TÉ?(È‘' (CMD-005)
+Error: unknown command 'GZ"Ê×CßšCñ7‡Nc3Ü' (CMD-005)
+Error: unknown command 'zş¤Gİ¦‚© ŠTP6ôà75ş›‚B© N¥' (CMD-005)
+Error: unknown command 'ZM£‚Â¨ X*È†' (CMD-005)
+Error: unknown command 'šK½¥‚Úıƒ‚öPA© §TæÊ•’B9SA¨ ¾TPg*èô' (CMD-005)
+Error: unknown command 'ò£‚ü¨ h*ht–' (CMD-005)
+Error: unknown command 'Ò¢‚>PAéTdAU¢‚ZQAYTP,B¢‚Š© TTóÿBAiÿBAêöÕí—Õí«©©©©•õR›­A/¹p4.§"©S*¬2Rğ`S2' (CMD-005)
+Error: unknown command '^"Œ"`ûn9ÜZ-Ç†ZËğÓ?­ö/…f¥(W#£Å¢Û„XÌ|°ZÄ‹A…¾18#' (CMD-005)
+Error: unknown command 'Ga÷êH4Û´Š£‚†PAk©' (CMD-005)
+Error: unknown command 'J¥‚RA›© ' (CMD-005)
+Error: unknown command 'Š¦‚B¨ T!Tï7¡‚’© ©TP*(' (CMD-005)
+Error: unknown command '**UP*¨”O)¥' (CMD-005)
+Error: unknown command 'GÙü¦ IÿAAêöÕí—Õí«©©©©•õœwÎ„' (CMD-005)
+Error: unknown command 'šF]¡‚Ö”*ÈŒ' (CMD-005)
+Error: unknown command 'ZA' (CMD-005)
+Error: unknown command 'zCU£‚îQA‰T!4' (CMD-005)
+Error: unknown command 'r ‚¾SA¹T!´' (CMD-005)
+Error: unknown command 'r¢‚v–*ht' (CMD-005)
+Error: unknown command 'Ê¤‚' (CMD-005)
+Error: unknown command 'Dm¡‚© vTĞA*èBu ‚SAG©' (CMD-005)
+Error: unknown command '¨ úTĞ' (CMD-005)
+Error: unknown command 'Š&ºÃÅÅ' (CMD-005)
+Error: unknown command 'šåAA1PP.T' (CMD-005)
+Error: unknown command 'Z' (CMD-005)
+Error: unknown command '7Rß=^äIKóÜé®Ôß@&5Â©ÿ7ºeµ–f¤¯¢sWWR–÷ZF?·.&MïEt%e!õigO­šÎ¡æëfÓØ°™4pótÚõy' (CMD-005)
+Error: unknown command 'še@Am¡ WPĞx(h&¤¹CA ' (CMD-005)
+Error: unknown command 'ê…BA' ' (CMD-005)
+Error: unknown command '' (CMD-005)
+Error: unknown command 'ª' (CMD-005)
+Error: unknown command 'Š‚‚œ¡' (CMD-005)
+Error: unknown command 'zİ…‚>BA–Pô' (CMD-005)
+Error: unknown command '2ƒ‚L¡ £PĞ(¨' (CMD-005)
+Error: unknown command '*„‚ZCA5  (È' (CMD-005)
+Error: unknown command ':iBANPĞ((å7]‡‚²¡ Ÿ§²(ã…BA«¡ •P=ô' (CMD-005)
+Error: unknown command 'ÚeBA:PP-(¨' (CMD-005)
+Error: unknown command 'šÍ…‚Ò¡' (CMD-005)
+Error: unknown command 'jÙ@AAPPò…‚J  2(h6d' (CMD-005)
+Error: unknown command 'Õ‚‚‚¡ 2(è' (CMD-005)
+Error: unknown command 'ê™CAÕ7.„Üì¨Ô' (CMD-005)
+Error: unknown command '²‡‚†@AÑPP' (CMD-005)
+Error: unknown command 'ò¨T¨T' (CMD-005)
+Error: unknown command '´' (CMD-005)
+Error: unknown command '…‚ò¡ ((È' (CMD-005)
+Error: unknown command 'J…‚¬¡ D(ˆ¡' (CMD-005)
+Error: unknown command 'Š‡‚–CAéPr¥‚¾@A.PĞ<(È' (CMD-005)
+Error: unknown command 'ºNU71Á*¨' (CMD-005)
+Error: unknown command 'êL%RAÉTĞÏT”LYRA©' (CMD-005)
+Error: unknown command 'Òı‡wĞ¨ *È‚' (CMD-005)
+Error: unknown command 'J¤‚zRA5© ÔÊwĞTĞI*ÈŒ' (CMD-005)
+Error: unknown command ':@9QA†TĞ2*¨”OÙSA¥TPA·© TĞ*È–' (CMD-005)
+Error: unknown command 'Ê¢‚fQAuÿAAÿymDm£‚–şÍ' (CMD-005)
+Error: unknown command '®í^‰ê“ÑØ(¥ë’àJù,ø%Oê$àPX<®Æ¡ö¾Xè½AØ³hèOŒ†½G"a~Ü­@¼u' (CMD-005)
+Error: unknown command 'r¥‚şóUk¨ çTT' (CMD-005)
+Error: unknown command 'ZHPAşTĞ3*è%4‰' (CMD-005)
+Error: unknown command 'jK…SA¨ TP' (CMD-005)
+Error: unknown command 'zT© eT&Ô‡' (CMD-005)
+Error: unknown command 'úêj/© x*(–' (CMD-005)
+Error: unknown command 'vR0uìJÄNFŞõ$œÖNÂ‹‰ø›€Fß'ÀÒ!£Ä!hY,ªÅb«u' (CMD-005)
+Error: unknown command 'Ê¡‚‚© T' (CMD-005)
+Error: unknown command '²§‚Š© À¿PP2´Ÿ' (CMD-005)
+Error: unknown command '© NTĞ' (CMD-005)
+Error: unknown command '2¢‚¢© ' (CMD-005)
+Error: unknown command 'ÚIåQA½© İ¡' (CMD-005)
+Error: unknown command 'zM' (CMD-005)
+Error: unknown command 'ê@M¦‚>SAÆTPúJRA3¨ 3TP?*h' (CMD-005)
+Error: unknown command 'jD­¦‚L© ,*(“' (CMD-005)
+Error: unknown command 'ªE­¢‚SA^T4‰' (CMD-005)
+Error: unknown command '*¨' (CMD-005)
+Error: unknown command 'ÚCePATPÔ›' (CMD-005)
+Error: unknown command '¦‚4¨ "*èôƒZRATP*Èúßxj@™”*¨dPª ÚTPM*¨¤KéRAÚTPy*¨<T' (CMD-005)
+Error: unknown command 'zI½¢‚Şü' (CMD-005)
+Error: unknown command 'R·¯n¿¬n_MMMM­¬wpmñb¨ h*è5t' (CMD-005)
+Error: unknown command ':K¥SA«©' (CMD-005)
+Error: unknown command 'šGÍ¦‚b¨ ‘TĞs*èô¨TA¨' (CMD-005)
+Error: unknown command 'ªBE—*¨ TAşTĞ©ŸdFÕş“‚r© ÛTĞ/TĞa*è4tˆ' (CMD-005)
+Error: unknown command 'ÚAí¢‚VQA' (CMD-005)
+Error: unknown command 'êA9QA›¨ öT9ô' (CMD-005)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command 'êG9QAk© *¨ˆ' (CMD-005)
+Error: unknown command 'ZMEPAg© Ÿ© úTP*dCİ¥‚&RA.TĞF*hêôo”ñoTé-ø¤n_İ~yİ¾ššššZyÏÚuìy£© ¦TÔ' (CMD-005)
+Error: unknown command 'ò¢‚PAk© ¹TĞm*h' (CMD-005)
+Error: unknown command 'Š§‚²© ‘TĞQ*hô' (CMD-005)
+Error: unknown command 'ÚI½¥‚6SA3© ÖT>TLåRAs¨ *È‹' (CMD-005)
+Error: unknown command 'CåRAÓ¨ *Èƒ' (CMD-005)
+Error: unknown command 'zJ9SA#© (*(' (CMD-005)
+Error: unknown command 'êJm ‚¦QAW¨ ôBU¢‚Š© CTĞ¤2¹QA†ß)(‘' (CMD-005)
+Error: unknown command ':B™RATĞ4*(®LAC¨ £T!Ô…' (CMD-005)
+Error: unknown command 'ªş‚²¨ ^?(h"ÔŒ' (CMD-005)
+Error: unknown command 'r¤‚¾PAQT4€' (CMD-005)
+Error: unknown command 'Ê¦‚t¨ “TĞ' (CMD-005)
+Error: unknown command 'ªDí,SP5*(ƒ' (CMD-005)
+Error: unknown command '£‚îQAéT4' (CMD-005)
+Error: unknown command 'jJ¢‚Â¨ TĞM*èg*h&dJí£‚ºQATĞF*¨T•' (CMD-005)
+Error: unknown command 'J§‚¨ #TP*È' (CMD-005)
+Error: unknown command 'ZI…SAw© åTP8”K' (CMD-005)
+Error: unknown command 'J¢‚œ© õTP?*È€' (CMD-005)
+Error: unknown command 'ÚHEPA·¨ .TĞïTĞ`*h=´…' (CMD-005)
+Error: unknown command 'zH­¦‚ô¨ “TĞT*(' (CMD-005)
+Error: unknown command ':B™QA©' (CMD-005)
+Error: unknown command 'r¢‚PA‹© <*hÔ‘' (CMD-005)
+Error: unknown command '2§‚SAáT´›' (CMD-005)
+Error: unknown command 'J£‚zPA¶TP´œ' (CMD-005)
+Error: unknown command 'zH­¥‚Â© ÅTĞs*h-4' (CMD-005)
+Error: unknown command 'r¥‚&PAg¨ 1TĞq*¨2T@™RA9TĞJ*h,äA½¦‚N”)è´â' (CMD-005)
+Error: unknown command 'jFéRARAÓ© NTP² ‚PATP' (CMD-005)
+Error: unknown command 'ú@M*SPäI½*SĞG*(‰' (CMD-005)
+Error: unknown command 'ªM-£‚.—)È„' (CMD-005)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command 'ÒPA/¨ Ÿ© ™TĞ*häAPAñTĞs*h%äNM§‚Â© ½TPO*è¯ÿAAİÊ4é¿QP…uã¤´…' (CMD-005)
+Error: unknown command 'ÚAM¥‚¦RA#© wTĞ*èÔ' (CMD-005)
+Error: unknown command 'ÚN¦‚~¥‚*RAs© p*(š' (CMD-005)
+Error: unknown command 'ÚN]¤‚' (CMD-005)
+Error: unknown command '¨ TĞ„ÿOÿ-şAA÷Ê´æ' (CMD-005)
+Error: ambiguous command 'w' matched 41 commands:
+        (win_select_objects, win_set_filter, win_set_select_class ...) (CMD-006)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command ':CSAï¨' (CMD-005)
+Error: unknown command 'Ò¥‚öSA~TPÔíß(èâ' (CMD-005)
+Error: unknown command 'Šû7' (CMD-005)
+Error: unknown command 'gÁ³C,' (CMD-005)
+Error: unknown command 'zıƒ‚2¨ ·T+t…' (CMD-005)
+Error: unknown command 'R¨ §T#t' (CMD-005)
+Error: unknown command 'šHM£‚ZPA' (CMD-005)
+Error: unknown command 'zH­¦‚B¨ ¯TĞ6*è*Èœ' (CMD-005)
+Error: unknown command 'ÚJÍ ‚ºPAo¨ ÕTP"BU¦‚–SA=© %TĞy*(' (CMD-005)
+Error: unknown command 'ZDRA«© `*¨ÂCSl¥‚Š¨ YTĞQ*¨t“' (CMD-005)
+Error: unknown command 'AU¦‚.QAS¨' (CMD-005)
+Error: unknown command 'zNÕ¦‚ÆRA¶TĞ' (CMD-005)
+Error: unknown command ':M¢‚¶”)h9TŸ' (CMD-005)
+Error: unknown command 'šFM¥‚|© ÉTĞ^*hÔ„' (CMD-005)
+Error: unknown command 'Ê¥‚zPAPAvTĞl*¨1´Œ' (CMD-005)
+Error: unknown command 'úúr' (CMD-005)
+Error: unknown command ':DM¡‚fRAg¨ ETP*èÔ‹' (CMD-005)
+Error: unknown command 'F®5½·1:Ö6Bš±!~2@å'úÈ°ĞCßº¨Ñ¦NÂ­ˆ¸!ÚğÛUI_µ0ø^©œ)ù"~W?IÆÎR-é´ØñZVå”HX»²½ñ31kşX’ê=”7‹eÅÌ"¹vğôšqGrûŞ’Î' (CMD-005)
+Error: unknown command 'd›éuÙšrYºZåË&ï' (CMD-005)
+Error: unknown command 'jJ­¡‚šSA«¨ kTPG*è8KeSAµ¨ ™TP#*h)ô' (CMD-005)
+Error: unknown command 'HéRAşTĞ`*È–' (CMD-005)
+Error: unknown command 'J¥‚>QA1TĞ5*h?tğ?TĞ‚2í¦‚ªı  óß)¨çÿBAçËT÷ÿPAêöÕí—×í«©©©©•÷' (CMD-005)
+Error: unknown command 'zAm¦‚l© ' (CMD-005)
+Error: unknown command 'ªIÍ ‚Zı‚6SA¾e' (CMD-005)
+Error: unknown command 'Ê£‚&RAõ¨ eTP3*¨'4’' (CMD-005)
+Error: unknown command 'ºM½¤‚Ü¨ ³TPTDıBÍ¢‚l© ÖTĞL*¨ô' (CMD-005)
+Error: unknown command 'ÚG¹PA‘ß)è0T' (CMD-005)
+Error: unknown command 'Š¥‚úQAó© ÃTĞ*è.TLu§‚R¨ %TĞI*¨4™' (CMD-005)
+Error: unknown command 'êGm£‚îRAÍ¨ –TP!OÅQA¡TP”C=¡‚^QA©' (CMD-005)
+Error: unknown command 'ºEéSA¨ ™TĞ@*h=T@µ¤‚ÚSA£© -T/Ô' (CMD-005)
+Error: unknown command 'êOePA&TĞ*h44›' (CMD-005)
+Error: unknown command 'Ò¥‚b¨ ÁTP(´‘' (CMD-005)
+Error: unknown command 'ò£‚’¨' (CMD-005)
+Error: unknown command 'zG£‚†PA‘TP_*È“' (CMD-005)
+Error: unknown command 'jBµ¤‚ªPAu¨' (CMD-005)
+Error: unknown command 'BU§‚ÌPPt¢LA^TP§2¥QA¯ÊÔä' (CMD-005)
+Error: unknown command 'ºMí¦‚ô© ¶TP&ô' (CMD-005)
+Error: unknown command 'Ê¥‚¬¨ (*èw*¨' (CMD-005)
+Error: unknown command 'ú@' (CMD-005)
+Error: unknown command 'r¢‚´ÿC¢‚Â© u?((„' (CMD-005)
+Error: unknown command 'úë' (CMD-005)
+Error: unknown command 'zQ¦ *è·2' (CMD-005)
+Error: unknown command 'Ô‚' (CMD-005)
+Error: unknown command 'êF¥‚nSA' (CMD-005)
+Error: unknown command 'zAiQA‰TĞ*ÈŸ' (CMD-005)
+Error: unknown command 'jNí£‚ò¨ *hK¥‚fPA!TĞN*È™' (CMD-005)
+Error: unknown command 'ºM-¤‚¶SANTPÀ' (CMD-005)
+Error: unknown command '*èdB§‚Â© P*hÔ†' (CMD-005)
+Error: unknown command 'J¢‚ÖSAöTv™‚*RAöT6ô' (CMD-005)
+Error: unknown command 'jOí£‚Š© “TĞK*È‚' (CMD-005)
+Error: unknown command 'ò¡‚,© WTP*h>4‚' (CMD-005)
+Error: unknown command 'ZF§‚PAÖTPAı¨ ³TĞ*H¡‚¶QA³© D*hôeİf±¡‚úSA-¨ ÑTĞr*ÈŒ' (CMD-005)
+Error: unknown command '*h(ô' (CMD-005)
+Error: unknown command '2¥‚æRAï¨ P*Èš' (CMD-005)
+Error: unknown command 'ò¦‚*© ATP%4Š' (CMD-005)
+Error: unknown command 'Š£‚&PAFTĞt*è,4ë' (CMD-005)
+Error: unknown command 'K%SAÓ©' (CMD-005)
+Error: unknown command 'êN' (CMD-005)
+Error: unknown command '²¥‚SA]© @*(ˆ' (CMD-005)
+Error: unknown command 'HPAS© “TĞE*È‡' (CMD-005)
+Error: unknown command 'ÚHmùNAjTĞ*h&dG9QA]© íTĞ`*È' (CMD-005)
+Error: unknown command 'šH%PA3¨ kTP+*(—' (CMD-005)
+Error: unknown command '¥‚®SAmªtó©QAg¨ ËTP³jQA!TPXµ‚SA§PP&ôâ?PÚw' (CMD-005)
+Error: unknown command 'jÿ?(hÑ' (CMD-005)
+Error: unknown command 'ºòƒ‚lÿ' (CMD-005)
+Error: unknown command 'J©Vá' (CMD-005)
+Error: unknown command 'jCıU­ t*(êéT+èhµ‚fPAöß)¨ğ)ÛW¶_S·¯¤¤¤¤TÓK£x.ñš›ü$½Ÿµ•VCÛÊí‹ÚÈ÷.­e—VörÛ'' (CMD-005)
+Error: unknown command 'šD' (CMD-005)
+Error: unknown command 'šF¥RA/© ÍTPä@= ‚nSAW¨' (CMD-005)
+Error: unknown command '¤‚ŞPA~T!Ô' (CMD-005)
+Error: unknown command 'jAùPA‹¨ İT54' (CMD-005)
+Error: unknown command 'zMM¢‚ÔëHG*h)Ôš' (CMD-005)
+Error: unknown command 'ºCÙPAŞT' (CMD-005)
+Error: unknown command 'Š ‚~¡‚úRA½¨ öTP0´’' (CMD-005)
+Error: unknown command 'ºFİ£‚¦RAó© ITĞ@*H‡' (CMD-005)
+Error: unknown command '*¥‚VRA©' (CMD-005)
+Error: unknown command 'êAµ¥‚nPAã© ?¨' (CMD-005)
+Error: unknown command 'ZDM¦‚â© ™TĞ*HMm' (CMD-005)
+Error: unknown command 'êHiSA¶TP>”O¦‚œ¨ *(‚' (CMD-005)
+Error: unknown command 'Š¥‚Œ¨ T*(‡' (CMD-005)
+Error: unknown command '*¡‚©' (CMD-005)
+Error: unknown command 'Š ‚²¨ *h' (CMD-005)
+Error: unknown command 'ZKÍ¤‚ªô' (CMD-005)
+Error: unknown command ':õ' (CMD-005)
+Error: unknown command 'šP­ 9?((' (CMD-005)
+Error: unknown command 'šEURAêÕ' (CMD-005)
+Error: unknown command 'êLåSA'«4›' (CMD-005)
+Error: unknown command 'rùAA:TPËÿ@A»¿SĞ*(' (CMD-005)
+Error: unknown command '2¦‚Ò¨ *¨”' (CMD-005)
+Error: unknown command '¢‚¬¨ ' (CMD-005)
+Error: unknown command 'šCµ¢‚úş  aÿK¹SAåTĞïtœ' (CMD-005)
+Error: unknown command 'J¦‚PA¶T ‚,© *ÈŒ' (CMD-005)
+Error: unknown command 'êJeQA‡©' (CMD-005)
+Error: unknown command 'Ò¢‚îQAÑT7d@ıëç ]¨ ÆTĞ/TPô' (CMD-005)
+Error: unknown command 'J¤‚zSA7¨ 2*¨´ÿéSAÉTP%t–' (CMD-005)
+Error: unknown command 'ZLQA®TĞj*¨4' (CMD-005)
+Error: unknown command 'ª ‚ºRAETP0äJ™QA—© ÅTP*èÔ–' (CMD-005)
+Error: unknown command 'šC£‚:PA1TĞ+*¨?Ôÿtü¤l_Ù~Mİ¾’’’’RMÏ3ÊV.àÙ.k.gk&5îÙÈ"=Ù¾ØZNÎi"£ÏXÉkNV²ã' (CMD-005)
+Error: unknown command 'J ‚úRAfÕ' (CMD-005)
+Error: unknown command 'zAm£‚&QA†TĞL*h3ÔŒ' (CMD-005)
+Error: unknown command 'B•PA‰TĞ`*(™' (CMD-005)
+Error: unknown command ':Cm¦‚*W¸`Ô' (CMD-005)
+Error: unknown command 'Ò ‚&QAßÎtÂ6*È' (CMD-005)
+Error: unknown command 'J§‚ì¨ *(' (CMD-005)
+Error: unknown command 'MÙQA~TĞp*¨˜' (CMD-005)
+Error: unknown command 'F¤‚ü¨ áTĞi*¨9ô' (CMD-005)
+Error: unknown command 'ZBõ§‚VRAÖT4”' (CMD-005)
+Error: unknown command '²¦‚FSA¥TP*¨øPïw' (CMD-005)
+Error: unknown command 'ÚBñû™TÆ' (CMD-005)
+Error: unknown command 'êP­' (CMD-005)
+Error: unknown command 'Òş7' (CMD-005)
+Error: unknown command 'R¶¯l¿¦n_IIII©¦÷ş›µüÄ+¥‚l¨ ãT4€' (CMD-005)
+Error: unknown command 'ò¦‚â¨ TP"TL­¦‚,¨ ÕTP"Ôˆ' (CMD-005)
+Error: unknown command 'Š§‚QAƒ¨ X*è' (CMD-005)
+Error: unknown command '²¦‚^RAÃ©' (CMD-005)
+Error: unknown command 'J ‚SAõ© WTĞp*È' (CMD-005)
+Error: unknown command 'zG¡‚R¨' (CMD-005)
+Error: unknown command '*¢‚NPA+© TP<äK' (CMD-005)
+Error: unknown command 'Š¤‚êQA' (CMD-005)
+Error: unknown command 'Ê£‚QAK© *ÈŠ' (CMD-005)
+Error: unknown command 'zM%QAùT+Ô—' (CMD-005)
+Error: unknown command 'ZJåRA© *È†' (CMD-005)
+Error: unknown command '*¢‚Ò© VTPt' (CMD-005)
+Error: unknown command 'ª ‚¦T+è´“' (CMD-005)
+Error: unknown command 'ò ‚>QA›© ×TP' (CMD-005)
+Error: unknown command 'äFRAƒ© ×?(è4´‰' (CMD-005)
+Error: unknown command 'ª ‚‚¨ ¶T4' (CMD-005)
+Error: unknown command 'ª¤‚© ÖTPdK%SA©TĞH*È–' (CMD-005)
+Error: unknown command 'ò¥‚†RAEß)hÃ' (CMD-005)
+Error: unknown command 'zF-¦‚úRA+¨ &ÿFAÖTĞk*Èò¿QĞz*Èö' (CMD-005)
+Error: unknown command 'Ê§‚¾PA© T*è4—' (CMD-005)
+Error: unknown command 'LÙSAã¨' (CMD-005)
+Error: unknown command '² ‚ÆRATP' (CMD-005)
+Error: unknown command 'ÚIõ¥‚fSA]© TŠ' (CMD-005)
+Error: unknown command 'ú@…SAzTĞ*h%”L•SA%T>tŠ' (CMD-005)
+Error: unknown command '²§‚¦QA»© T*h”CùQA=©' (CMD-005)
+Error: unknown command 'r ‚6SAªÔŠ' (CMD-005)
+Error: unknown command 'J¦‚l©' (CMD-005)
+Error: unknown command 'ZIiQA³¨ L*h' (CMD-005)
+Error: unknown command '+Dó^˜üë' (CMD-005)
+Error: unknown command 'jAEPAÇ~PĞ"*è,ô' (CMD-005)
+Error: unknown command '²£‚R© TP' (CMD-005)
+Error: unknown command '¨ yTVõO=Ü£‚ÖQAşT54' (CMD-005)
+Error: unknown command '*¥‚Ô© ÃTP4‡' (CMD-005)
+Error: unknown command 'Ò ‚´¨ ëTP>¤MÙPAİ¨ åTĞ:*(€' (CMD-005)
+Error: unknown command 'r¡‚&QAõ© cT ‚Œ¨ =TP44’' (CMD-005)
+Error: unknown command 'šN™RAG¨ ®TĞ"*¨tŒ' (CMD-005)
+Error: unknown command 'ºC½¤‚RAÇ© şTĞf*èz@ÍùAAŞTĞ*(›' (CMD-005)
+Error: unknown command '*¢‚SAITP_*¨ˆ' (CMD-005)
+Error: unknown command '2¢‚l¨ l*h:4' (CMD-005)
+Error: unknown command ':Jõ¦‚&SATPdD™SA±TĞt*(' (CMD-005)
+Error: unknown command '*£‚ºPAnTP6ô' (CMD-005)
+Error: unknown command '² ‚B© ' (CMD-005)
+Error: unknown command 'êG¤‚nSA¯©' (CMD-005)
+Error: unknown command '2¦‚zQAîTĞ*¨9äA¥‚®QA© qTPTLéSAÓ¨ -?((›' (CMD-005)
+Error: unknown command '2üí«V'TLõ¤‚:PAîTPt–' (CMD-005)
+Error: unknown command '²¦‚PA£¨ ]TĞ*èÔø?P1tœ' (CMD-005)
+Error: unknown command 'ûAA© TP”Eí¤‚‚ªäõo¤l_Ù~Mİ¾’’’’RMï÷²:r&ohc#©İÜP®9j' (CMD-005)
+Error: unknown command '™Q=ğì~7¸kwÆš‰Nx5·Fïú' (CMD-005)
+Error: unknown command 'TB•j–ÇhÕ' (CMD-005)
+Error: unknown command '² ‚,¨ £TĞn*È' (CMD-005)
+Error: unknown command 'r ‚öRA‰TP' (CMD-005)
+Error: unknown command 'êB5§‚:QANTPk*HPAöTP' (CMD-005)
+Error: unknown command 'jAu£‚¢© ¦TPG*hÔ’' (CMD-005)
+Error: unknown command '²¤‚6RAû¨' (CMD-005)
+Error: unknown command 'ÚA­¦‚L¨' (CMD-005)
+Error: unknown command 'ª¤‚´©' (CMD-005)
+Error: unknown command 'ÚE­¦‚êQAë© T´š' (CMD-005)
+Error: unknown command 'Ò¥‚PAß¨ ÍTĞJ*è' (CMD-005)
+Error: unknown command 'úJÕ¦‚ô¨ eTP¤^­' (CMD-005)
+Error: unknown command ' ‚4«´™' (CMD-005)
+Error: unknown command ':K%PAã© TĞ*è·äAí ‚æPAk© ÅTĞ8*È' (CMD-005)
+Error: unknown command 'šLÍ¦‚ÖRAÓ¨ -TĞz*h!C­¥‚öRAG¨ TĞßTĞ~*(˜' (CMD-005)
+Error: unknown command ':FRAqTPD]¢‚"© T*è4œ' (CMD-005)
+Error: unknown command '¤‚vRAÿú' (CMD-005)
+Error: unknown command 'ºT­ J£‚' (CMD-005)
+Error: unknown command '© *è3”L¤‚Ê© p*èF9PA_© uTĞ1*H“' (CMD-005)
+Error: unknown command 'š@éPAITĞ4*HŸ' (CMD-005)
+Error: unknown command 'Ê ‚<¨ D*è44”' (CMD-005)
+Error: unknown command 'šDeü7' (CMD-005)
+Error: unknown command 'æ4¿„±' (CMD-005)
+Error: unknown command 'SP–”Œ)' (CMD-005)
+Error: unknown command '“†gzF™BÑõıÈùGÂ0ëá^Œlû¦ÊPL™¼÷›îÆ›_wÂİ0wÏîÀ„ÉÛ1(1SbšV' (CMD-005)
+Error: unknown command 'šM…RA' (CMD-005)
+Error: unknown command '¤‚fRA' (CMD-005)
+Error: unknown command 'ÚOÅRAşTĞi*è´›' (CMD-005)
+Error: unknown command 'J ‚¶QA‰TP"LeRAG¨ 4*(›' (CMD-005)
+Error: unknown command 'IQA»© ¹TĞE*h.´ï' (CMD-005)
+Error: unknown command '*¤‚–PAgªŸƒF÷4ñƒÚSAß=­ª‚ûÃsPİót”NEş)ÛW¶_S·¯¤¤¤¤TÓš¥&Gğîuú†Ôõ•ˆ‰ûkÏ' (CMD-005)
+Error: unknown command '½«Jİn¨>Ù¥¨Üıwª¦{¬Uÿ¡ÚÒW¥·¾ª‡ş]ç—}ÎG]š:+ÛW¶_“·¯¤¤¤¤TÓE¹óRA—© $*È' (CMD-005)
+Error: unknown command '2¡‚¾QATĞ*¨Ô™' (CMD-005)
+Error: unknown command '²§‚¬© íTTF½¤‚Ü© >TP"´—' (CMD-005)
+Error: unknown command 'ÚN­¤‚fRAã© áTP/*¨' (CMD-005)
+Error: unknown command '2¡‚ÖPAs© <*è*Ô' (CMD-005)
+Error: unknown command 'jGí¢‚|© TĞoTĞP*(‘' (CMD-005)
+Error: unknown command ':Hí¢‚¶PAŞTĞ*h4œ' (CMD-005)
+Error: unknown command 'ºB¥PA?QA' (CMD-005)
+Error: unknown command 'R¡‚Š¨ ÷T' (CMD-005)
+Error: unknown command '4ıyRAÕõ' (CMD-005)
+Error: unknown command 'òùEAµTP*(Œ' (CMD-005)
+Error: unknown command 'Zõ‹‚–Ö+¨Œ' (CMD-005)
+Error: unknown command 'ºø‹‚ÿIÛ—¶ßP·/%%%%ÕĞ«YS†ZÎáêúRl¾q' (CMD-005)
+Error: unknown command 'zEPANTPÔ' (CMD-005)
+Error: unknown command 'r£‚²©' (CMD-005)
+Error: unknown command 'zF¤‚PA5TĞT*hX½‚Şü¢ R*È' (CMD-005)
+Error: unknown command 'r§‚æRAg~QP' (CMD-005)
+Error: unknown command 't' (CMD-005)
+Error: unknown command '¯ **h´' (CMD-005)
+Error: unknown command 'dEõ ‚6SAvTĞ]*TĞ*h´š' (CMD-005)
+Error: unknown command ' ‚,© TP' (CMD-005)
+Error: unknown command '*§‚J¨ ¥TĞ2*¨dKSAFTtˆ' (CMD-005)
+Error: unknown command '0xm>å' (CMD-005)
+Error: unknown command '´·ò' (CMD-005)
+Error: unknown command 'ÃP­¤' (CMD-005)
+Error: unknown command 'ZN]¤‚ÚRATP' (CMD-005)
+Error: unknown command 'z@­£‚ŞSAºTPô' (CMD-005)
+Error: unknown command 'ZJ¥SAÍ© ùTP¤LYSAG¨ )TĞ~*hzHéSAnTĞ*h(4“' (CMD-005)
+Error: unknown command 'ºAM¡‚Œ¨' (CMD-005)
+Error: unknown command 'r¡‚æQAT' (CMD-005)
+Error: unknown command 'r¥‚œ¨' (CMD-005)
+Error: unknown command 'šFM ‚ä¨ <*hÅÿ  r*è(”E¦‚zQA5TĞåÿ¢' (CMD-005)
+Error: unknown command 'úIş“‚QAFT2d@]¤‚¬©' (CMD-005)
+Error: unknown command 'R¡‚r¨ @*h?äC¥PAC© éTĞj*H' (CMD-005)
+Error: unknown command 'šOÍ¥‚@İ¡‚b¨' (CMD-005)
+Error: unknown command '¦€V³û( Ö' (CMD-005)
+Error: unknown command 'J§€ş`wRAo) w¬>T›İLÍ¡€JkB•v2´•ÚÂÎ¥‚´) jl' (CMD-005)
+Error: unknown command '¨´ŞTPé§K¯#.½ò`¹‚Jt=C=¦€J%ÔŒ' (CMD-005)
+Error: unknown command '$Ø_) …ìF*èD¹‚>R@…å' (CMD-005)
+Error: unknown command 'ZB•ödD5f7üMASP' (CMD-005)
+Error: unknown command 'èû¥S@ß/' (CMD-005)
+Error: unknown command 'Ê£€¾Ÿ' (CMD-005)
+Error: unknown command 'tŠú~æĞ÷' (CMD-005)
+Error: unknown command 'İƒÒ¨î¸ênGuÑŸ8de‰™M6Cå©R?n„İ¾uxzc5âõVaÄ¢•p÷Y†•Z‹q¬§1»/À' (CMD-005)
+Error: unknown command '˜¶µ9ºÉ5Eòs9øê6BØº¯¢Ôÿƒhi^-¾9¼ıÊÅ½‡ODüÆGâX³<¡ğ!K¬&RäSÄİ»IbGY¼x´ú¢˜í!®x™O‹¨aÇ…Î!o1æ¼‡ó»‹pM' (CMD-005)
+Error: unknown command 'êB9RAFTP”O…RAS¨ —TP*h9Ô' (CMD-005)
+Error: unknown command 'šM¢‚RAë©' (CMD-005)
+Error: unknown command 'r¦‚ÎQA¨' (CMD-005)
+Error: unknown command 'ò¢‚PA—ÿ…‚‚© æu' (CMD-005)
+Error: unknown command 'J¦‚Úÿ)×)h|‚¦QAİ© =TP&4†' (CMD-005)
+Error: unknown command 'jA£‚†PAñT74‡' (CMD-005)
+Error: unknown command '¨S ‚JëÔŒ' (CMD-005)
+Error: unknown command 'ZG=ÿEAZTĞm*¨dIÍ¨SĞ"*H‹' (CMD-005)
+Error: unknown command 'rªSĞ´:í ‚j¨' (CMD-005)
+Error: unknown command 'zK9PAS© vTP2dCQA—¨ !TĞ!*h)äIµ¤‚–RATĞ4*ÈŒ' (CMD-005)
+Error: unknown command '2¢‚²¨ ÓT)¤E9SAŸ¨ ' (CMD-005)
+Error: unknown command 'úÚ±' (CMD-005)
+Error: unknown command 'ºHM¥‚Ô¨ ›T7LSAòTĞ*¨7”NÅRAŞTPs*h5”ü‹‚fQAñTPÆÿF)ÿ7' (CMD-005)
+Error: unknown command '’¶/m¿¾n_JJJJª¾—Lõ¡‚–RAİ© QTĞ*H“' (CMD-005)
+Error: unknown command 'šK§‚¶Õ)¨Œ' (CMD-005)
+Error: unknown command '*ªSĞ¾ƒşEA·¨ ?)H½NA¿QATĞø:EÖ)è¤Bİ ‚&QA¨' (CMD-005)
+Error: unknown command 'r£‚æRA© »TĞ>*è”@¤‚<¨ UTÔ–' (CMD-005)
+Error: unknown command 'ZIUSA³©' (CMD-005)
+Error: unknown command 'ZMõ¢‚QAjTPä@ÉSA_¨ «T1”S÷ºæøóË' (CMD-005)
+Error: unknown command 'jA­¡‚nQAéTĞN*è14ç§wĞèÿ' (CMD-005)
+Error: unknown command '(ÎL†²æM¬^z:“°bÊ5ô' (CMD-005)
+Error: unknown command 'J¤‚”¨ "*H‹' (CMD-005)
+Error: unknown command 'r¥‚NRA–TP4' (CMD-005)
+Error: unknown command 'Š ‚zQASAPA'© qT”DyÕ)h9”E' (CMD-005)
+Error: unknown command 'ù' (CMD-005)
+Error: unknown command 'BÙ'úJ' (CMD-005)
+Error: unknown command 'úşzûøªùŞAü¤' (CMD-005)
+Error: unknown command 'Ò¤‚¼© †TĞ)*èàOï ëÿt€' (CMD-005)
+Error: unknown command 'ºL=ÿ' (CMD-005)
+Error: unknown command 'e0ìÂŠÇ%wz5ßbDüU„Wpíx!n­/@P~Æiç"%à!jırğ°í´' (CMD-005)
+Error: unknown command 'ÚCÉSA£©' (CMD-005)
+Error: unknown command 'jä1w¨ ®T' (CMD-005)
+Error: unknown command 'dIRAç¨' (CMD-005)
+Error: unknown command ':OåSAqTP8´' (CMD-005)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command '*¢‚NRA¨ KTĞoT' (CMD-005)
+Error: unknown command 'äB-¤‚îQA•TĞ)*¨†' (CMD-005)
+Error: unknown command ':L9SAVTĞ*h' (CMD-005)
+Error: unknown command '²§‚¦PA6TĞb*¨”' (CMD-005)
+Error: unknown command 'ÚV§ |*èñO' (CMD-005)
+Error: unknown command 'êI…PAoR!´÷'­ ‚6ş¢ gTP' (CMD-005)
+Error: unknown command 'ò£‚' (CMD-005)
+Error: unknown command '*H›' (CMD-005)
+Error: unknown command 'jD' (CMD-005)
+Error: unknown command 'R¤‚Ì© TF=§‚L¨' (CMD-005)
+Error: unknown command 'jAıı/äGåÕ)È”' (CMD-005)
+Error: unknown command 'zOUQAFTĞ:*èTC¡‚×)H‘' (CMD-005)
+Error: unknown command 'šJEQAªTŒ' (CMD-005)
+Error: unknown command 'Ò£‚îSA7¨' (CMD-005)
+Error: unknown command 'ª¤‚ºSA-¨ 8*Èˆ' (CMD-005)
+Error: unknown command 'Ê¢‚FPA¨ 5TĞM*È' (CMD-005)
+Error: unknown command 'G5¥‚ş¦‚VQAı¨' (CMD-005)
+Error: unknown command '²£‚¶QAvT*ô' (CMD-005)
+Error: unknown command '§ 1T'4—' (CMD-005)
+Error: unknown command 'zOSA©' (CMD-005)
+Error: unknown command '2¦‚,ëBéQA¨ ËTo‚üµ¦‚r© "*èÜO' (CMD-005)
+Error: unknown command 'ø•½úĞ·Ò…‘ï¤½…Š#‘U3' (CMD-005)
+Error: unknown command 'áYôBü£T¼›Y$¾ZˆImŠà¿2ÅÎ¤Tq' (CMD-005)
+Error: unknown command 'ª¢‚>½7…Ô–' (CMD-005)
+Error: unknown command '¢‚nSA÷¨ ATĞH*H“' (CMD-005)
+Error: unknown command '”FiSA5TTE½¤‚QA·©' (CMD-005)
+Error: unknown command 'zE™RAYTĞ*H' (CMD-005)
+Error: unknown command 'êF§‚j© OTP' (CMD-005)
+Error: unknown command 'Š ‚ÚRA½¨ TPc*H‘' (CMD-005)
+Error: unknown command '²§‚zPAí¨' (CMD-005)
+Error: unknown command '²¥‚:PA¯ê4¤NA¡TĞ3*è' (CMD-005)
+Error: unknown command 'êDéQAšTP' (CMD-005)
+Error: unknown command 'ZCÍ§‚NSA+© ' (CMD-005)
+Error: unknown command '*¡‚ò© B*È“' (CMD-005)
+Error: unknown command 'ò£‚Ü©' (CMD-005)
+Error: unknown command '²£‚ì¨ **h' (CMD-005)
+Error: unknown command 'šFùRAÏ¨ 6Tô' (CMD-005)
+Error: unknown command 'ò ‚æPA© *¨œ' (CMD-005)
+Error: unknown command '¢‚VSAï©' (CMD-005)
+Error: unknown command 'Úõ/Ô' (CMD-005)
+Error: unknown command 'ÚY§ b*èÀ?PP:”BM¤‚r© l*È›' (CMD-005)
+Error: unknown command 'ò£‚†PA' (CMD-005)
+Error: unknown command 'R¢‚Ô© wTP´ƒ' (CMD-005)
+Error: unknown command 'ZA­£‚VPA]¨ Œ1‡' (CMD-005)
+Error: unknown command '*¡‚PAŠTĞg*h' (CMD-005)
+Error: unknown command '²¡‚¶SAŸ© ·TĞ' (CMD-005)
+Error: unknown command '2 ‚' (CMD-005)
+Error: unknown command 'zJ½¢‚l¨' (CMD-005)
+Error: unknown command 'ÚAµ§‚4© ^TP*h7´…' (CMD-005)
+Error: unknown command 'ZG­£‚ZtËÑTĞY*(š' (CMD-005)
+Error: unknown command '© ­u' (CMD-005)
+Error: unknown command 'ZB-¥‚¾ªåˆºwĞP*hrİ' (CMD-005)
+Error: unknown command ':Lm£‚ZSAm¨ ¯—­) M¢˜' (CMD-005)
+Error: unknown command 'jH9SA›© 8*¨TAUPA™T´ˆ' (CMD-005)
+Error: unknown command 'Ñ0-‰BPş.ˆDYu’EÀVñd©g1~RFú‡"w' (CMD-005)
+Error: unknown command 'zOıXƒTN=¥‚<© ' (CMD-005)
+Error: unknown command '*(š' (CMD-005)
+Error: unknown command 'zOùRA=¨' (CMD-005)
+Error: unknown command 'jM¥SAS©' (CMD-005)
+Error: unknown command 'Ê¦‚æRAó¨ yT-Ôƒ' (CMD-005)
+Error: unknown command 'ºI½¤‚¶Ö((' (CMD-005)
+Error: unknown command 'šHİ§‚îRAï¨ ¡T7¤AIT@YPAfTĞ:*È”' (CMD-005)
+Error: unknown command '²£‚QATĞh*h%B­¢‚Ô((€' (CMD-005)
+Error: unknown command 'ZU£' (CMD-005)
+Error: unknown command '§‚úQA¶TP,Ô‚' (CMD-005)
+Error: unknown command '²¢‚¼¨ |*H' (CMD-005)
+Error: unknown command 'êOM ‚<¨ U5' (CMD-005)
+Error: unknown command 'zNõ¢‚¢¨ úTP$Ôˆ' (CMD-005)
+Error: unknown command 't…' (CMD-005)
+Error: unknown command 'ú@Í¡‚Ê© áTĞT*h' (CMD-005)
+Error: unknown command ':GÍ¥‚VÕRPô' (CMD-005)
+Error: unknown command ':NÕ£‚ŞRATĞ*(—' (CMD-005)
+Error: unknown command 'êJ½¤‚úPA›k)È' (CMD-005)
+Error: unknown command 'ZBPAí© VTPk*(Ÿ' (CMD-005)
+Error: unknown command 'ZHÙQAƒ© oTP7*È‚' (CMD-005)
+Error: unknown command '²£‚vSAÖTĞ*èTFı¢‚¶SATĞB*H‡' (CMD-005)
+Error: unknown command 'RˆRE' (CMD-005)
+Error: unknown command 'zI ‚&PAÃkdL]ú7' (CMD-005)
+Error: unknown command 'ò¡‚ÖÿMAR-5¥‚¾QA&TĞ*(' (CMD-005)
+Error: unknown command 'ÚIURA¨ TĞ"*h' (CMD-005)
+Error: unknown command '© ¦µ¤L½ªQĞ*¨ô' (CMD-005)
+Error: unknown command 'êÿ' (CMD-005)
+Error: unknown command 'ÚS1$Îc~NÂé' (CMD-005)
+Error: unknown command 'êN¦‚Â© ÅT#t…' (CMD-005)
+Error: unknown command 'ÚLÍ¦' (CMD-005)
+Error: unknown command '© iTPp‚^üMAæ5' (CMD-005)
+Error: unknown command 'JÎ‘p·é#pîà.|³' (CMD-005)
+Error: unknown command 'šC…-À«dìÍG*¨te.Ì¨ #ÙhLQAåó`*KKÇ÷¹ûw' (CMD-005)
+Error: unknown command 'TPDËèPAk© »cğ×ht§‚‚œ"¡DéQAS© ÍT!Tu<' (CMD-005)
+Error: unknown command 'JQöÁ' (CMD-005)
+Error: unknown command 'š«®YËôiæSAWş€Š•Zp¦‚ª© *¨Œ' (CMD-005)
+Error: unknown command 'ºM©PAÏ© T´Ÿ' (CMD-005)
+Error: unknown command '2¢‚r© …TP4TŸ' (CMD-005)
+Error: unknown command 'úNPA»¨ sTĞj*(”' (CMD-005)
+Error: unknown command 'ª¦‚|¨' (CMD-005)
+Error: unknown command 'Š¢‚â© **h8¤Bµ ‚fPAã© ,*¨' (CMD-005)
+Error: unknown command 'Ê¤‚¶PA.TĞB*È’' (CMD-005)
+Error: unknown command 'J¤‚®QA]¨ »T5äL™ÔRP‹]ª¥ ' (CMD-005)
+Error: unknown command 'Š§‚®şÉÛ—·_W·/''''W×‹>T„·yEĞp¥' (CMD-005)
+Error: unknown command 'BzzM¸t¬' (CMD-005)
+Error: unknown command '>¯#‘u6§Ö†cGºtE¸Æ,=š‰¢ËÓQ0-İ«âÙê)X<y' (CMD-005)
+Error: unknown command 'zA ‚¬©' (CMD-005)
+Error: unknown command 'Š£‚b©' (CMD-005)
+Error: unknown command 'úAµ¦‚|¨ ×TP' (CMD-005)
+Error: unknown command 'Ú@µ¢‚' (CMD-005)
+Error: unknown command 'Ê¥‚²© P*¨:”CiRAÓÿAA¾TPçRARAW¨' (CMD-005)
+Error: unknown command 'zL' (CMD-005)
+Error: unknown command 'ZNÍ§‚zRA…TĞl*¨f‰‚şu5 ‚òKî 5şÍ¦‚¶PAk¨' (CMD-005)
+Error: unknown command '²¤‚îRA¯¨ íTĞ*(' (CMD-005)
+Error: unknown command 'zNõ-¥ û¥4€' (CMD-005)
+Error: unknown command 'ú@%SATP=*h(dI­¦‚–QA© ±TT‡' (CMD-005)
+Error: unknown command 'ªMRA' (CMD-005)
+Error: unknown command 'zL]¡‚¦SAÅÁ‰ø1!iT' (CMD-005)
+Error: unknown command 'ò¡‚ZQA=¨ YTPôã`SA—©' (CMD-005)
+Error: unknown command '*îŒ1TĞZ*È”' (CMD-005)
+Error: unknown command 'ZJ£‚¾jMÂB*èÇl?„RAÃ¨ ëTPm*H‡' (CMD-005)
+Error: unknown command 'J¢‚PA½¨' (CMD-005)
+Error: unknown command 'êD=£‚ªQAÓ¨ *(˜' (CMD-005)
+Error: unknown command 'ªNÙSATPdDm ‚ş~m' (CMD-005)
+Error: unknown command 'F5¤‚ZQA—© ©TĞ2*¨ô' (CMD-005)
+Error: unknown command 'zL¥QAÇ¨ TP4äNıh¦…VTĞ:*èäIeRA‡© NTP9*È—' (CMD-005)
+Error: unknown command 'ÚMU¥‚NRAZTĞw*è&t–' (CMD-005)
+Error: unknown command '²¦‚®SA½¨ 4*è$dC…SA¨ ›T.dIM£‚VRAzTĞÉM ‚—RäKRAİ¨' (CMD-005)
+Error: unknown command 'jVJAÇJ)höQĞj*häo' (CMD-005)
+Error: unknown command ':M¦‚ÌşAAêöÕí—Õí«©©©©•õBŸ­‡Á“õpY¶õı×Âún´*À!ƒ5ğ|½' (CMD-005)
+Error: unknown command 'ºƒWaÊ¦|Ì»½ŞkòpöÌ' (CMD-005)
+Error: unknown command '>,Â~ıEøò÷üq:=FgÃ~Û|LIÏ‚öÄLüÈÏÀéØ' (CMD-005)
+Error: unknown command '*¦‚¢¨ Z%' (CMD-005)
+Error: unknown command 'zB¥SA'¨' (CMD-005)
+Error: unknown command 'J§‚RA¨ ŸÃ^ÉH*hT…' (CMD-005)
+Error: unknown command 'ºHÕ¦‚© óTĞ"*¨€' (CMD-005)
+Error: unknown command 'êBiRA+ÿAA½ş•§‚ZQAg¨' (CMD-005)
+Error: unknown command '¡‚Œ© ÿAA½¨ {TP$”F-§‚²© TĞR*¨.TLU¦‚^PANTP|‰‚ÌJ´ò7¹SA½© ¤ßt»DAãşAA·J)¨E‰‚‚© ï¿)Hİ¾ºı²º}5555µ²Ş¹¢¥Hø´7-A§µ¹Øf–' (CMD-005)
+Error: unknown command 'ºO¦‚²¨' (CMD-005)
+Error: unknown command '¤‚*¨Ô‚' (CMD-005)
+Error: unknown command 'jF¦‚ÚPAM¨ ÏTĞ' (CMD-005)
+Error: unknown command '*¨:äKµ£‚*QA#¨ TĞK*h4‰' (CMD-005)
+Error: unknown command 'šEõ¢‚êSAîTĞB*(…' (CMD-005)
+Error: unknown command '*¦‚Œ© iT#´ˆ' (CMD-005)
+Error: unknown command 'SJA7©' (CMD-005)
+Error: unknown command ':KÕ¥‚ô© TĞ*èô' (CMD-005)
+Error: unknown command 'zB¢‚ş¦' (CMD-005)
+Error: unknown command ':K ‚>—RP4—' (CMD-005)
+Error: unknown command 'Š¡‚ì© ÿ£‚êSAµ© ÕTP' (CMD-005)
+Error: unknown command '”@¥QA)TP+*èt—' (CMD-005)
+Error: unknown command 'z@U¢‚vPAZT6tŠ' (CMD-005)
+Error: unknown command 'ÚHRA3¨ «TB%ı' (CMD-005)
+Error: unknown command 'zH=¡‚úPA»J)¨9Ôœ' (CMD-005)
+Error: unknown command '2¤‚PAéTĞE*h1dM=£‚QA¾TP_*hl‰‚PA/¨ GTP>4 DAÑTPN…SA^T>ôt”' (CMD-005)
+Error: unknown command 'ZD] ‚' (CMD-005)
+Error: unknown command '¨' (CMD-005)
+Error: unknown command 'û¥ÀR™s%ögæÂ¦Ó88'¡úğD8ßJ@ÿA' (CMD-005)
+Error: unknown command 'ïŸ«úÇdÔ€Cbs@œmöIÍ³»Äøì6Éş²YŠ36' (CMD-005)
+Error: unknown command 'Hı¢‚<¨ YTP´ƒ' (CMD-005)
+Error: unknown command 'jOİ¤‚&QA.TP1¤ù÷TT¡‚&RAc¨ åT-tŠ' (CMD-005)
+Error: unknown command '2¦‚.SAáTdL…PAŸ¨' (CMD-005)
+Error: unknown command 'ZMm¤‚ÎPAİ© ¿¨' (CMD-005)
+Error: unknown command 'R¨ nTP4t–' (CMD-005)
+Error: unknown command '2¦‚vQA›¨ ÓTĞh*ht' (CMD-005)
+Error: unknown command 'Ê¦‚´© ,*H¡‚>QAÕ¨ ªTP>Ô„' (CMD-005)
+Error: unknown command 'Ò¦‚l¨ vTP4´‡' (CMD-005)
+Error: unknown command 'ò§‚´¨ KT!4‹' (CMD-005)
+Error: unknown command '¥‚j—RĞ:*h' (CMD-005)
+Error: unknown command ':KÅSA½¨ eTĞW*H¡‚:QA…T' (CMD-005)
+Error: unknown command 'Ê¢‚NSARAæTĞc*¨-äKYPAı©' (CMD-005)
+Error: unknown command 'zHõ*QĞC*è2¡‚6QA¹TP$t’' (CMD-005)
+Error: unknown command 'êOÕ§‚~î8¡øRA—© s¥´‚' (CMD-005)
+Error: unknown command 'ºE…SAùTĞ:*h-äú' (CMD-005)
+Error: unknown command '‡Û/cQ08¶GbPşüü<S=£Ñä`LFâÍ™,oëÃ±--' (CMD-005)
+Error: unknown command 'º@¥‚–SAşTô' (CMD-005)
+Error: unknown command 'zJíüİ¦‚æRA/¨' (CMD-005)
+Error: unknown command 'êCm£‚‚¨' (CMD-005)
+Error: unknown command ':AYPA¥´ş7İ,¥ ­¥t³DA3© TP•ÿ‹‚Ì¨ Ê¿)È•' (CMD-005)
+Error: unknown command 'J¥‚ªRA¨ TĞr*¨BPAİ¨ »T' (CMD-005)
+Error: unknown command 'šAéRA1TFéQAç¨ p*h,¤9½RA­¨ *¨€' (CMD-005)
+Error: unknown command '²£‚’©' (CMD-005)
+Error: unknown command 'ºH' (CMD-005)
+Error: unknown command 'šAm¢‚îSA¹TPU*È' (CMD-005)
+Error: unknown command 'ºGí¡‚Â© ]T-Ôƒ' (CMD-005)
+Error: unknown command 'zú' (CMD-005)
+Error: unknown command 'šñÿCAm© TĞ¹µ§‚®RASPô' (CMD-005)
+Error: unknown command 'êR¢ ƒTĞ!*¨%ô' (CMD-005)
+Error: unknown command ':M­ı' (CMD-005)
+Error: unknown command 'ú^JAnTĞĞR' (CMD-005)
+Error: unknown command '¤‚ÿ¢ 8*èÊÿAA]¨ ÑTPÛ_´›' (CMD-005)
+Error: unknown command '<jëƒı6ğ.XTWfco|¯ìÇ±üÎë:¸Ãÿ£:Ìi‰' (CMD-005)
+Error: unknown command '«£AGcXêWƒ±ï"=°' (CMD-005)
+Error: unknown command 'ú1>EjQATPU*h' (CMD-005)
+Error: unknown command 'òşùRA-Qtƒ' (CMD-005)
+Error: unknown command '2üEA© ôR= ‚zQA3¨ YTĞ*èp©‚–”*¨U©‚PAÏş' (CMD-005)
+Error: unknown command 'R·¯n¿¬n_MMMM­¬§¹*¹Ë‚aG¥‚t© ıTP8J¦‚l© KTP_*¨t„' (CMD-005)
+Error: unknown command 'ÚGí¡‚ÚQA¨ 8*¨˜' (CMD-005)
+Error: unknown command 'Ê£‚QAŞTĞ`*¨+´ˆ' (CMD-005)
+Error: unknown command 'ªHU£‚NSATPO*(Ÿ' (CMD-005)
+Error: unknown command '2¥‚ZPA»© ,*(—' (CMD-005)
+Error: unknown command 'jL§‚šQA~TĞ9*(€' (CMD-005)
+Error: unknown command 'zCm¥‚r¨ şTPw*(' (CMD-005)
+Error: unknown command 'úAİ ‚RAŞTĞ*(š' (CMD-005)
+Error: unknown command 'òùMAe© ¥TPÔ„' (CMD-005)
+Error: unknown command 'r¦‚ì© ºTPq*(ˆ' (CMD-005)
+Error: unknown command 'J¢‚²¨' (CMD-005)
+Error: unknown command 'ò+PĞêEPA© ²TĞ:*È' (CMD-005)
+Error: unknown command 'ºU  TĞ*h4”' (CMD-005)
+Error: unknown command 'J¦‚¨ aTË¡' (CMD-005)
+Error: unknown command 'zDESA=¨ UTPäB¢‚^RA.TĞ*èT—' (CMD-005)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command '*(€' (CMD-005)
+Error: unknown command 'úH%QA¨ ' (CMD-005)
+Error: unknown command ':E¥SA©' (CMD-005)
+Error: unknown command ':Aõ£‚R©' (CMD-005)
+Error: unknown command '*è' (CMD-005)
+Error: unknown command 'Tõ' (CMD-005)
+Error: unknown command 'jKí+PW‚úSAŸ¨ —TP' (CMD-005)
+Error: unknown command ':N= ‚2© ^TĞ*(Ÿ' (CMD-005)
+Error: unknown command 'ºLU+PĞQ*¨#ôt™' (CMD-005)
+Error: unknown command 'ªLeQA&TĞ8*TĞX*ht' (CMD-005)
+Error: unknown command 'ú' (CMD-005)
+Error: unknown command 'êJı|€¡TĞy*htœ' (CMD-005)
+Error: unknown command '*GùRAùw|Q' (CMD-005)
+Error: unknown command 'DÅSAU© .T>t‡' (CMD-005)
+Error: unknown command 'šLYSA#¨ ºT' (CMD-005)
+Error: unknown command 'r£‚JRA“¨ ' (CMD-005)
+Error: unknown command 'J£‚úQA©TĞ' (CMD-005)
+Error: unknown command 'ºKM¡‚úSAöTt”' (CMD-005)
+Error: unknown command 'ò¤‚¾şu£‚ÿiÛ×¶_X·¯¥¥¥¥UØûÕBo!Ó' (CMD-005)
+Error: unknown command '§¾' (CMD-005)
+Error: unknown command '­²²)nÆ5À–‘®ˆ' (CMD-005)
+Error: unknown command '2ŞHºPAîT#Ôƒ' (CMD-005)
+Error: unknown command '2øQOÜ© x*ÈŸ' (CMD-005)
+Error: unknown command '²£‚&QAG¨ TĞ~*h<4‰' (CMD-005)
+Error: unknown command 'jD¤‚RAm¨' (CMD-005)
+Error: unknown command 'IêSAC© ~TP,Ô—' (CMD-005)
+Error: unknown command 'Z§zñS'ã½öNWvMF«ì‹UÔºöÊ÷Hcp´šv§¼ª½İBe/ü¬ûyOwºü]¯¨Pİ‹óuî­uuoÙşKBÚöµíÖíkiiiiöªo«'' (CMD-005)
+Error: unknown command 'ªMÙRAéTĞ*(œ' (CMD-005)
+Error: unknown command '¥‚²¨ 2TĞ3*è>4' (CMD-005)
+Error: unknown command 'êGU£‚FQAŠ' (CMD-005)
+Error: unknown command 'Ê£‚¨ (*h4t‡' (CMD-005)
+Error: unknown command 'ZOõ¢‚Ş(¨)äEõ¡‚ÚSAË© ¶TĞ9*ht†' (CMD-005)
+Error: unknown command 'ºOı ‚©' (CMD-005)
+Error: unknown command 'Ê¦‚PAW¨ ATP64€' (CMD-005)
+Error: unknown command 'ºLERA¨ 'Ttœ' (CMD-005)
+Error: unknown command 'ò¥‚¨ úT3T“' (CMD-005)
+Error: unknown command 'º@-¦‚„' (CMD-005)
+Error: unknown command ':Nõ ‚ŞRAİ¨ «TĞÿPĞ#*è¯9(¨tœ' (CMD-005)
+Error: unknown command 'šEÙQA‘TP*èG' (CMD-005)
+Error: unknown command 'Š¤‚JPA·©' (CMD-005)
+Error: unknown command 'A' (CMD-005)
+Error: unknown command 'ªJ9SAıÿ¹(¨‚ŞPAe© T)tŠ' (CMD-005)
+Error: unknown command '§‚ô¨ ÁTĞ' (CMD-005)
+Error: unknown command 'zQ ' (CMD-005)
+Error: unknown command 'êÉ¹Mõ$£C' (CMD-005)
+Error: unknown command '¦‚²¨' (CMD-005)
+Error: unknown command '*¢‚FQAw¨ ŸTĞ'*h' (CMD-005)
+Error: unknown command 'ú@=¢‚îQAnTPtˆ' (CMD-005)
+Error: unknown command 'jK•PA3©' (CMD-005)
+Error: unknown command '²¤‚L¨' (CMD-005)
+Error: unknown command 'ÚF§‚vQAT+4Š' (CMD-005)
+Error: unknown command 'AåPA~TP' (CMD-005)
+Error: unknown command 'Z@åQAáTÔ' (CMD-005)
+Error: unknown command 'Üø´‘şËñaV4Ş_†C–bÍÆ(è¤Gâúœ%HïsÑ‹1qs8ÜÖ,‚Z’ÿšŒ¦±§’' (CMD-005)
+Error: unknown command 'ªC=¡‚Ô© ëTP:4‚' (CMD-005)
+Error: unknown command 'Ê£‚’© iTPW*¨äEõ ‚4© R*¨7¤Kİ¥‚.QA¨ :TĞ]*¨4—' (CMD-005)
+Error: unknown command 'J£‚¼ÿ' (CMD-005)
+Error: unknown command '2¦‚~®‹‚7Ô“' (CMD-005)
+Error: unknown command 'Ò¢‚,¨ STĞ' (CMD-005)
+Error: unknown command 'r¢‚l¨ ™TP' (CMD-005)
+Error: unknown command '4ƒ' (CMD-005)
+Error: unknown command 'Em¢‚ü¨ ™TP64‹' (CMD-005)
+Error: unknown command 'zCEPAeT:dF•PA'©' (CMD-005)
+Error: unknown command 'êLSA5© $*¨' (CMD-005)
+Error: unknown command 'Ò¤‚Ê¨ p*¨)4’' (CMD-005)
+Error: unknown command 'úJ¢‚&QAşTĞ*h:T' (CMD-005)
+Error: unknown command '*hô' (CMD-005)
+Error: unknown command 'zD”+hA¹‚Ü©' (CMD-005)
+Error: unknown command 'jCµ¢‚œ¨ JT/´‡' (CMD-005)
+Error: unknown command 'zDéRAG¨' (CMD-005)
+Error: unknown command '*è.tŸ' (CMD-005)
+Error: unknown command 'ÚH%SA)TĞ#*È‚' (CMD-005)
+Error: unknown command 'ê@ÅPAETĞg*hdG­¤‚vRAzTP]*(„' (CMD-005)
+Error: unknown command ':I¢‚NSA© YTĞG*è4' (CMD-005)
+Error: unknown command 'R¨ ­TP&dJåSA5©' (CMD-005)
+Error: unknown command 'Ò ‚öPAû© l*È›' (CMD-005)
+Error: unknown command '*¤‚' (CMD-005)
+Error: unknown command '©' (CMD-005)
+Error: unknown command 'L' (CMD-005)
+Error: unknown command '2¥‚ºQA6TP' (CMD-005)
+Error: unknown command 'Ê ‚6QAiTP?*èô' (CMD-005)
+Error: unknown command 'úD5¡‚Š¨' (CMD-005)
+Error: unknown command '*-WĞz*(‰' (CMD-005)
+Error: unknown command 'Ê¤‚jPAS© ÉT' (CMD-005)
+Error: unknown command 'ú@=£‚QATĞ~*(' (CMD-005)
+Error: unknown command 'Ê§‚ÚPA¦T>äHÅRAç© d*Èš' (CMD-005)
+Error: unknown command 'zB=£‚<©' (CMD-005)
+Error: unknown command 'šL¥‚ÎQA»© h*(š' (CMD-005)
+Error: unknown command 'zE¥RAT4„' (CMD-005)
+Error: unknown command 'Ê¡‚¦PAÚT/4š' (CMD-005)
+Error: unknown command 'Ê¡‚B© `*è&äI¥PAšTP' (CMD-005)
+Error: unknown command 'r¡‚FPATP*h!tŸ' (CMD-005)
+Error: unknown command 'zHí§‚ÚQA­¨ ' (CMD-005)
+Error: unknown command 'ºI]¢‚Ì© ÷TP*¨7t' (CMD-005)
+Error: unknown command 'MeRAµ© TĞL*è' (CMD-005)
+Error: unknown command '*¥‚Ò¨' (CMD-005)
+Error: unknown command 'Ò¤‚¦PAë© *(‹' (CMD-005)
+Error: unknown command 'J¥‚†RAû© P*h´' (CMD-005)
+Error: unknown command 'Ê¢‚L© ¿¨ t*È‡' (CMD-005)
+Error: unknown command 'ò ‚Ü¨' (CMD-005)
+Error: unknown command 'zG' (CMD-005)
+Error: unknown command 'r¥‚PATPÔ' (CMD-005)
+Error: unknown command ':N-§‚b© p*ht”' (CMD-005)
+Error: unknown command 'J£‚ŒÊô' (CMD-005)
+Error: unknown command 'r ‚>QA¯şPP*¨”K-ÿ¿PP' (CMD-005)
+Error: unknown command '*¡‚FRAO¨ §(¨äOµüuú7' (CMD-005)
+Error: unknown command 'ˆUVH´' (CMD-005)
+Error: unknown command 'J¢‚’©' (CMD-005)
+Error: unknown command 'ÚDSAFTĞ+*hô' (CMD-005)
+Error: unknown command '*£‚^•+HŸ' (CMD-005)
+Error: unknown command 'ªÿÇ' (CMD-005)
+Error: unknown command 'Š¥‚Ü© 7TP4“' (CMD-005)
+Error: unknown command '2¦‚ÚSAW© íTPG*Èü_¤Ú¾jûuûªT©R¥ª‚dü¿>×.™ìâéè¨9' (CMD-005)
+Error: unknown command 'k…@ÌÏ`Ÿ' (CMD-005)
+Error: unknown command 'M' (CMD-005)
+Error: unknown command 'ú×ç Ş¿´ŸäI' (CMD-005)
+Error: unknown command 'Š'é‚NÿMAŞ¤ M¤' (CMD-005)
+Error: unknown command '¿¤E' (CMD-005)
+Error: unknown command 'zC' (CMD-005)
+Error: unknown command 'n¥ <RP0)h#)È€44äK' (CMD-005)
+Error: unknown command 'ZD' (CMD-005)
+Error: unknown command 'ZB' (CMD-005)
+Error: unknown command 'šòKA' (CMD-005)
+Error: unknown command 'ZF' (CMD-005)
+Error: unknown command '*$‚Ş’‚œHA5¤' (CMD-005)
+Error: unknown command ':H' (CMD-005)
+Error: unknown command '²%M!I‚HA¤ ×¤ JRĞRP)ÈA' (CMD-005)
+Error: unknown command ')H’äH' (CMD-005)
+Error: unknown command 'ª$I’‚IA«IAïHAÛIAHAmIA' (CMD-005)
+Error: unknown command 'êN' (CMD-005)
+Error: unknown command 'ê@' (CMD-005)
+Error: unknown command 'ÚN' (CMD-005)
+Error: unknown command 'ªÿ¥ qÿ' (CMD-005)
+Error: unknown command 'ª"E’‚¼HA.¤ N¤ '¿O' (CMD-005)
+Error: unknown command 'Ò!5’‚ÜHA©¤' (CMD-005)
+Error: unknown command '*%-' (CMD-005)
+Error: unknown command '’5ØRä„Ü÷u÷Z*Şænùİj)aÖõ–¶»' (CMD-005)
+Error: unknown command '=ÊZºş²ˆ»Fİ›_ÄUv9ß’©L×áC^Krz¹-Õ.' (CMD-005)
+Error: unknown command 'ÚMj®)h„ù_Õ’€š³&½$5·Ôœ)h' (CMD-005)
+setting top_design to: 
+Error: unknown command '2c' (CMD-005)
+Error: unknown command ':ÉÄdÆt’)hS%SĞ9¦ ILA6LA3Mg' (CMD-005)
+Error: unknown command '²a' (CMD-005)
+Error: unknown command 'ú›)hSSP&SĞ$¦' (CMD-005)
+Error: unknown command '2c' (CMD-005)
+Error: unknown command ':ÁÈdÂ”Â4š)È„)èSPSĞ(¦' (CMD-005)
+Error: unknown command '²`' (CMD-005)
+Error: unknown command ':#SSĞ¦ ' (CMD-005)
+Error: unknown command ':ÇdÅ4‘)è,S9SPSĞ' (CMD-005)
+Error: unknown command 'Úô_(LAÿäÍôƒ)()hS"sµ8ÀäÃ¤ˆ˜'†1d' (CMD-005)
+Error: unknown command 'ªb' (CMD-005)
+Error: unknown command 'òı' (CMD-005)
+Error: unknown command '(SĞ÷ÿO' (CMD-005)
+Error: unknown command ':ÂtP¦' (CMD-005)
+Error: unknown command 'Ö' (CMD-005)
+Error: unknown command 'Š÷T%¯"¡bÅ²J‘”yÚZØ7’w/¯ù|GªòùÌJRnÒsæœ™>§›²y9ÀÔã1‘' (CMD-005)
+Error: unknown command 'UØz<³ÙãùûÂ²ú'ÍG,›¡ÎaYÒªîÕ²k6„ißĞ/Då6 ò–ß¤WvHÅP|ÕÖ@ºé×]3¬Öxƒë·š«A·§Uû%ª†E”´i¿ö¸À@û”' (CMD-005)
+Error: unknown command '(±¾È*xâiY’.¥İLéò¶qdJZW)¢š"ôQóTA°`ßàé²0a3š®¢÷â+g"hv»ÃrüFõqécF­GÃÖñ¸u4pC×ßyGß' (CMD-005)
+Error: unknown command 'Ÿ' (CMD-005)
+Information: script '/u/pratik2/Floorplan-based-synthesis/syn/outputs/adder.dct.ddc'
+        stopped at line 11055 due to EOF. (CMD-081)
+Error: Failed to apply physical constraints. (DCT-010)
+0
+dc_shell-topo> read_floorplan ../outputs/adder.dct.def
+Error: unknown command 'VERSION' (CMD-005)
+Error: unknown command 'DIVIDERCHAR' (CMD-005)
+Error: unknown command 'BUSBITCHARS' (CMD-005)
+Error: unknown command 'DESIGN' (CMD-005)
+Error: unknown command 'TECHNOLOGY' (CMD-005)
+Error: unknown command 'UNITS' (CMD-005)
+Error: unknown command 'DIEAREA' (CMD-005)
+Error: unknown command 'PINS' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command '-' (CMD-005)
+Error: unknown command 'END' (CMD-005)
+Error: unknown command 'END' (CMD-005)
+Error: Failed to apply physical constraints. (DCT-010)
+0
+dc_shell-topo> write_floorplan -all
+Error: Required argument 'file_name' was not found (CMD-007)
+dc_shell-topo> current_design
+Current design is 'adder'.
+{adder}
+dc_shell-topo> set_cell_location macro_cell_abx2 -coordinates { 4350.720 8.160 }         -orientation E -fixed
+Warning: Can't find object 'macro_cell_abx2' in design 'adder'. (UID-95)
+Error: Value for list 'objects' must have 1 elements. (CMD-036)
+0
+dc_shell-topo> gui_start
+Current design is 'adder'.
+4.1
+Current design is 'adder'.
+dc_shell-topo> 
+Information: 55823 net shapes were created from physical constraints. (DCT-021)
+dc_shell-topo> remove_die_area
+1
+dc_shell-topo> create_die_area {0 0 1200 1200}
+Error: Must specify one of these options: -coordinate or -polygon. (CMD-004)
+dc_shell-topo> create_die_area -coordinate {0 0 1200 1200}
+1
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start RulerTool
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {0.000 -0.001} -scale 2.17
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {0.000 1200.000} -scale 2.17
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -abort
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start RulerTool
+dc_shell-topo> gui_set_mouse_tool_option -tool RulerTool -option {Mode} -value {Two point}
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {0.000 -0.001} -scale 2.17
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {4.340 1200.000} -scale 2.17
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {0.000 -0.001} -scale 2.17
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {1197.831 2.169} -scale 2.17
+dc_shell-topo> gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -abort
+dc_shell-topo> write_def -pins -macro ../outputs/adder.dct.def
+Error: extra positional option '../outputs/adder.dct.def' (CMD-012)
+Error: Required argument '-output' was not found (CMD-007)
+dc_shell-topo> write_def -pins -macro -output ../outputs/adder.dct.def
+Information: Writing PINS section (DDEFW-014)
+Information: Completed PINS section  (DDEFW-016)
+1
+dc_shell-topo> 
+Information: 55823 net shapes were created from physical constraints. (DCT-021)
+dc_shell-topo> exit
+dc_shell-topo> exit
+
+Thank you...
+

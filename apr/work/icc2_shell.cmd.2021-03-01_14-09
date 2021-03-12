@@ -1,0 +1,10 @@
+#@ # 
+#@ # Running icc2_shell Version Q-2019.12-SP4 for linux64 -- May 26, 2020
+#@ # Date:   Mon Mar  1 14:08:50 2021
+#@ # Run by: pratik2@mo.ece.pdx.edu
+#@ 
+
+source /u/pratik2/Floorplan-based-synthesis/apr/work/.synopsys_icc2.setup
+set top_design adder
+source -echo -verbose ../scripts/floorplan-macros2.tcl
+exit

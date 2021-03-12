@@ -1,0 +1,48 @@
+Starting shell in Topographical mode...
+setting auto_restore_mw_cel_lib_setup true
+Initializing gui preferences from file  /u/pratik2/.synopsys_dv_prefs.tcl
+dc_shell> source ../scripts/mux.tcl
+Error: Current design is not defined. (UID-4)
+Running PRESTO HDLC
+Compiling source file /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.v
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.v:1: Illegal reference to memory a. (VER-253)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.v:1: Illegal reference to memory s. (VER-253)
+*** Presto compilation terminated with 2 errors. ***
+Loading db file '/pkgs/synopsys/2016/libs/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ff0p95v125c.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/gtech.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/standard.sldb'
+  Loading link library 'saed32hvt_ff0p95v125c'
+  Loading link library 'gtech'
+Error: Cannot find the design 'mux161' in the library 'WORK'. (LBR-0)
+Message: Compiling the design now:
+=========================
+Error: Command compile is not supported in DC Topographical mode. (OPT-1406)
+Error: Current design is not defined. (UID-4)
+Message: Compiling Ended now:
+=========================
+Error: No files or designs were specified. (UID-22)
+Error: Current design is not defined. (UID-4)
+0
+dc_shell-topo> pwd
+/u/pratik2/Floorplan-based-synthesis/syn/work
+dc_shell-topo> source ../scripts/mux.tcl
+Error: Current design is not defined. (UID-4)
+Running PRESTO HDLC
+Compiling source file /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.v
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.v:1: Illegal reference to memory a. (VER-253)
+Error:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.v:1: Illegal reference to memory s. (VER-253)
+*** Presto compilation terminated with 2 errors. ***
+Error: Cannot find the design 'mux161' in the library 'WORK'. (LBR-0)
+Message: Compiling the design now:
+=========================
+Error: Command compile is not supported in DC Topographical mode. (OPT-1406)
+Error: Current design is not defined. (UID-4)
+Message: Compiling Ended now:
+=========================
+Error: No files or designs were specified. (UID-22)
+Error: Current design is not defined. (UID-4)
+0
+dc_shell-topo> exit
+
+Thank you...
+

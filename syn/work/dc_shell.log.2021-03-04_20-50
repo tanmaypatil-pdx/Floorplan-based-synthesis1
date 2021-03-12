@@ -1,0 +1,142 @@
+Starting shell in Topographical mode...
+setting auto_restore_mw_cel_lib_setup true
+Initializing gui preferences from file  /u/pratik2/.synopsys_dv_prefs.tcl
+dc_shell> source -echo -verbose ../scripts/mux.tcl
+# For DIC_II in 2016 Fall:
+# The  reset_design  command  removes  all  user-specified  clocks,  path
+# groups, and attributes from the current design, except those defined by
+# using the set_attribute command.  
+# set current_design_name [current_design]
+reset_design
+Error: Current design is not defined. (UID-4)
+0
+remove_design -designs
+1
+set top_design mux161
+mux161
+lappend search_path "/pkgs/synopsys/2016/libs/SAED32_EDK/lib/stdcell_hvt/db_nldm"
+. /pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn /pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/dw/syn_ver /pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/dw/sim_ver /pkgs/synopsys/2016/libs/SAED32_EDK/lib/stdcell_hvt/db_nldm
+set link_library   "saed32hvt_ff0p95v125c.db"
+saed32hvt_ff0p95v125c.db
+set target_library "saed32hvt_ff0p95v125c.db"
+saed32hvt_ff0p95v125c.db
+# set_clock_gating_style -sequential_cell latch -positive_edge_logic {and} -negative_edge_logic {or} -minimum_bitwidth 2
+analyze -format sverilog /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv
+Running PRESTO HDLC
+Compiling source file /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv
+Presto compilation completed successfully.
+Loading db file '/pkgs/synopsys/2016/libs/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ff0p95v125c.db'
+1
+elaborate mux161
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/gtech.db'
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/standard.sldb'
+  Loading link library 'saed32hvt_ff0p95v125c'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:13: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:14: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:15: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:16: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:17: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:18: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:19: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:20: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:21: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:22: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:23: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:24: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:25: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+Warning:  /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv:26: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+
+Statistics for case statements in always block at line 7 in file
+        '/u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            10            |    auto/auto     |
+===============================================
+Presto compilation completed successfully. (mux161)
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/dw_foundation.sldb'
+Elaborated 1 design.
+Current design is now 'mux161'.
+1
+#create_clock -name "CLK" -period 0.500 -waveform {0.0 0.250} clock 
+#set_clock_transition 0.100 CLK
+echo "Message: Compiling the design now:"
+Message: Compiling the design now:
+echo "========================="
+=========================
+# compile -gate_clock
+compile
+Error: Command compile is not supported in DC Topographical mode. (OPT-1406)
+0
+compile_ultra
+Warning: The following synthetic libraries should be added to 
+        the list of link libraries: 
+        'dw_foundation.sldb'. (UISN-26)
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+
+  Linking design 'mux161'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  saed32hvt_ff0p95v125c (library) /pkgs/synopsys/2016/libs/SAED32_EDK/lib/stdcell_hvt/db_nldm/saed32hvt_ff0p95v125c.db
+
+Error: DC-Topographical Failed to link physical library. (OPT-1428)
+0
+echo "Message: Compiling Ended now:"
+Message: Compiling Ended now:
+echo "========================="
+=========================
+write_file  -f verilog -h -o /u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161_be.v
+Writing verilog file '/u/pratik2/Floorplan-based-synthesis/syn/scripts/mux161_be.v'.
+Warning: Module mux161 contains unmapped components.  The output netlist might not be read back into the system. (VO-12)
+1
+#write_file  -f verilog -h -o /u/pratik2/work/QUESTA_SIM_FE_BE/back_end/Adder_be.v 
+# write_file  -f ddc -h -o     /u/ataur/DIC_II_SNPS/DC/output/mapped/counter_questa.ddc
+# write_sdc   -nosplit /home/ataur/DIC_II_SNPS/DC/output/mapped/counter_questa.sdc
+report_cell -nosplit
+Warning: The following synthetic libraries should be added to 
+        the list of link libraries: 
+        'dw_foundation.sldb'. (UISN-26)
+Information: Updating graph... (UID-83)
+ 
+****************************************
+Report : cell
+Design : mux161
+Version: P-2019.03-SP1-1
+Date   : Thu Mar  4 20:50:55 2021
+****************************************
+
+Attributes:
+    b - black box (unknown)
+    c - control logic
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Cell                      Reference       Library             Area  Attributes
+--------------------------------------------------------------------------------
+B_0                       GTECH_BUF       gtech           0.000000  c, u
+B_1                       GTECH_BUF       gtech           0.000000  c, u
+C20                       *SELECT_OP_2.1_2.1_1            0.000000  s, u
+C22                       GTECH_OR2       gtech           0.000000  u
+C23                       GTECH_OR2       gtech           0.000000  u
+C24                       GTECH_OR2       gtech           0.000000  u
+I_0                       GTECH_NOT       gtech           0.000000  u
+--------------------------------------------------------------------------------
+Total 7 cells                                             0.000000
+1
+1
+dc_shell-topo> gui_start
+Current design is 'mux161'.
+4.1
+Current design is 'mux161'.
+dc_shell-topo> 
+Loading db file '/pkgs/synopsys/2019_06/syn/P-2019.03-SP1-1/libraries/syn/generic.sdb'
+dc_shell-topo> exit
+
+Thank you...
+

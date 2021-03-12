@@ -1,0 +1,425 @@
+ 
+****************************************
+Report : constraint
+        -all_violators
+Design : fifo1
+Version: P-2019.03-SP1-1
+Date   : Thu Mar 11 21:26:50 2021
+****************************************
+
+
+   max_transition
+
+                             Required        Actual
+   Net                      Transition     Transition        Slack
+   -----------------------------------------------------------------
+   rdata[3]                     0.50           0.90          -0.40  (VIOLATED)
+       PORT :  rdata[3]         0.50           0.90          -0.40  (VIOLATED)
+   rdata[4]                     0.50           0.90          -0.40  (VIOLATED)
+       PORT :  rdata[4]         0.50           0.90          -0.40  (VIOLATED)
+   rempty                       0.50           0.90          -0.40  (VIOLATED)
+       PORT :  rempty           0.50           0.90          -0.40  (VIOLATED)
+   rdata[6]                     0.50           0.90          -0.40  (VIOLATED)
+       PORT :  rdata[6]         0.50           0.90          -0.40  (VIOLATED)
+   rdata[2]                     0.50           0.90          -0.40  (VIOLATED)
+       PORT :  rdata[2]         0.50           0.90          -0.40  (VIOLATED)
+   rdata[0]                     0.50           0.90          -0.40  (VIOLATED)
+       PORT :  rdata[0]         0.50           0.90          -0.40  (VIOLATED)
+   rdata[7]                     0.50           0.90          -0.40  (VIOLATED)
+       PORT :  rdata[7]         0.50           0.90          -0.40  (VIOLATED)
+   rdata[1]                     0.50           0.90          -0.40  (VIOLATED)
+       PORT :  rdata[1]         0.50           0.90          -0.40  (VIOLATED)
+   rdata[5]                     0.50           0.90          -0.40  (VIOLATED)
+       PORT :  rdata[5]         0.50           0.90          -0.40  (VIOLATED)
+   wfull                        0.50           0.89          -0.39  (VIOLATED)
+       PORT :  wfull            0.50           0.89          -0.39  (VIOLATED)
+   fifomem/n1109                0.50           0.68          -0.18  (VIOLATED)
+       PIN :   fifomem/mem_reg_4__7_/D
+                                0.50           0.68          -0.18  (VIOLATED)
+       PIN :   fifomem/U569/Y
+                                0.50           0.68          -0.18  (VIOLATED)
+   fifomem/n1513                0.50           0.67          -0.17  (VIOLATED)
+       PIN :   fifomem/mem_reg_22__5_/D
+                                0.50           0.67          -0.17  (VIOLATED)
+       PIN :   fifomem/U742/Y
+                                0.50           0.67          -0.17  (VIOLATED)
+   fifomem/n1189                0.50           0.67          -0.17  (VIOLATED)
+       PIN :   fifomem/mem_reg_62__1_/D
+                                0.50           0.67          -0.17  (VIOLATED)
+       PIN :   fifomem/U975/Y
+                                0.50           0.67          -0.17  (VIOLATED)
+   fifomem/n1507                0.50           0.66          -0.16  (VIOLATED)
+       PIN :   fifomem/mem_reg_23__7_/D
+                                0.50           0.66          -0.16  (VIOLATED)
+       PIN :   fifomem/U600/Y
+                                0.50           0.66          -0.16  (VIOLATED)
+   fifomem/n1504                0.50           0.66          -0.16  (VIOLATED)
+       PIN :   fifomem/mem_reg_23__4_/D
+                                0.50           0.66          -0.16  (VIOLATED)
+       PIN :   fifomem/U810/Y
+                                0.50           0.66          -0.16  (VIOLATED)
+   fifomem/n1501                0.50           0.66          -0.16  (VIOLATED)
+       PIN :   fifomem/mem_reg_23__1_/D
+                                0.50           0.66          -0.16  (VIOLATED)
+       PIN :   fifomem/U1017/Y
+                                0.50           0.66          -0.16  (VIOLATED)
+   fifomem/n1677                0.50           0.66          -0.16  (VIOLATED)
+       PIN :   fifomem/mem_reg_1__1_/D
+                                0.50           0.66          -0.16  (VIOLATED)
+       PIN :   fifomem/U997/Y
+                                0.50           0.66          -0.16  (VIOLATED)
+   fifomem/n1201                0.50           0.66          -0.16  (VIOLATED)
+       PIN :   fifomem/mem_reg_61__5_/D
+                                0.50           0.66          -0.16  (VIOLATED)
+       PIN :   fifomem/U700/Y
+                                0.50           0.66          -0.16  (VIOLATED)
+   fifomem/n1205                0.50           0.65          -0.15  (VIOLATED)
+       PIN :   fifomem/mem_reg_60__1_/D
+                                0.50           0.65          -0.15  (VIOLATED)
+       PIN :   fifomem/U977/Y
+                                0.50           0.65          -0.15  (VIOLATED)
+   fifomem/n1609                0.50           0.65          -0.15  (VIOLATED)
+       PIN :   fifomem/mem_reg_10__5_/D
+                                0.50           0.65          -0.15  (VIOLATED)
+       PIN :   fifomem/U712/Y
+                                0.50           0.65          -0.15  (VIOLATED)
+   fifomem/n1665                0.50           0.65          -0.15  (VIOLATED)
+       PIN :   fifomem/mem_reg_3__5_/D
+                                0.50           0.65          -0.15  (VIOLATED)
+       PIN :   fifomem/U719/Y
+                                0.50           0.65          -0.15  (VIOLATED)
+   fifomem/n1601                0.50           0.65          -0.15  (VIOLATED)
+       PIN :   fifomem/mem_reg_11__5_/D
+                                0.50           0.65          -0.15  (VIOLATED)
+       PIN :   fifomem/U711/Y
+                                0.50           0.65          -0.15  (VIOLATED)
+   fifomem/n1209                0.50           0.64          -0.14  (VIOLATED)
+       PIN :   fifomem/mem_reg_60__5_/D
+                                0.50           0.64          -0.14  (VIOLATED)
+       PIN :   fifomem/U701/Y
+                                0.50           0.64          -0.14  (VIOLATED)
+   fifomem/n1625                0.50           0.64          -0.14  (VIOLATED)
+       PIN :   fifomem/mem_reg_8__5_/D
+                                0.50           0.64          -0.14  (VIOLATED)
+       PIN :   fifomem/U714/Y
+                                0.50           0.64          -0.14  (VIOLATED)
+   fifomem/n1197                0.50           0.64          -0.14  (VIOLATED)
+       PIN :   fifomem/mem_reg_61__1_/D
+                                0.50           0.64          -0.14  (VIOLATED)
+       PIN :   fifomem/U976/Y
+                                0.50           0.64          -0.14  (VIOLATED)
+   fifomem/n1221                0.50           0.63          -0.13  (VIOLATED)
+       PIN :   fifomem/mem_reg_58__1_/D
+                                0.50           0.63          -0.13  (VIOLATED)
+       PIN :   fifomem/U971/Y
+                                0.50           0.63          -0.13  (VIOLATED)
+   fifomem/n803                 0.50           0.63          -0.13  (VIOLATED)
+       PIN :   fifomem/U1395/A
+                                0.50           0.63          -0.13  (VIOLATED)
+       PIN :   fifomem/U416/Y
+                                0.50           0.63          -0.13  (VIOLATED)
+   fifomem/n844                 0.50           0.63          -0.13  (VIOLATED)
+       PIN :   fifomem/U1457/A
+                                0.50           0.63          -0.13  (VIOLATED)
+       PIN :   fifomem/U365/Y
+                                0.50           0.63          -0.13  (VIOLATED)
+   fifomem/n869                 0.50           0.62          -0.12  (VIOLATED)
+       PIN :   fifomem/U1493/A
+                                0.50           0.62          -0.12  (VIOLATED)
+       PIN :   fifomem/U400/Y
+                                0.50           0.62          -0.12  (VIOLATED)
+   fifomem/n859                 0.50           0.62          -0.12  (VIOLATED)
+       PIN :   fifomem/U1995/A
+                                0.50           0.62          -0.12  (VIOLATED)
+       PIN :   fifomem/U420/Y
+                                0.50           0.62          -0.12  (VIOLATED)
+   fifomem/n1738                0.50           0.61          -0.11  (VIOLATED)
+       PIN :   fifomem/U28/A
+                                0.50           0.61          -0.11  (VIOLATED)
+       PIN :   fifomem/U948/Y
+                                0.50           0.61          -0.11  (VIOLATED)
+   fifomem/n1734                0.50           0.61          -0.11  (VIOLATED)
+       PIN :   fifomem/U72/A
+                                0.50           0.61          -0.11  (VIOLATED)
+       PIN :   fifomem/U955/Y
+                                0.50           0.61          -0.11  (VIOLATED)
+   fifomem/n1963                0.50           0.61          -0.11  (VIOLATED)
+       PIN :   fifomem/U36/A
+                                0.50           0.61          -0.11  (VIOLATED)
+       PIN :   fifomem/U720/Y
+                                0.50           0.61          -0.11  (VIOLATED)
+   fifomem/n1936                0.50           0.61          -0.11  (VIOLATED)
+       PIN :   fifomem/U25/A
+                                0.50           0.61          -0.11  (VIOLATED)
+       PIN :   fifomem/U723/Y
+                                0.50           0.61          -0.11  (VIOLATED)
+   fifomem/n1716                0.50           0.61          -0.11  (VIOLATED)
+       PIN :   fifomem/U50/A
+                                0.50           0.61          -0.11  (VIOLATED)
+       PIN :   fifomem/U998/Y
+                                0.50           0.61          -0.11  (VIOLATED)
+   fifomem/n1505                0.50           0.61          -0.11  (VIOLATED)
+       PIN :   fifomem/U1558/A
+                                0.50           0.61          -0.11  (VIOLATED)
+       PIN :   fifomem/U741/Y
+                                0.50           0.61          -0.11  (VIOLATED)
+   fifomem/n1951                0.50           0.60          -0.10  (VIOLATED)
+       PIN :   fifomem/U411/A
+                                0.50           0.60          -0.10  (VIOLATED)
+       PIN :   fifomem/U698/Y
+                                0.50           0.60          -0.10  (VIOLATED)
+   fifomem/n1000                0.50           0.60          -0.10  (VIOLATED)
+       PIN :   fifomem/U215/A
+                                0.50           0.60          -0.10  (VIOLATED)
+       PIN :   fifomem/U1086/Y
+                                0.50           0.60          -0.10  (VIOLATED)
+   fifomem/n1225                0.50           0.60          -0.10  (VIOLATED)
+       PIN :   fifomem/U57/A
+                                0.50           0.60          -0.10  (VIOLATED)
+       PIN :   fifomem/U695/Y
+                                0.50           0.60          -0.10  (VIOLATED)
+   fifomem/n1998                0.50           0.60          -0.10  (VIOLATED)
+       PIN :   fifomem/U188/A
+                                0.50           0.60          -0.10  (VIOLATED)
+       PIN :   fifomem/U694/Y
+                                0.50           0.60          -0.10  (VIOLATED)
+   fifomem/n1797                0.50           0.59          -0.09  (VIOLATED)
+       PIN :   fifomem/U166/A
+                                0.50           0.59          -0.09  (VIOLATED)
+       PIN :   fifomem/U895/Y
+                                0.50           0.59          -0.09  (VIOLATED)
+   fifomem/n1193                0.50           0.59          -0.09  (VIOLATED)
+       PIN :   fifomem/U1580/A
+                                0.50           0.59          -0.09  (VIOLATED)
+       PIN :   fifomem/U699/Y
+                                0.50           0.59          -0.09  (VIOLATED)
+   io_l_rdata_0__net            0.50           0.58          -0.08  (VIOLATED)
+       PIN :   fifomem/U99/Y
+                                0.50           0.58          -0.08  (VIOLATED)
+       PIN :   io_l_rdata_0_/DIN
+                                0.50           0.58          -0.08  (VIOLATED)
+   fifomem/n1062                0.50           0.58          -0.08  (VIOLATED)
+       PIN :   fifomem/U1585/A
+                                0.50           0.58          -0.08  (VIOLATED)
+       PIN :   fifomem/U201/Y
+                                0.50           0.58          -0.08  (VIOLATED)
+   fifomem/n2112                0.50           0.57          -0.07  (VIOLATED)
+       PIN :   fifomem/U204/A
+                                0.50           0.57          -0.07  (VIOLATED)
+       PIN :   fifomem/U205/Y
+                                0.50           0.57          -0.07  (VIOLATED)
+   rptr_empty/n32               0.50           0.56          -0.06  (VIOLATED)
+       PIN :   rptr_empty/U67/A3
+                                0.50           0.56          -0.06  (VIOLATED)
+       PIN :   rptr_empty/U66/Y
+                                0.50           0.56          -0.06  (VIOLATED)
+   io_l_rdata_2__net            0.50           0.55          -0.05  (VIOLATED)
+       PIN :   fifomem/U81/Y
+                                0.50           0.55          -0.05  (VIOLATED)
+       PIN :   io_l_rdata_2_/DIN
+                                0.50           0.55          -0.05  (VIOLATED)
+   wptr_full/n61                0.50           0.53          -0.03  (VIOLATED)
+       PIN :   wptr_full/U18/A2
+                                0.50           0.53          -0.03  (VIOLATED)
+       PIN :   wptr_full/wbin_reg_5_/D
+                                0.50           0.53          -0.03  (VIOLATED)
+       PIN :   wptr_full/U118/A1
+                                0.50           0.53          -0.03  (VIOLATED)
+       PIN :   wptr_full/U32/Y
+                                0.50           0.53          -0.03  (VIOLATED)
+   fifomem/n542                 0.50           0.53          -0.03  (VIOLATED)
+       PIN :   fifomem/U997/S0
+                                0.50           0.53          -0.03  (VIOLATED)
+       PIN :   fifomem/U558/S0
+                                0.50           0.53          -0.03  (VIOLATED)
+       PIN :   fifomem/U2051/A
+                                0.50           0.53          -0.03  (VIOLATED)
+       PIN :   fifomem/U557/Y
+                                0.50           0.53          -0.03  (VIOLATED)
+   fifomem/n2055                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1179/A
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U388/Y
+                                0.50           0.52          -0.02  (VIOLATED)
+   fifomem/n510                 0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U965/S0
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U758/S0
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U827/S0
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U2100/A
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U489/Y
+                                0.50           0.52          -0.02  (VIOLATED)
+   fifomem/n1876                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U84/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1223/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1283/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1298/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1366/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1448/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1475/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1482/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U2046/Y
+                                0.50           0.52          -0.02  (VIOLATED)
+   io_l_rdata_4__net            0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U354/Y
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   U27/A            0.50           0.52          -0.02  (VIOLATED)
+   fifomem/n2088                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1631/A
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U290/Y
+                                0.50           0.52          -0.02  (VIOLATED)
+   fifomem/n532                 0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U849/S0
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U2093/A
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U536/Y
+                                0.50           0.52          -0.02  (VIOLATED)
+   fifomem/n1968                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U260/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U303/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1386/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1429/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1490/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U1524/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U432/A1
+                                0.50           0.52          -0.02  (VIOLATED)
+       PIN :   fifomem/U2063/Y
+                                0.50           0.52          -0.02  (VIOLATED)
+   fifomem/n499                 0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U194/A
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U609/S0
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U747/S0
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U454/Y
+                                0.50           0.51          -0.01  (VIOLATED)
+   fifomem/n507                 0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U962/S0
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U617/S0
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U484/S0
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U2112/A
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U483/Y
+                                0.50           0.51          -0.01  (VIOLATED)
+   rptr_empty/n12               0.50           0.51          -0.01  (VIOLATED)
+       PIN :   rptr_empty/U36/A3
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   rptr_empty/U70/Y
+                                0.50           0.51          -0.01  (VIOLATED)
+   fifomem/n546                 0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U565/S0
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U2086/A
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U564/Y
+                                0.50           0.51          -0.01  (VIOLATED)
+   fifomem/n511                 0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U828/S0
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U966/S0
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U2091/A
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U491/Y
+                                0.50           0.51          -0.01  (VIOLATED)
+   fifomem/n549                 0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U659/S0
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U2077/A
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U573/Y
+                                0.50           0.51          -0.01  (VIOLATED)
+   fifomem/n2048                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U2075/A
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U432/Y
+                                0.50           0.51          -0.01  (VIOLATED)
+   fifomem/n2132                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U2097/A
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U200/Y
+                                0.50           0.51          -0.01  (VIOLATED)
+   fifomem/n447                 0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U1171/A
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U516/Y
+                                0.50           0.51          -0.01  (VIOLATED)
+   wptr_full/n73                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   wptr_full/U24/A3
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   wptr_full/U83/A
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   wptr_full/U46/Y
+                                0.50           0.51          -0.01  (VIOLATED)
+   fifomem/n404                 0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U2039/A
+                                0.50           0.51          -0.01  (VIOLATED)
+       PIN :   fifomem/U117/Y
+                                0.50           0.51          -0.01  (VIOLATED)
+   fifomem/n514                 0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   fifomem/n283                 0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   fifomem/n2056                0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   fifomem/n349                 0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   fifomem/n537                 0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   fifomem/n2091                0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   waddr[1]                     0.23           0.23           0.00  (VIOLATED: increase significant digits)
+   wptr_full/n22                0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   fifomem/n2052                0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   fifomem/n521                 0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   fifomem/n348                 0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   fifomem/n531                 0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   fifomem/n405                 0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   fifomem/n408                 0.50           0.50           0.00  (VIOLATED: increase significant digits)
+   fifomem/n1818                0.50           0.50           0.00  (VIOLATED: increase significant digits)
+
+   -----------------------------------------------------------------
+   Total                      82                 -8.87  
+
+   max_capacitance
+
+                             Required        Actual
+   Net                      Capacitance    Capacitance       Slack
+   -----------------------------------------------------------------
+   fifomem/n1816               32.00          57.99         -25.99  (VIOLATED)
+   waddr[1]                     8.00          15.25          -7.25  (VIOLATED)
+   wptr_full/wgraynext[0]       8.00          11.00          -3.00  (VIOLATED)
+   wptr_full/n113               8.00           9.18          -1.18  (VIOLATED)
+   waddr[2]                    16.00          16.51          -0.51  (VIOLATED)
+   rptr_empty/n75               8.00           8.03          -0.03  (VIOLATED)
+
+   -----------------------------------------------------------------
+   Total                      6                 -37.96  
+
+   max_leakage_power
+
+                             Required        Actual
+   Design                   Leakage Power  Leakage Power     Slack
+   -----------------------------------------------------------------
+   fifo1                        0.00       1281982976.00  -1281982976.00
+                                                                    (VIOLATED)
+
+
+1

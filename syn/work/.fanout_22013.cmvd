@@ -1,0 +1,9 @@
+<?xml-stylesheet type="text/xsl" href=".fanout_22013.cmvd.xslt" ?>
+<!DOCTYPE treebrowser>
+<treebrowser version="2.0" title="MV Advisor" data="name:fanout;port_count:84;hier_cell_count:40;leaf_cell_count:181;">
+<table>
+  <column id="1" text="Title" />
+  <column id="2" text="Count" />
+  <column id="3" text="Description" />
+</table>
+</treebrowser>

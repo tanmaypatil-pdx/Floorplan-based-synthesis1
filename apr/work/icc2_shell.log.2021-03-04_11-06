@@ -1,0 +1,138 @@
+setting auto_restore_mw_cel_lib_setup true
+icc2_shell> f
+setting top_design to: 
+fifo1
+icc2_shell> source -echo -verbose ../scripts/floorplan-macros2.tcl
+source -echo -verbose ../../$top_design.design_config.tcl
+set lib_dir /pkgs/synopsys/2020/32_28nm/SAED32_EDK
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK
+# Decoder ring for the libraries
+# You will need to follow another example or look in the library directories to understand.
+# lib_types is used for the dc/dct linking variables and ICC2 NDM lcoations.
+# /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm
+# /          $lib_dir                   /lib/ $lib_type /db_nldm
+# link_library, Target_library use the sub_lib_types and corner variables. 
+# For sub_lib_types and corner:
+# Example:
+#     saed32hvt_ss0p75v125c.db
+#     |sub_lib  corner    .db
+# The current flow tries to find all sub_lib and all corners in all the search paths.  Any match will be put in the library list.
+# Wild cards can be used, but be careful.  Multiple matches can occur in ways you don't want.
+# For the target library, the same method is used as the link library except only HVT and RVT lib_types are used.
+# ICC2 NDM choosing also uses the sub_lib_types so that only the required libraries and extras are not loaded.
+# fifo1
+set top_design fifo1
+fifo1
+set add_ios 1
+1
+set pad_design 1
+1
+set design_size { 580 580  } 
+ 580 580  
+set design_io_border 310
+310
+set dc_floorplanning 1
+1
+set rtl_list [list ../rtl/$top_design.sv ]
+../rtl/fifo1.sv
+set slow_corner "ss0p75v125c ss0p95v125c_2p25v ss0p95v125c"
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set fast_corner "ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c"
+ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c
+set synth_corners $slow_corner
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set slow_metal Cmax_125
+Cmax_125
+set fast_metal Cmax_125
+Cmax_125
+set lib_types "stdcell_hvt stdcell_rvt stdcell_lvt io_std sram"
+stdcell_hvt stdcell_rvt stdcell_lvt io_std sram
+# Get just the main standard cells, srams and IOs
+set sub_lib_type "saed32?vt_ saed32sram_ saed32io_wb_"
+saed32?vt_ saed32sram_ saed32io_wb_
+#set topdir /u/$env(USER)/PSU_RTL2GDS
+set topdir [ lindex [ regexp -inline "(.*)\(syn\|pt\|apr\)" [pwd] ] 1 ]
+/u/pratik2/Floorplan-based-synthesis/
+/u/pratik2/Floorplan-based-synthesis/
+if { ![ info exists dc_floorplanning ] } {
+   set dc_floorplanning 1
+}
+# Source common setup file
+#set my_lib ${top_design}_fp_lib
+set my_lib ${top_design}_lib
+fifo1_lib
+source -echo -verbose ../scripts/setup2.tcl
+# Look for directories like this "/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/ndm"
+# This may not be used
+set search_path ""
+foreach i $lib_types { lappend search_path $lib_dir/lib/$i/ndm }
+#set synthetic_library dw_foundation.sldb
+# Changed to only be the slow corner libraries
+#set target_library "saed32hvt_ss0p75v125c.db saed32lvt_ss0p75v125c.db saed32rvt_ss0p75v125c.db"
+# enable the lvt and rvt library for now at the slow corner
+#set target_library "saed32lvt_ss0p75v125c.db saed32rvt_ss0p75v125c.db saed32io_wb_ss0p95v125c_2p25v.db"
+set libs ""
+# should we use _pg_c.ndm, _c.ndm, dlvl_v.ndm, _ulvl_v.ndm
+set suffix "c.ndm 5v.ndm v.ndm"
+c.ndm 5v.ndm v.ndm
+# Look for files like this "/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/ndm/saed32hvt$suffix"
+set libs ""
+foreach i $lib_types { 
+    foreach j $suffix {
+        foreach k $sub_lib_type {
+          foreach m [glob -nocomplain $lib_dir/lib/$i/ndm/$k$j ] {
+            lappend libs $m
+          }
+        }
+    }
+}
+set tf_dir "$lib_dir/tech/milkyway/"
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/milkyway/
+set tlu_dir "$lib_dir/tech/star_rcxt/"
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/star_rcxt/
+#set_tlu_plus_files  -max_tluplus $tlu_dir/saed32nm_1p9m_Cmax.tluplus  #                    -min_tluplus $tlu_dir/saed32nm_1p9m_Cmin.tluplus  #                    -tech2itf_map  $tlu_dir/saed32nm_tf_itf_tluplus.map
+source -echo -verbose ../scripts/read2.tcl
+if { [ info exists dc_floorplanning ] && $dc_floorplanning } {
+   set verilog_file ../../syn/outputs/${top_design}.dc.vg
+} else {
+   set verilog_file ../../syn/outputs/${top_design}.dct.vg
+}
+../../syn/outputs/fifo1.dc.vg
+file delete -force $my_lib 
+# Adding the tech file causes problems later with missing routing directions for some reason.
+#create_lib $my_lib -ref_libs $libs -tech $tf_dir/saed32nm_1p9m_mw.tf 
+create_lib $my_lib -ref_libs $libs  -use_technology_lib [lindex $libs 0 ] 
+{fifo1_lib}
+create_block ${top_design}
+Information: Creating block 'fifo1.design' in library 'fifo1_lib'. (DES-013)
+{fifo1_lib:fifo1.design}
+open_block ${top_design}
+Information: Incrementing open_count of block 'fifo1_lib:fifo1.design' to 2. (DES-021)
+{fifo1_lib:fifo1.design}
+#import_designs $verilog_file # -format verilog #       -cel $top_design #      -top $top_design
+read_verilog  -top $top_design  $verilog_file
+Error: File '../../syn/outputs/fifo1.dc.vg' cannot be found using search_path of: '/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/ndm /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_rvt/ndm /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_lvt/ndm /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/io_std/ndm /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/sram/ndm'. (FILE-002)
+Information: script '/u/pratik2/Floorplan-based-synthesis/apr/scripts/read2.tcl'
+                stopped at line 23 due to error. (CMD-081)
+Extended error info:
+
+    while executing
+"read_verilog  -top $top_design  $verilog_file"
+ -- End Extended Error Info
+Information: script '/u/pratik2/Floorplan-based-synthesis/apr/scripts/floorplan-macros2.tcl'
+                stopped at line 11 due to error. (CMD-081)
+Extended error info:
+
+    while executing
+"read_verilog  -top $top_design  $verilog_file"
+    (file "/u/pratik2/Floorplan-based-synthesis/apr/scripts/read2.tcl" line 23)
+    invoked from within
+"source -echo -verbose ../scripts/read2.tcl"
+ -- End Extended Error Info
+icc2_shell> exit
+Maximum memory usage for this session: 294.09 MB
+Maximum memory usage for this session including child processes: 294.09 MB
+CPU usage for this session:     18 seconds (  0.00 hours)
+Elapsed time for this session:    500 seconds (  0.14 hours)
+Thank you for using IC Compiler II.
+

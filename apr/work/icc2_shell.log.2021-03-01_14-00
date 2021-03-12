@@ -1,0 +1,525 @@
+setting auto_restore_mw_cel_lib_setup true
+icc2_shell> set top_design adder
+adder
+icc2_shell> source -echo -verbose ../scripts/floorplan-macros2.tcl
+source -echo -verbose ../../$top_design.design_config.tcl
+set lib_dir /pkgs/synopsys/2020/32_28nm/SAED32_EDK
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK
+# Decoder ring for the libraries
+# You will need to follow another example or look in the library directories to understand.
+# lib_types is used for the dc/dct linking variables and ICC2 NDM lcoations.
+# /pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/db_nldm
+# /          $lib_dir                   /lib/ $lib_type /db_nldm
+# link_library, Target_library use the sub_lib_types and corner variables. 
+# For sub_lib_types and corner:
+# Example:
+#     saed32hvt_ss0p75v125c.db
+#     |sub_lib  corner    .db
+# The current flow tries to find all sub_lib and all corners in all the search paths.  Any match will be put in the library list.
+# Wild cards can be used, but be careful.  Multiple matches can occur in ways you don't want.
+# For the target library, the same method is used as the link library except only HVT and RVT lib_types are used.
+# ICC2 NDM choosing also uses the sub_lib_types so that only the required libraries and extras are not loaded.
+# adder
+set top_design adder
+adder
+set add_ios 1
+1
+set pad_design 1
+1
+set design_size { 580 580  } 
+ 580 580  
+set design_io_border 310
+310
+set dc_floorplanning 1
+1
+set rtl_list [list ../rtl/$top_design.v ]
+../rtl/adder.v
+set slow_corner "ss0p75v125c ss0p95v125c_2p25v ss0p95v125c"
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set fast_corner "ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c"
+ff0p95vn40c ff1p16vn40c_2p75v ff1p16vn40c
+set synth_corners $slow_corner
+ss0p75v125c ss0p95v125c_2p25v ss0p95v125c
+set slow_metal Cmax_125
+Cmax_125
+set fast_metal Cmax_125
+Cmax_125
+set lib_types "stdcell_hvt stdcell_rvt stdcell_lvt io_std sram"
+stdcell_hvt stdcell_rvt stdcell_lvt io_std sram
+# Get just the main standard cells, srams and IOs
+set sub_lib_type "saed32?vt_ saed32sram_ saed32io_wb_"
+saed32?vt_ saed32sram_ saed32io_wb_
+#set topdir /u/$env(USER)/PSU_RTL2GDS
+set topdir [ lindex [ regexp -inline "(.*)\(syn\|pt\|apr\)" [pwd] ] 1 ]
+/u/pratik2/Floorplan-based-synthesis/
+/u/pratik2/Floorplan-based-synthesis/
+if { ![ info exists dc_floorplanning ] } {
+   set dc_floorplanning 1
+}
+# Source common setup file
+#set my_lib ${top_design}_fp_lib
+set my_lib ${top_design}_lib
+adder_lib
+source -echo -verbose ../scripts/setup2.tcl
+# Look for directories like this "/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/ndm"
+# This may not be used
+set search_path ""
+foreach i $lib_types { lappend search_path $lib_dir/lib/$i/ndm }
+#set synthetic_library dw_foundation.sldb
+# Changed to only be the slow corner libraries
+#set target_library "saed32hvt_ss0p75v125c.db saed32lvt_ss0p75v125c.db saed32rvt_ss0p75v125c.db"
+# enable the lvt and rvt library for now at the slow corner
+#set target_library "saed32lvt_ss0p75v125c.db saed32rvt_ss0p75v125c.db saed32io_wb_ss0p95v125c_2p25v.db"
+set libs ""
+# should we use _pg_c.ndm, _c.ndm, dlvl_v.ndm, _ulvl_v.ndm
+set suffix "c.ndm 5v.ndm v.ndm"
+c.ndm 5v.ndm v.ndm
+# Look for files like this "/pkgs/synopsys/2020/32_28nm/SAED32_EDK/lib/stdcell_hvt/ndm/saed32hvt$suffix"
+set libs ""
+foreach i $lib_types { 
+    foreach j $suffix {
+        foreach k $sub_lib_type {
+          foreach m [glob -nocomplain $lib_dir/lib/$i/ndm/$k$j ] {
+            lappend libs $m
+          }
+        }
+    }
+}
+set tf_dir "$lib_dir/tech/milkyway/"
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/milkyway/
+set tlu_dir "$lib_dir/tech/star_rcxt/"
+/pkgs/synopsys/2020/32_28nm/SAED32_EDK/tech/star_rcxt/
+#set_tlu_plus_files  -max_tluplus $tlu_dir/saed32nm_1p9m_Cmax.tluplus  #                    -min_tluplus $tlu_dir/saed32nm_1p9m_Cmin.tluplus  #                    -tech2itf_map  $tlu_dir/saed32nm_tf_itf_tluplus.map
+source -echo -verbose ../scripts/read2.tcl
+if { [ info exists dc_floorplanning ] && $dc_floorplanning } {
+   set verilog_file ../../syn/outputs/${top_design}.dc.vg
+} else {
+   set verilog_file ../../syn/outputs/${top_design}.dct.vg
+}
+../../syn/outputs/adder.dc.vg
+file delete -force $my_lib 
+# Adding the tech file causes problems later with missing routing directions for some reason.
+#create_lib $my_lib -ref_libs $libs -tech $tf_dir/saed32nm_1p9m_mw.tf 
+create_lib $my_lib -ref_libs $libs  -use_technology_lib [lindex $libs 0 ] 
+{adder_lib}
+create_block ${top_design}
+Information: Creating block 'adder.design' in library 'adder_lib'. (DES-013)
+{adder_lib:adder.design}
+open_block ${top_design}
+Information: Incrementing open_count of block 'adder_lib:adder.design' to 2. (DES-021)
+{adder_lib:adder.design}
+#import_designs $verilog_file # -format verilog #       -cel $top_design #      -top $top_design
+read_verilog  -top $top_design  $verilog_file
+Loading verilog file '/u/pratik2/Floorplan-based-synthesis/syn/outputs/adder.dc.vg'
+Warning: Found redefinition of module 'adder' (overwriting with new version found at line 60 in /u/pratik2/Floorplan-based-synthesis/syn/outputs/adder.dc.vg). (VR-018)
+Number of modules read: 6
+Top level ports: 7
+Total ports in all modules: 27
+Total nets in all modules: 45
+Total instances in all modules: 20
+Elapsed = 00:00:00.01, CPU = 00:00:00.00
+1
+# Read the SCANDEF information created by DFTC
+# read_def $scandef_file
+if { [file exists ../../${top_design}.prefloorplan-macros2.tcl]} {
+
+        # File for grouping cells. 
+        source -echo -verbose ../../${top_design}.prefloorplan-macros2.tcl
+
+}
+# Source before floorplan in case we want to use timing to place pins
+# Our time to load constraints is relatively small so we can do it at this spot if we want
+source -echo -verbose -continue_on_error ../../constraints/${top_design}.sdc
+if { [info exists synopsys_program_name ] && ($synopsys_program_name == "icc2_shell") } {
+    puts " Creating ICC2 MCMM "
+    create_mode func
+    create_corner slow
+    create_scenario -mode func -corner slow -name func_slow
+    current_scenario func_slow
+    set_operating_conditions ss0p75v125c
+    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmax.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmax
+    read_parasitic_tech -tlup $tlu_dir/saed32nm_1p9m_Cmin.tluplus -layermap $tlu_dir/saed32nm_tf_itf_tluplus.map -name Cmin
+    set_parasitic_parameters -early_spec Cmax -early_temperature 125
+    set_parasitic_parameters -late_spec Cmax -late_temperature 125
+    #set_parasitic_parameters -early_spec 1p9m_Cmax -early_temperature 125 -corner default
+    #set_parasitic_parameters -late_spec 1p9m_Cmax -late_temperature 125 -corner default
+
+    #set_scenario_status  default -active false
+    set_scenario_status func_slow -active true -hold true -setup true
+}
+ Creating ICC2 MCMM 
+Using libraries: adder_lib saed32hvt_c saed32rvt_c saed32lvt_c saed32io_wb_5v saed32sram_c
+Linking block adder_lib:adder.design
+Information: User units loaded from library 'saed32hvt_c' (LNK-040)
+Design 'adder' was successfully linked.
+Created scenario func_slow for mode func and corner slow
+All analysis types are activated.
+Warning: use early spec Cmax for late which is not specified
+Warning: use late spec Cmax for early which spec is not specified. 
+Scenario func_slow (mode func corner slow) is active for setup/hold/leakage_power/dynamic_power/max_transition/max_capacitance/min_capacitance analysis.
+1
+set clock_period 1.00
+1.00
+create_clock -name "clock" -period 1 -waveform {0.0 0.50} clock
+{clock}
+# 0.07 ns is fairly typical for pll jitter plus other jitter.
+set_clock_uncertainty -setup 0.07 clock
+1
+set_clock_uncertainty -hold 0.01 clock
+1
+set_clock_transition 0.1 clock
+1
+set_clock_latency 0.1 clock
+1
+set_input_delay 0.1 [all_inputs] -clock clock
+Information: Timer using 1 threads
+1
+set_output_delay 0.05 [all_outputs] -clock clock
+1
+set_drive 0.00001 [all_inputs ]
+1
+set_load 0.5 [all_outputs]
+1
+#group_path -name INTERNAL -from [all_clocks] -to [all_clocks ]
+group_path -name INPUTS -from [ get_ports -filter "direction==in&&full_name!~*clk*" ]
+1
+group_path -name OUTPUTS -to [ get_ports -filter "direction==out" ]
+1
+1
+if {[info exists design_size]} {
+initialize_floorplan -control_type core -shape R -side_length $design_size -core_offset $design_io_border
+}
+Removing existing floorplan objects
+Creating core...
+Core utilization ratio = 0.02%
+Unplacing all cells...
+Creating site array...
+Creating routing tracks...
+Initializing floorplan completed.
+# FIXME
+#foreach net {VDD} { derive_pg_connection -power_net $net -power_pin $net -create_ports top}
+#foreach net {VSS} { derive_pg_connection -ground_net $net -ground_pin $net -create_ports top}
+# Try this or another loop of code.
+# This one will do the correct IO pads, but causes problems with the power routing for some reason.
+# The other side will do the power routing correctly, but does not have the IO pads.
+# Change things so that all the real IO Pads are put in for the design as needed and connect ports to pad connections.
+# Maybe this will fix things?
+# Need 15 inputs and 10 outputs
+if { $pad_design } {
+        source -echo -verbose ../scripts/floorplan-ios2.tcl
+
+} 
+if { [ sizeof_coll [ get_cell -quiet io_* ] ] == 0 } {
+ source -echo -verbose ../scripts/add_ios.tcl
+}
+#####################################################
+proc insert_io { port side} {
+  set this_io io_${side}_${port}
+  if {  $side == "t"   } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/B8I1025_NS
+    set side 2
+  }
+  if { $side == "b"  } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/B8I1025_NS
+    set side 4
+  }
+  if {  $side == "r"  } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/B8I1025_NS
+    set side 3
+  }
+  if { $side == "l"  } {
+    create_cell $this_io saed32io_wb_ss0p95v125c_2p25v/B8I1025_NS
+    set side 1
+  }
+#  set_pad_physical_constraints -side $side -pad_name $this_io
+  set pins [ get_pins -of_obj [ get_net $port ] ]
+  foreach_in i $pins { disconnect_net [get_net $port ] $i }
+  connect_net [get_net $port ]  $this_io/PADIO
+  create_net ${this_io}_net
+  foreach_in i $pins { connect_net ${this_io}_net $i }
+  #DIN is input to IO_PAD
+  #DOUT is output of IO_PAD
+  #EN is the IO_PAD enable to output
+  if { [get_attribute [get_port $port ] direction ] == "in" } {
+     connect_net [get_nets -all *Logic0* ] ${this_io}/EN 
+     connect_net [get_nets -all *Logic1* ] ${this_io}/R_EN 
+     connect_net ${this_io}_net ${this_io}/DOUT
+  } else {
+     connect_net [get_nets -all *Logic1* ] $this_io/EN 
+     connect_net [get_nets -all *Logic0* ] $this_io/R_EN 
+     connect_net ${this_io}_net $this_io/DIN
+  }
+}
+####################################################
+# Source common setup file
+if { [ sizeof_coll [ get_nets  -quiet *Logic0*  ] ] == 0 } { 
+  create_net -ground *Logic0*  
+}
+{*Logic0*}
+if { [ sizeof_coll [ get_nets  -quiet *Logic1*  ] ] == 0 } { 
+  create_net -power *Logic1*  
+}
+{*Logic1*}
+# ICC uses SNPS_LOGIC1 
+#foreach net {VDD} { derive_pg_connection -power_net $net -power_pin $net -create_ports top}
+#foreach net {VSS} { derive_pg_connection -ground_net $net -ground_pin $net -create_ports top}
+create_cell io_e_vdd1 saed32io_wb_ss0p95v125c_2p25v/VDD_EW
+{io_e_vdd1}
+create_cell io_e_vss1 saed32io_wb_ss0p95v125c_2p25v/VSS_EW
+{io_e_vss1}
+create_cell io_e_vddio1 saed32io_wb_ss0p95v125c_2p25v/IOVDD_EW
+{io_e_vddio1}
+create_cell io_e_vssio1 saed32io_wb_ss0p95v125c_2p25v/IOVSS_EW
+{io_e_vssio1}
+#foreach i [get_attribute  [get_cells -all io_e_v* ] full_name ] { set_pad_physical_constraints -side 3 -pad_name $i }
+create_cell io_n_vdd1 saed32io_wb_ss0p95v125c_2p25v/VDD_NS
+{io_n_vdd1}
+create_cell io_n_vss1 saed32io_wb_ss0p95v125c_2p25v/VSS_NS
+{io_n_vss1}
+create_cell io_n_vddio1 saed32io_wb_ss0p95v125c_2p25v/IOVDD_NS
+{io_n_vddio1}
+create_cell io_n_vssio1 saed32io_wb_ss0p95v125c_2p25v/IOVSS_NS
+{io_n_vssio1}
+#foreach i [get_attribute  [get_cells -all io_n_v* ] full_name ] { set_pad_physical_constraints -side 2 -pad_name $i }
+create_cell io_s_vdd1 saed32io_wb_ss0p95v125c_2p25v/VDD_NS
+{io_s_vdd1}
+create_cell io_s_vss1 saed32io_wb_ss0p95v125c_2p25v/VSS_NS
+{io_s_vss1}
+create_cell io_s_vddio1 saed32io_wb_ss0p95v125c_2p25v/IOVDD_NS
+{io_s_vddio1}
+create_cell io_s_vssio1 saed32io_wb_ss0p95v125c_2p25v/IOVSS_NS
+{io_s_vssio1}
+#foreach i [get_attribute  [get_cells -all io_s_v* ] full_name ] { set_pad_physical_constraints -side 4 -pad_name $i }
+create_cell io_w_vdd1 saed32io_wb_ss0p95v125c_2p25v/VDD_EW
+{io_w_vdd1}
+create_cell io_w_vss1 saed32io_wb_ss0p95v125c_2p25v/VSS_EW
+{io_w_vss1}
+create_cell io_w_vddio1 saed32io_wb_ss0p95v125c_2p25v/IOVDD_EW
+{io_w_vddio1}
+create_cell io_w_vssio1 saed32io_wb_ss0p95v125c_2p25v/IOVSS_EW
+{io_w_vssio1}
+#foreach i [get_attribute  [get_cells -all io_w_v* ] full_name ] { set_pad_physical_constraints -side 1 -pad_name $i }
+#create_cell io_corner_se saed32io_wb_ss0p95v125c_2p25v/CAPCORNER
+#create_cell io_corner_ne saed32io_wb_ss0p95v125c_2p25v/CAPCORNER
+#foreach i [join [get_attribute [ get_port rdata* ] full_name ] ] {
+#  insert_io  $i l 
+#}
+#foreach i [ join [get_attribute [ get_port wdata* ] full_name ] ] {
+#  insert_io  $i r 
+#}
+#foreach i { rempty wfull }  {
+#  insert_io  $i t 
+#}
+#foreach i { rrst_n rclk rinc wrst_n wclk2x wclk winc }  {
+#  insert_io  $i b 
+#}
+#create_cell sram_example [ get_lib_cells saed32sram_*/SRAM1RW64x8 ] 
+#create_floorplan -control_type width_and_height -core_width 560 -core_height 560 -left_io2core 10 -bottom_io2core 10 -right_io2core 10 -top_io2core 10
+# Move this outside the if statement, and make it configurable through a variable?
+create_io_ring -name outer_ring -corner_height 300
+{outer_ring}
+get_io_guides
+{outer_ring.left outer_ring.bottom outer_ring.right outer_ring.top}
+create_net -power VDD
+{VDD}
+# Maybe try non-power net so that it doesn't complain about multiple powers defined and no UPF?
+#create_net -power VDDIO
+create_net -ground VSS
+{VSS}
+#create_net -ground VSSIO
+#add_to_io_guide outer_ring.left [get_cells -phys { io_l_*  } ]
+#add_to_io_guide outer_ring.right [get_cells -phys { io_r_*  } ]
+#add_to_io_guide outer_ring.bottom [get_cells -phys { io_b_*  } ]
+#add_to_io_guide outer_ring.top [get_cells -phys { io_t_*  } ]
+set_power_io_constraints -io_guide_object [get_io_guide { *.left *.right} ] { {reference:VDD_EW} {prefix:VDD} {ratio:5} {connect: {VDD VDD } { VSS VSS} }  }
+Warning: some pins remain dangling for power constraints. (DPUI-838)
+Power IO constraints set successfully
+1
+set_power_io_constraints -io_guide_object [get_io_guide { *.top *.bottom} ] { {reference:VDD_NS} {prefix:VDD} {ratio:5} {connect:  {VDD VDD } { VSS VSS} }  }
+Warning: some pins remain dangling for power constraints. (DPUI-838)
+Power IO constraints set successfully
+1
+remove_cell { io_s* io_n* io_w* io_e*}
+16
+#       create_io_filler_cells -prefix filler_ -reference_cells [ list [ list [ get_attribute [get_lib_cells */FILLER?* ] name ] ] ]
+# Library does not have the corner cell of design_type corner.  Try changing it and retry the create_io_corner
+set_app_option -name design.enable_lib_cell_editing -value mutable
+design.enable_lib_cell_editing mutable
+set_attribute [ get_lib_cell */CAPCORNER ] design_type corner
+{saed32io_wb_5v/CAPCORNER}
+#       create_io_corner_cell   -reference_cell CAPCORNER {outer_ring.left outer_ring.bottom}
+#place_io -io_guide [get_io_guides * ]
+#check_io_placement -io_guides [ get_io_guides * ]
+# done inside add_ios.tcl right now
+#create_cell sram_example SRAM1RW64x8
+set_attribute -objects [ get_cells -phys io_*  ] -name physical_status -value fixed
+Warning: No cell objects matched 'io_*' (SEL-004)
+#FIXME
+#derive_pg_connection -tie
+connect_pg_net -automatic
+****************************************
+Report : Power/Ground Connection Summary
+Design : adder
+Version: Q-2019.12-SP4
+Date   : Mon Mar  1 14:00:49 2021
+****************************************
+P/G net name                  P/G pin count(previous/current)
+--------------------------------------------------------------------------------
+Power net VDD                 0/15
+Ground net VSS                0/15
+--------------------------------------------------------------------------------
+Information: connections of 30 power/ground pin(s) are created or changed.
+puts "Starting FP Placement: ..."
+Starting FP Placement: ...
+#FIXME
+# Placement
+remove_placement_blockages [get_placement_blockages * ]
+Warning: No placement_blockage objects matched '*' (SEL-004)
+Error: Nothing matched for blockage_list (SEL-005)
+0
+#set_fp_placement_strategy -auto_grouping medium
+set_app_option -name plan.macro.auto_macro_array_size -value high 
+plan.macro.auto_macro_array_size high
+#set_fp_placement_strategy -macro_orientation automatic
+#set_fp_placement_strategy -macros_on_edge on
+set_app_option -name plan.macro.macros_on_edge -value true
+Warning: application option <plan.macro.macros_on_edge> is deprecated and scheduled for removal in a future release. See the man page for this  application option for migration assistance. (NDMUI-441)
+plan.macro.macros_on_edge true
+#set_fp_placement_strategy -auto_grouping_max_columns 2
+#set_app_options -name plan.macro.auto_macro_array_max_num_cols -value 2
+set_app_options -name plan.macro.auto_macro_array_max_height -value 520u
+plan.macro.auto_macro_array_max_height 520um
+#set_fp_placement_strategy -auto_grouping_max_rows 2
+#set_app_options -name plan.macro.auto_macro_array_max_num_rows -value 2
+set_app_options -name plan.macro.auto_macro_array_max_width -value 520u
+plan.macro.auto_macro_array_max_width 520um
+#set_fp_placement_strategy -min_distance_between_macros 1
+set_app_option -name plan.macro.spacing_rule_heights -value { 15um 15um }
+plan.macro.spacing_rule_heights {15um 15um}
+set_app_option -name plan.macro.spacing_rule_widths -value { 15um 15um }
+plan.macro.spacing_rule_widths {15um 15um}
+#set_fp_placement_strategy -sliver_size 50
+set_app_options -name plan.macro.macro_place_only  -value true
+plan.macro.macro_place_only true
+#create_fp_placement -timing_driven -optimize_pins
+set_app_options -name plan.macro.grouping_by_hierarchy -value true
+plan.macro.grouping_by_hierarchy true
+set_app_options -name plan.macro.max_buffer_stack_height -value 0u
+plan.macro.max_buffer_stack_height 0m
+set_app_options -name plan.macro.max_buffer_stack_width -value 0u
+plan.macro.max_buffer_stack_width 0m
+set_app_options -name plan.macro.auto_buffer_channels -value false
+plan.macro.auto_buffer_channels false
+set_app_options -name plan.macro.buffer_channel_height -value 0u
+plan.macro.buffer_channel_height 0m
+set_app_options -name plan.macro.buffer_channel_width -value 0u
+plan.macro.buffer_channel_width 0m
+# Source the floorplan design options here after we have set some decent defaults.
+#
+source -echo -verbose ../../${top_design}.design_options.tcl
+######PLACE
+set_app_option -name place.coarse.continue_on_missing_scandef -value true
+place.coarse.continue_on_missing_scandef true
+#set enable_recovery_removal_arcs true
+set_app_option -name time.disable_recovery_removal_checks -value false
+time.disable_recovery_removal_checks false
+#set timing_enable_multiple_clocks_per_reg true
+#set timing_remove_clock_reconvergence_pessimism true
+set_app_option -name timer.remove_clock_reconvergence_pessimism -value true
+Warning: application option <timer.remove_clock_reconvergence_pessimism> is deprecated and scheduled for removal in a future release. See the man page for this  application option for migration assistance. (NDMUI-441)
+time.remove_clock_reconvergence_pessimism true
+#set physopt_enable_via_res_support true
+#set physopt_hard_keepout_distance 5
+#set_preferred_routing_direction -direction vertical -l {M2 M4}
+#set_preferred_routing_direction -direction horizontal -l {M3 M5}
+set_ignored_layers  -min_routing_layer M2 -max_routing_layer M7
+1
+# To optimize DW components (I think only adders right now??) - default is false
+#set physopt_dw_opto true
+#set_ahfs_options -remove_effort high
+#set_buffer_opt_strategy -effort medium
+# Dont use delay buffers
+#set_dont_use [get_lib_cells */DELLN* ]
+set_lib_cell_purpose -include hold [get_lib_cells */DELLN* ]
+Information: The design specific attribute override for lib_cell 'saed32hvt_c:DELLN1X2_HVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32hvt_c:DELLN2X2_HVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32hvt_c:DELLN3X2_HVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32rvt_c:DELLN1X2_RVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32rvt_c:DELLN2X2_RVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32rvt_c:DELLN3X2_RVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32lvt_c:DELLN1X2_LVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32lvt_c:DELLN2X2_LVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+Information: The design specific attribute override for lib_cell 'saed32lvt_c:DELLN3X2_LVT.timing' is set in the current block 'adder', because the actual library setting may not be overwritten. (ATTR-12)
+1
+#FIXME
+#set_host_options -max_cores 1 -num_processes 1 mo.ece.pdx.edu
+set_app_options -name place_opt.flow.enable_ccd -value false
+place_opt.flow.enable_ccd false
+set_app_options -name clock_opt.flow.enable_ccd -value false
+clock_opt.flow.enable_ccd false
+set_app_options -name route_opt.flow.enable_ccd -value false
+route_opt.flow.enable_ccd false
+set_app_options -name ccd.max_postpone -value 0
+ccd.max_postpone 0
+set_app_options -name ccd.max_prepone -value 0
+ccd.max_prepone 0
+###########################  CTS Related
+create_routing_rule clock_double_spacing -spacings {M1 0.1 M2 0.112 M3 0.112 M4 0.112 M5 0.112 M6 0.112 M7 0.112 M8 0.112}
+{clock_double_spacing}
+set_clock_routing_rules -clock [ get_clocks * ] -net_type internal -rule clock_double_spacing -max_routing_layer M6 -min_routing_layer M3
+1
+set_clock_routing_rules -clock [ get_clocks * ] -net_type root -rule clock_double_spacing -max_routing_layer M6 -min_routing_layer M3
+1
+# Set other cts app_options?  Bufs vs Inverters, certain drive strengths.  
+# Allow delay buffers just for hold fixing
+#set_prefer -min [get_lib_cells */DELLN*HVT ]
+#set_fix_hold_options -preferred_buffer
+# fix hold on all clocks
+#set_fix_hold [all_clocks]
+# If design blows up, try turning hold fixing off. 
+# -optimize_dft is good if scan is inserted.
+# Sometimes better to separate CTS and setup/hold so any hold concerns can be seen before hold fixing.
+# Can look in the log at the beginning of clock_opt hold fixing to see if there was a large hold problem to fix.
+# set_app_option -name clock_opt.flow.skip_hold -value true
+########################## Route related
+set_app_option -name route_opt.flow.xtalk_reduction -value true
+Warning: The application option <route_opt.flow.xtalk_reduction> is deprecated and scheduled for removal in a future release. (NDMUI-443)
+route_opt.flow.xtalk_reduction true
+set_app_option -name time.si_enable_analysis -value true
+time.si_enable_analysis true
+if { $top_design == "ORCA_TOP" } {
+  create_voltage_area  -region {{580 0} {1000 400}} -power_domains PD_RISC_CORE
+}
+if { [file exists ../outputs/${top_design}.floorplan.macros.def] && $FCL==0} {
+        
+        # If def file exists, read def and add manual changes to the floorplan.
+        read_def ../outputs/${top_design}.floorplan.macros.def
+
+        # Add any manual changes to the floorplan within the if statement.
+        # May even want to source a script that does the changes.
+
+} elseif { [file exists ../outputs/${top_design}.floorplan.macros.def] == 0 && $FCL==0  } {
+
+        # Auto generate a .def file if one is not created.
+        place_pins -self
+        create_placement -floorplan
+  set_attribute -objects [get_cells -hier -filter "is_hard_macro==true" ] -name physical_status -value fixed
+}
+Error: can't read "FCL": no such variable
+        Use error_info for more info. (CMD-013)
+Information: script '/u/pratik2/Floorplan-based-synthesis/apr/scripts/floorplan-macros2.tcl'
+                stopped at line 99 due to error. (CMD-081)
+Extended error info:
+can't read "FCL": no such variable
+    while executing
+"if { [file exists ../outputs/${top_design}.floorplan.macros.def] && $FCL==0} {
+        
+        # If def file exists, read def and add manual changes to the floorpl..."
+ -- End Extended Error Info
+icc2_shell> exit
+Maximum memory usage for this session: 354.67 MB
+Maximum memory usage for this session including child processes: 354.67 MB
+CPU usage for this session:     19 seconds (  0.01 hours)
+Elapsed time for this session:    524 seconds (  0.15 hours)
+Thank you for using IC Compiler II.
+

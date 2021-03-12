@@ -1,0 +1,105 @@
+#@ # 
+#@ # Running icc2_shell Version Q-2019.12-SP4 for linux64 -- May 26, 2020
+#@ # Date:   Tue Mar  9 22:09:07 2021
+#@ # Run by: pratik2@mo.ece.pdx.edu
+#@ 
+
+source /u/pratik2/Floorplan-based-synthesis/apr/work/.synopsys_icc2.setup
+set top_design adder
+source -echo -verbose ../scripts/create_dct_floorplan2.tcl
+gui_start
+gui_set_pref_value -category {SelectByNamePalette} -key {ObjectType} -value {Logical Cells}
+win_set_filter -visible -class cell -filter {hard_macro_margin hard_margin route_blockage_margin soft_margin}
+win_set_filter -visible -class placement_blockage -filter {wiring} -layer {0-82}
+win_set_filter -expand_cell_types {soft_macro  }
+win_set_select_class -visible {cell port bound routing_blockage shaping_blockage pg_region pin_blockage block_shielding topology_node topology_edge topology_repeater core_area die_area edit_group shape via terminal fill_cell placement_blockage }
+win_set_filter -class cell -filter {cell_array hard_macro_margin hard_margin route_blockage_margin soft_margin}
+win_set_filter -class placement_blockage -filter {wiring} -layer {0-82}
+win_set_select_class {cell port bound routing_blockage shaping_blockage pg_region pin_blockage topology_node topology_edge topology_repeater edit_group shape via placement_blockage }
+gui_set_setting -window [gui_get_current_window -types Layout -mru] -setting showRoute -value false
+gui_set_setting -window [gui_get_current_window -types Layout -mru] -setting showCellCore -value false
+gui_set_setting -window [gui_get_current_window -types Layout -mru] -setting showCellCore -value true
+win_set_select_class -visible {cell port bound routing_blockage shaping_blockage pg_region pin_blockage block_shielding topology_node topology_edge topology_repeater core_area die_area edit_group terminal fill_cell placement_blockage }
+win_set_select_class {cell port bound routing_blockage shaping_blockage pg_region pin_blockage topology_node topology_edge topology_repeater edit_group placement_blockage }
+gui_zoom -window [gui_get_current_window -view] -rect {{-14.952 18.240} {28.897 -21.954}}
+gui_zoom -window [gui_get_current_window -view] -rect {{-6.173 1.786} {1.140 -1.008}}
+gui_zoom -window [gui_get_current_window -view] -rect {{-1.621 1.696} {-5.865 0.235}}
+place_opt
+redirect $::sh_dev_null { set_app_options -name opt.internal.current_block_utilization -value [report_utilization] }
+
+
+
+
+
+redirect $::sh_dev_null { set_app_options -name opt.internal.current_block_utilization -value [report_utilization] }
+
+redirect $::sh_dev_null { set_app_options -name opt.internal.current_block_utilization -value [report_utilization] }
+
+
+
+
+
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start MoveTool
+gui_zoom -window [gui_get_current_window -view] -full
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -drag {{648.585 341.649} {714.357 266.742}} -scale 1.827
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {639.450 343.476} -scale 1.827
+gui_zoom -window [gui_get_current_window -view] -rect {{661.374 337.995} {719.838 279.531}}
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -drag {{669.743 322.934} {699.494 307.453}} -scale 0.0865
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {667.321 323.886} -scale 0.0865
+gui_zoom -window [gui_get_current_window -view] -rect {{669.916 322.069} {700.531 307.280}}
+gui_zoom -window [gui_get_current_window -view] -full
+gui_zoom -window [gui_get_current_window -view] -rect {{661.374 325.206} {719.838 286.839}}
+gui_zoom -window [gui_get_current_window -view] -rect {{668.586 321.574} {700.597 308.690}}
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {694.132 305.673} -scale 0.0305
+gui_zoom -window [gui_get_current_window -view] -full
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start RulerTool
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {0.000 0.000} -scale 1.827
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {1.827 1196.685} -scale 1.827
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {1.827 -3.654} -scale 1.827
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {1205.820 -5.481} -scale 1.827
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -reset
+gui_zoom -window [gui_get_current_window -view] -factor 0.5
+gui_zoom -window [gui_get_current_window -view] -rect {{-33.876 1236.153} {1351.296 -175.368}}
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start RulerTool
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -reset
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -drag {{90.770 -1.666} {86.736 -46.043}} -scale 2.0171
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start RulerTool
+gui_remove_all_rulers -window [gui_get_current_window -types Layout -mru];  gui_remove_all_rulers -window global
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -drag {{-68.581 -64.197} {-54.461 -66.214}} -scale 2.0171
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -reset
+gui_remove_all_rulers -window [gui_get_current_window -types Layout -mru];  gui_remove_all_rulers -window global
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start RulerTool
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {0.000 -102.522} -scale 2.0171
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {1202.196 -104.539} -scale 2.0171
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {-86.735 -1.666} -scale 2.0171
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {-80.684 1196.495} -scale 2.0171
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -reset
+gui_zoom -window [gui_get_current_window -view] -factor 0.5
+gui_zoom -window [gui_get_current_window -view] -rect {{-112.958 1226.752} {1371.633 -273.976}}
+gui_zoom -window [gui_get_current_window -view] -rect {{626.946 344.569} {737.202 275.389}}
+gui_zoom -window [gui_get_current_window -view] -rect {{666.419 324.733} {702.054 306.096}}
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start RulerTool
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {670.828 309.262} -scale 0.0339
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {670.828 309.194} -scale 0.0339
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {670.828 309.194} -scale 0.0339
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {699.445 309.296} -scale 0.0339
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -reset
+gui_remove_all_rulers -window [gui_get_current_window -types Layout -mru];  gui_remove_all_rulers -window global
+gui_zoom -window [gui_get_current_window -view] -full
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start RulerTool
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {1.827 299.628} -scale 1.827
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {924.462 288.666} -scale 1.827
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {663.201 3.654} -scale 1.827
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -add_point {666.855 443.961} -scale 1.827
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -reset
+gui_zoom -window [gui_get_current_window -view] -rect {{661.374 328.860} {716.184 285.012}}
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -start RulerTool
+gui_zoom -window [gui_get_current_window -view] -rect {{661.094 325.896} {703.062 295.864}}
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -reset
+gui_mouse_tool -window [gui_get_current_window -types Layout -mru] -reset
+win_select_objects -slct_targets global -at {682.964 310.832} -radius 0.0444
+change_selection 
+win_select_objects -slct_targets global -at {692.826 310.744} -radius 0.0444
+change_selection 
+win_select_objects -slct_targets global -at {695.536 310.788} -radius 0.0444
+exit
